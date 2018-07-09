@@ -1,0 +1,7 @@
+  ha_policy:
+  - policy: replication
+    role: master
+    properties:
+      group_name: fish
+      check_for_live_server: true
+      vote_on_replication_failure: true

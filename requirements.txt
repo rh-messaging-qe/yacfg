@@ -1,0 +1,16 @@
+# amqcfg requirements for easy install all development and testing dependencies
+
+# Runtime Requirements
+pyyaml
+jinja2
+
+# Testing requirements
+pytest
+mock
+tox
+
+# Committing Requirements
+pre-commit
+
+# Optionals
+colorlog

@@ -1,0 +1,39 @@
+---
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v1.3.0
+  hooks:
+  - id: trailing-whitespace
+  - id: check-yaml
+  - id: check-ast
+  - id: check-merge-conflict
+  - id: flake8
+#  - id: pyflakes
+  - id: double-quote-string-fixer
+#  - id: requirements-txt-fixer
+  - id: end-of-file-fixer
+- repo: local
+  hooks:
+  - id: pytest
+    name: pytest test/
+    entry: pytest --color=yes test/
+    files: ^(.*py)$
+    language: python
+    additional_dependencies: [pytest, mock, jinja2, pyyaml]
+    python_version: python2.7
+    pass_filenames: false
+  - id: tox 27
+    name: tox 27
+    entry: tox -e py27
+    files: ^(.*py)$
+    language: python
+    additional_dependencies: [tox]
+    pass_filenames: false
+  - id: tox 35
+    name: tox 35
+    entry: tox -e py35
+    files: ^(.*py)$
+    language: python
+    additional_dependencies: [tox]
+    pass_filenames: false

@@ -1,0 +1,5 @@
+  ha_policy:
+  - policy: shared-store
+    role: master
+    properties:
+      failover_on_server_shutdown: true

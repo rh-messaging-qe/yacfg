@@ -1,0 +1,32 @@
+        {% if policy.role == 'colocated' %}
+            {% if policy.properties is not defined %}
+                <colocated/>
+            {% else %}
+                <colocated>
+                    {% if policy.properties.request_backup is defined %}
+                    <request-backup>{{ mbool(policy.properties.request_backup) }}</request-backup>
+                    {% endif %}
+                    {% if policy.properties.max_backups %}
+                    <max-backups>{{ policy.properties.max_backups  }}</max-backups>
+                    {% endif %}
+                    {% if policy.properties.backup_request_retries %}
+                    <backup-request-retries>{{ policy.properties.backup_request_retries  }}</backup-request-retries>
+                    {% endif %}
+                    {% if policy.properties.backup_request_retry_interval %}
+                    <backup-request-retry-interval>{{ policy.properties.backup_request_retry_interval  }}</backup-request-retry-interval>
+                    {% endif %}
+                    {% if policy.properties.backup_port_offset %}
+                    <backup-port-offset>{{ policy.properties.backup_port_offset  }}</backup-port-offset>
+                    {% endif %}
+                    {% include 'modules/broker_xml/ha_policy/replication_colocated_master.jinja2' %}
+                    {% include 'modules/broker_xml/ha_policy/replication_colocated_slave.jinja2' %}
+                    {% if policy.properties.excludes %}
+                    <excludes>
+                        {% for exclude in policy.properties.excludes %}
+                        <connector-ref>{{ exclude }}</connector-ref>
+                        {% endfor %}
+                    </excludes>
+                    {% endif %}
+                </colocated>
+            {% endif %}
+        {% endif %} {# end of master #}

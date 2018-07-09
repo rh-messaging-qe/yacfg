@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+{% include 'libs/headers/xml_header.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/xml.jinja2' %}
+
+<management-context xmlns="http://activemq.org/schema">
+    {% if management_xml.connector_port is defined %}
+    <connector connector-port="{{ management_xml.connector_port }}"/>
+    {% else %}
+    <!--<connector connector-port="1099"/>-->
+    {% endif %}
+    <authorisation>
+        <whitelist>
+            {% for entry in management_xml.whitelist %}
+                {% if entry.key %}
+                <entry domain="{{ entry.domain }}" key="{{ entry.key }}"/>
+                {% else %}
+                <entry domain="{{ entry.domain }}"/>
+                {% endif %}
+            {% endfor %}
+        </whitelist>
+        <default-access>
+            {% for access in management_xml.default_access %}
+                <access method="{{ access.method }}" roles="{{ access.roles|join(',') }}"/>
+            {% endfor %}
+        </default-access>
+        <role-access>
+            {% for match in management_xml.role_access %}
+            {% if match.key %}
+            <match domain="{{ match.domain }}" key="{{ match.key }}">
+            {% else %}
+            <match domain="{{ match.domain }}">
+            {% endif %}
+                {% for access in match.access %}
+                <access method="{{ access.method }}" roles="{{ access.roles|join(',') }}"/>
+                {% endfor %}
+            </match>
+        {% endfor %}
+        </role-access>
+    </authorisation>
+</management-context>

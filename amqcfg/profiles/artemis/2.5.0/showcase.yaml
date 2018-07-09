@@ -1,0 +1,697 @@
+---
+# NOTICE:
+# This is not a valid profile, this is just a showcase of what template can do,
+# and should be considered an example to pick from.
+#
+render:
+  generator_notice: True
+  licenses: True
+  template: artemis/2.5.0
+
+broker_xml:
+  name: amq
+  journal:
+    persistence_enabled: true
+    type: ASYNCIO
+    directory: data/journal
+    create_dir: true
+    sync_transactional: true
+    sync_non_transactional: true
+    datasync: true
+    min_files: 2
+    pool_files: 10
+    file_size: 10M
+    buffer_timeout: 20000
+    buffer_size: 490KiB
+    compact_min_files: 10
+    compact_percentage: 30
+    max_io: 4096
+
+  duplicate_cache:
+    size: 5000
+    persist: true
+
+  paging_directory: data/paging
+  bindings_directory: data/bindings
+  large_messages_directory: data/large-messages
+  disk_scan_period: 5000
+  max_disk_usage: 90
+  critical_analyzer:
+    enabled: true
+    timeout: 120000
+    check_period: 60000
+    policy: HALT
+  global_max_size: 2GB
+
+  wildcard_addresses:
+    routing_enabled: true
+    delimiter: .
+    any_words: '#'
+    single_words: '*'
+
+  acceptors:
+  - name: artemis
+    url: tcp://0.0.0.0:61616
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE
+    - useEpoll: true
+    - amqpCredits: 1000
+    - amqpLowCredits: 300
+  - name: amqp
+    url: tcp://0.0.0.0:5672
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: AMQP
+    - useEpoll: true
+    - amqpCredits: 1000
+    - amqpLowCredits: 300
+  - name: stomp
+    url: tcp://0.0.0.0:61613
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: STOMP
+    - useEpoll: true
+  - name: hornetq
+    url: tcp://0.0.0.0:5445
+    properties:
+    - anycastPrefix: jms.queue.
+    - multicastPrefix: jms.topic.
+    - protocols: HORNETQ,STOMP
+    - useEpoll: true
+  - name: mqtt
+    url: tcp://0.0.0.0:1883
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: MQTT
+    - useEpoll: true
+# kerberos acceptor
+  - name: kerberos
+    url: tcp://0.0.0.0:5672
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: AMQP
+    - useEpoll: true
+    - amqpCredits: 1000
+    - amqpLowCredits: 300
+    - saslMechanisms: GSSAPI
+    - saslLoginConfigScope: mykerberos
+
+
+  security_settings:
+    - match: '#'
+      permissions:
+        createNonDurableQueue:
+        - amq
+        - test
+        - asdf
+        deleteNonDurableQueue:
+        - amq
+        createDurableQueue:
+        - amq
+        deleteDurableQueue:
+        - amq
+        createAddress:
+        - amq
+        deleteAddress:
+        - amq
+        consume:
+        - amq
+        browse:
+        - amq
+        send:
+        - amq
+        manage:
+        - amq
+    - class_name: org.apache.activemq.artemis.core.server.impl.LegacyLDAPSecuritySettingPlugin
+      properties:
+      - initialContextFactory: com.sun.jndi.ldap.LdapCtxFactory
+      - connectionURL: ldap://localhost:10389
+      - connectionUsername: uid=admin,ou=system
+      - connectionPassword: secret
+      - connectionProtocol: s
+      - authentication: simple
+
+
+  address_settings:
+  - match: activemq.management#
+    dead_letter_address: DLQ
+    expiry_address: ExpiryQueue
+    redelivery_delay: 0
+    redistribution_delay: 0
+    max_size_bytes: -1
+    message_counter_history_day_limit: 10
+    address_full_policy: PAGE
+    auto_create_queues: true
+    auto_create_addresses: true
+    auto_create_jms_queues: true
+    auto_create_jms_topics: true
+  - match: '#'
+    dead_letter_address: DLQ
+    expiry_address: ExpiryQueue
+    redelivery_delay: 0
+    max_size_bytes: -1
+    message_counter_history_day_limit: 10
+    address_full_policy: PAGE
+    auto_create_queues: true
+    auto_create_addresses: true
+    auto_create_jms_queues: true
+    auto_create_jms_topics: true
+
+  addresses:
+  - name: DLQ
+    anycast:
+    - name: test
+      type: queue
+      max_consumers: 10
+      exclusive: true
+    - name: jinaqueue
+      type: queue_block
+      max_consumers: 10
+      purge_on_no_consumers: false
+      durable: true
+      filter: asdf=qwer
+      exclusive: false
+    multicast:
+    - name: jinaqueue2
+      type: queue
+      durable: false
+
+  - name: ExpiryQueue
+    anycast:
+    - name: ExpiryQueue
+      type: queue
+    multicast: true
+
+  - name: pubsub.foo
+    multicast: true
+
+  broker_plugins:
+  - class: org.apache.activemq.artemis.core.server.plugin.impl.LoggingActiveMQServerPlugin
+    properties:
+    - LOG_ALL_EVENTS: true
+    - LOG_CONNECTION_EVENTS: true
+    - LOG_SESSION_EVENTS: true
+    - LOG_CONSUMER_EVENTS: true
+    - LOG_DELIVERING_EVENTS: true
+    - LOG_SENDING_EVENTS: true
+    - LOG_INTERNAL_EVENTS: true
+  - class: org.apache.activemq.artemis.core.server.plugin.impl.LoggingActiveMQServerPlugin2
+
+
+# cluster related configurations
+  connectors:
+    - name: artemis
+      url: tcp://10.0.0.1:61616
+    - name: test2
+      url: tcp://172.16.0.1:61616
+      properties:
+      - tcpSendBufferSize: 1048576
+      - tcpReceiveBufferSize: 1048576
+      - protocols: CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE
+      - useEpoll: true
+      - amqpCredits: 1000
+      - amqpLowCredits: 300
+
+  cluster:
+    user: ACTIVEMQ.CLUSTER.ADMIN.USER
+    password: super_secret_password
+
+  broadcast_groups:
+  - name: my-broadcast-group
+    address: 231.7.7.7
+    port: 9876
+    broadcast_period: 5000
+    connector_ref: artemis
+    jgroups_file: test-jgroups-file_ping.xml
+    jgroups_channel: activemq_broadcast_channel
+  - name: my-broadcast-group2
+    address: 231.7.7.8
+    port: 9876
+    broadcast_period: 5001
+    connector_ref: test2
+
+  discovery_groups:
+  - name: my-discovery-group
+    bind_address: 172.16.9.7
+    address: 231.7.7.7
+    port: 9876
+    refresh_timeout: 10000
+    jgroups_file: test-jgroups-file_ping.xml
+    jgroups_channel: activemq_broadcast_channel
+  - name: my-discovery-group2
+    address: 231.7.7.8
+    port: 9876
+    refresh_timeout: 10000
+
+  cluster_connections:
+    - name: my-cluster
+      connector_ref: artemis
+      message_load_balancing: ON_DEMAND
+      max_hops: 1
+      discovery_group_ref: my-discovery-group
+      static_connectors:
+      - server1-connector
+      - server2-connector
+    - name: my-cluster2
+      connector_ref: test2
+      message_load_balancing: ON_DEMAND
+      max_hops: 2
+      discovery_group_ref: my-discovery-group2
+    - name: my-cluster2-deduplicate
+      connector_ref: test2
+      message_load_balancing: ON_DEMAND
+      max_hops: 2
+      discovery_group_ref: my-discovery-group2
+      use_duplicate_detection: true
+
+
+# replication
+  ha_policy:
+  - policy: replication
+    role: master
+    properties:
+      cluster_name: artemis
+      check_for_live_server: true
+      group_name: fish
+      vote_on_replication_failure: true
+      initial_replication_sync_timeout: 10000
+  - policy: replication
+    role: slave
+    properties:
+      cluster_name: artemis
+      group_name: fish
+      max_saved_replicated_journals_size: 666
+      allow_failback: true
+      initial_replication_sync_timeout: 10000
+  - policy: replication
+  - policy: replication
+    role: master
+  - policy: replication
+    role: slave
+
+  - policy: shared-store
+  - policy: shared-store
+    role: master
+  - policy: shared-store
+    role: slave
+
+  - policy: shared-store
+    role: master
+    properties:
+      failover_on_server_shutdown: true
+      wait_for_activation: true
+  - policy: shared-store
+    role: slave
+    properties:
+      failover_on_server_shutdown: true
+      allow_failback: true
+  - policy: shared-store
+    role: slave
+    properties:
+      failover_on_server_shutdown: true
+      allow_failback: true
+
+# ha policy colocated
+  - policy: replication
+    role: colocated
+
+  - policy: replication
+    role: colocated
+    properties:
+      request_backup: true
+      max_backups: 1
+      backup_request_retries: 1
+      backup_request_retry_interval: 5000
+      backup_port_offset: 16
+      master: true
+      slave: true
+      excludes:
+      - test2
+
+  - policy: replication
+    role: colocated
+    properties:
+      request_backup: true
+      max_backups: 1
+      backup_request_retries: 1
+      backup_request_retry_interval: 5000
+      backup_port_offset: 666
+      master:
+        properties:
+          cluster_name: artemis
+          check_for_live_server: true
+          group_name: fish
+          vote_on_replication_failure: true
+          initial_replication_sync_timeout: 10000
+      slave:
+        properties:
+          cluster_name: artemis
+          group_name: fish
+          max_saved_replicated_journals_size: 666
+          allow_failback: true
+          initial_replication_sync_timeout: 10000
+          restart_backup: false
+          scale_down:
+            group_name: scale-down-group
+            discovery_group: discovery-group-scale-down
+            connectors:
+            - artemis
+            - test2
+    excludes:
+    - test2
+
+# ha policy scale-down
+  - policy: live-only
+    role: scale-down
+    group_name: scale-down-group
+    discovery_group: discovery-group-scale-down
+    connectors:
+    - artemis
+    - test2
+
+# persistence
+  store:
+    - type: jdbc
+      properties:
+        jdbc_connection_url: jdbc:derby:data/derby/database-store;create=true
+        binding_table_name: BINDINGS_TABLE
+        message_table_name: MESSAGE_TABLE
+        page_store_table_name: PAGE_TABLE
+        large_message_table_name: LARGE_MESSAGES_TABLE
+        jdbc_driver_class_name: org.apache.derby.jdbc.EmbeddedDriver
+        jdbc_network_timeout: 20000
+        jdbc_lock_acquisition_timeout: 60000
+        jdbc_lock_renew_period: 2000
+        jdbc_lock_expiration: 20000
+
+# message grouping
+
+# Clustered message grouping
+  grouping_handler:
+  - name: my-local-grouping-handler
+    type: LOCAL
+    address: jms
+    timeout: 5000
+  - name: my-remote-grouping-handler
+    type: REMOTE
+    address: jms
+    timeout: 5000
+
+artemis_profile:
+  home: /home/jamq/opt/apache-artemis-2.5.0
+  instance: /home/jamq/opt/artemis-2.5.0-i0
+  data_dir: /home/jamq/opt/artemis-2.5.0-i0/data
+  instance_uri: file:/home/jamq/opt/apache-artemis-2.5.0/../artemis-2.5.0-i0/
+  instance_etc_uri: file:/home/jamq/opt/apache-artemis-2.5.0/../artemis-2.5.0-i0/etc/
+  cluster_properties:
+    - -Dactivemq.remoting.default.port=61617
+    - -Dactivemq.remoting.amqp.port=5673
+    - -Dactivemq.remoting.stomp.port=61614
+    - -Dactivemq.remoting.hornetq.port=5446
+  java_args:
+    - -Dcom.sun.management.jmxremote=true
+    - -Dcom.sun.management.jmxremote.port=1099
+    - -Dcom.sun.management.jmxremote.rmi.port=1099
+    - -Dcom.sun.management.jmxremote.ssl=false
+    - -Dcom.sun.management.jmxremote.authenticate=false
+    - -XX:+PrintClassHistogram
+    - -XX:+UseG1GC
+    - -XX:+AggressiveOpts
+    - -XX:+UseFastAccessorMethods
+    - -Xms512M
+    - -Xmx2G
+    - -Dhawtio.realm=activemq
+    - -Dhawtio.offline="true"
+    - -Dhawtio.role=amq
+    - -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal
+    - -Djolokia.policyLocation=${ARTEMIS_INSTANCE_ETC_URI}jolokia-access.xml
+  java_args_run:
+    - -Dcom.sun.management.jmxremote=true
+    - -Dcom.sun.management.jmxremote.port=1099
+    - -Dcom.sun.management.jmxremote.rmi.port=1098
+    - -Dcom.sun.management.jmxremote.ssl=false
+    - -Dcom.sun.management.jmxremote.authenticate=false
+  debug_args:
+    - -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005
+
+artemis_roles:
+  admin:
+  - admin
+  guest:
+  - guest
+  user:
+  - maskeduser
+  amq:
+  - admin
+  - guest
+  - maskeduser
+
+artemis_users:
+  admin: admin
+  guest: guest
+  maskeduser: ENC(asdfqwerty)
+
+bootstrap_xml:
+  jaas_security:
+    - domain: activemq
+      certificate_domain: dualcert
+  server:
+    configuration: file:/home/jamq/opt/apache-artemis-2.5.0/../artemis-2.5.0-i0/etc//broker.xml
+  web:
+    bind: http://0.0.0.0:8161
+    path: web
+    apps:
+    - url: activemq-branding
+      war: activemq-branding.war
+    - url: artemis-plugin
+      war: artemis-plugin.war
+    - url: console
+      war: console.war
+
+jolokia_access:
+  allow_origins:
+  - "*://0.0.0.0*"
+  - "*://10.0.0.1*"
+  strict_checking: true
+
+logging_properties:
+  loggers:
+  - org.eclipse.jetty
+  - org.jboss.logging
+  - org.apache.activemq.artemis.core.server
+  - org.apache.activemq.artemis.utils
+  - org.apache.activemq.artemis.journal
+  - org.apache.activemq.artemis.jms.server
+  - org.apache.activemq.artemis.integration.bootstrap
+  logger_level: INFO
+  logger_properties:
+  - org.apache.activemq.artemis.core.server.level: INFO
+  - org.apache.activemq.artemis.core.journal.level: INFO
+  - org.apache.activemq.artemis.core.utils.level: INFO
+  - org.apache.activemq.artemis.core.jms.level: INFO
+  - org.apache.activemq.artemis.core.integration.bootstrap.level: INFO
+  - org.eclipse.jetty.level: INFO
+  handlers:
+  - name: CONSOLE
+    class_name: org.jboss.logmanager.handlers.ConsoleHandler
+    level: DEBUG
+    formatter: PATTERN
+    properties:
+    - autoFlush: true
+  - name: FILE
+    class_name: org.jboss.logmanager.handlers.PeriodicRotatingFileHandler
+    level: DEBUG
+    formatter: PATTERN
+    properties:
+    - suffix: .yyyy-MM-dd
+    - append: true
+    - autoFlush: true
+    - fileName: ${artemis.instance}/log/artemis.log
+  formatters:
+    - name: PATTERN
+      class_name: org.jboss.logmanager.formatters.PatternFormatter
+      properties:
+      - pattern: "%d %-5p [%c] %s%E%n"
+
+login_config:
+  - name: activemq
+    modules:
+    - class_name: org.apache.activemq.artemis.spi.core.security.jaas.PropertiesLoginModule
+      flag: sufficient
+      properties:
+      - debug: false
+      - reload: true
+      - org.apache.activemq.jaas.properties.user: "artemis-users.properties"
+      - org.apache.activemq.jaas.properties.role: "artemis-roles.properties"
+    - class_name: org.apache.activemq.artemis.spi.core.security.jaas.PropertiesLoginModule
+      flag: sufficient
+      properties:
+      - debug: false
+      - org.apache.activemq.jaas.guest.user: "anyone"
+      - org.apache.activemq.jaas.guest.role: "restricted"
+  - name: dualcert
+    modules:
+    - class_name: org.apache.activemq.artemis.spi.core.security.jaas.PropertiesLoginModule
+      flag: required
+      properties:
+      - debug: true
+      - org.apache.activemq.jaas.textfiledn.user: "cert-users.properties"
+      - org.apache.activemq.jaas.textfiledn.role: "cert-roles.properties"
+
+# LDAP
+  - name: activemq
+    modules:
+    - class_name:  org.apache.activemq.artemis.spi.core.security.jaas.LDAPLoginModule
+      flag: required
+      properties:
+      - debug: true
+      - initialContextFactory: com.sun.jndi.ldap.LdapCtxFactory
+      - connectionURL: "ldap://localhost:10389"
+      - connectionUsername: "uid=admin,ou=system"
+      - connectionPassword: secret
+      - connectionProtocol: s
+      - authentication: simple
+      - userBase: "dc=example,dc=com"
+      - userSearchMatching: "(uid={0})"
+      - userSearchSubtree: true
+      - roleBase: "dc=example,dc=com"
+      - roleName: cn
+      - roleSearchMatching: "(member={0})"
+      - roleSearchSubtree: true
+    - class_name:  org.apache.activemq.artemis.spi.core.security.jaas.LDAPLoginModule
+      flag: required
+      properties:
+      - debug: true
+      - initialContextFactory: com.sun.jndi.ldap.LdapCtxFactory
+      - connectionURL: "ldap://localhost:10389"
+      - connectionUsername: "uid=admin,ou=system"
+      - connectionPassword: secret
+      - connectionProtocol: s
+      - authentication: simple
+      - userBase: "dc=example,dc=com"
+      - userSearchMatching: "(uid={0})"
+      - userSearchSubtree: true
+      - roleBase: "dc=example,dc=com"
+      - roleName: cn
+      - roleSearchMatching: "(member={0})"
+      - roleSearchSubtree: true
+
+
+# LDAP + Kerberos
+
+  - name: mykerberos
+    modules:
+    - class_name: com.sun.security.auth.module.Krb5LoginModule
+      flag: required
+      properties:
+      - isInitiator: false
+      - storeKey: true
+      - useKeyTab: true
+      - keyTab: "broker.keytab"
+      - principal: "amqp/<fqdn>@EXAMPLE.COM"
+      - debug: true
+  - name: mykerberos-ldap
+    modules:
+    - class_name: com.sun.security.auth.module.Krb5LoginModule
+      flag: required
+      properties:
+      - isInitiator: true
+      - storeKey: true
+      - useKeyTab: true
+      - keyTab: "broker.keytab"
+      - principal: "amqp/<fqdn>@EXAMPLE.COM"
+      - debug: true
+
+management_xml:
+  whitelist:
+  - domain: hawtio
+  - domain: hawtio2
+    key: 'type=*'
+  default_access:
+    - method: 'list*'
+      roles:
+      - amq
+      - guest
+      - admin
+    - method: 'get*'
+      roles:
+      - amq
+      - guest
+      - admin
+    - method: 'is*'
+      roles:
+      - amq
+      - guest
+      - admin
+    - method: 'set*'
+      roles:
+      - amq
+      - guest
+      - admin
+    - method: '*'
+      roles:
+      - amq
+      - guest
+      - admin
+  role_access:
+    - domain: org.apache.activemq.artemis
+      access:
+      - method: 'list*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: 'get*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: 'is*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: 'set*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: '*'
+        roles:
+        - amq
+        - guest
+        - admin
+    - domain: org.apache.activemq.artemis2
+      key: subcomponent=queues
+      access:
+      - method: 'list*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: 'get*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: 'is*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: 'set*'
+        roles:
+        - amq
+        - guest
+        - admin
+      - method: '*'
+        roles:
+        - amq
+        - guest
+        - admin

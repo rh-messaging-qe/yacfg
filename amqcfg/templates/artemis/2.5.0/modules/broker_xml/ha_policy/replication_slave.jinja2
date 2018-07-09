@@ -1,0 +1,23 @@
+        {% if policy.role == 'slave' %}
+            {% if policy.properties is not defined %}
+                <slave/>
+            {% else %}
+                <slave>
+                    {% if policy.properties.cluster_name is defined %}
+                    <cluster-name>{{ policy.properties.cluster_name  }}</cluster-name>
+                    {% endif %}
+                    {% if policy.properties.group_name is defined %}
+                    <group-name>{{ policy.properties.group_name  }}</group-name>
+                    {% endif %}
+                    {% if policy.properties.max_saved_replicated_journals_size is defined %}
+                    <max-saved-replicated-journals-size>{{ policy.properties.max_saved_replicated_journals_size  }}</max-saved-replicated-journals-size>
+                    {% endif %}
+                    {% if policy.properties.allow_failback is defined %}
+                    <allow-failback>{{ mbool(policy.properties.allow_failback) }}</allow-failback>
+                    {% endif %}
+                    {% if policy.properties.initial_replication_sync_timeout is defined %}
+                    <initial-replication-sync-timeout>{{ policy.properties.initial_replication_sync_timeout  }}</initial-replication-sync-timeout>
+                    {% endif %}
+                </slave>
+            {% endif %}
+        {% endif %}

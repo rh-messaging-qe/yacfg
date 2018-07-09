@@ -1,0 +1,28 @@
+{% if broker_xml.discovery_groups is defined %}
+    <!-- Discovery groups configuration -->
+        <discovery-groups>
+        {% for group in broker_xml.discovery_groups %}
+            <discovery-group name="{{ group.name }}">
+                {% if group.bind_address is defined %}
+                <local-bind-address>{{ group.bind_address }}</local-bind-address>
+                {% endif %}
+                {% if group.address is defined %}
+                <group-address>{{ group.address }}</group-address>
+                {% endif %}
+                {% if group.port is defined%}
+                <group-port>{{ group.port }}</group-port>
+                {% endif %}
+                {% if group.refresh_timeout is defined %}
+                <refresh-timeout>{{ group.refresh_timeout }}</refresh-timeout>
+                {% endif %}
+                {% if group.jgroups_file is defined %}
+                <jgroups-file>{{ group.jgroups_file  }}</jgroups-file>
+                {% endif %}
+                {% if group.jgroups_channel is defined %}
+                <jgroups-channel>{{ group.jgroups_channel }}</jgroups-channel>
+                {% endif %}
+            </discovery-group>
+        {% endfor %}
+        </discovery-groups>
+
+{% endif %}

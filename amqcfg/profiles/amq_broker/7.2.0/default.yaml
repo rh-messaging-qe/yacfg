@@ -1,0 +1,65 @@
+---
+
+_defaults:
+  broker_name: amq
+  broker_home: /opt/artemis-2.5.0
+  broker_instance: /opt/artemis-2.5.0-i0
+
+  log_level_all: INFO
+  log_level_server: INFO
+  log_level_journal: INFO
+  log_level_utils: INFO
+  log_level_jms: INFO
+  log_level_integration: INFO
+  log_level_jetty: WARN
+  log_level_handler_console: DEBUG
+  log_level_handler_file: DEBUG
+
+render:
+  generator_notice: True
+  licenses: True
+  template: artemis/2.5.0
+
+broker_xml:
+  name: '{{ broker_name }}'
+
+{% include 'artemis/2.5.0/_modules/broker_xml/journal/default.yaml' %}
+
+  paging_directory: data/paging
+  bindings_directory: data/bindings
+  large_messages_directory: data/large-messages
+  disk_scan_period: 5000
+  max_disk_usage: 90
+#  global_max_size: 2GB
+
+{% include 'artemis/2.5.0/_modules/broker_xml/critical_analyzer_default.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/broker_xml/acceptors/default.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/users_roles_security/admin_broker_security_settings.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/broker_xml/address_settings/default.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/broker_xml/addresses/default.yaml' %}
+
+
+# artemis.profile
+{% include 'artemis/2.5.0/_modules/artemis_profile/default.yaml' %}
+
+# users and roles properties xml
+{% include 'artemis/2.5.0/_modules/users_roles_security/admin.yaml' %}
+
+# bootstrap.xml
+{% include 'amq_broker/7.2.0/_modules/bootstrap_xml/allow.yaml' %}
+
+# jolokia-access.xml
+{% include 'artemis/2.5.0/_modules/jolokia_access/localhost.yaml' %}
+
+# logging.properties
+{% include 'artemis/2.5.0/_modules/logging_properties/default.yaml' %}
+
+# login.config
+{% include 'artemis/2.5.0/_modules/login_config/jaas_sufficient.yaml' %}
+
+# management.xml
+{% include 'artemis/2.5.0/_modules/management_xml/default.yaml' %}

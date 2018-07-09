@@ -1,0 +1,11 @@
+{% if render.licenses is sameas true %}
+    {% block license %}
+        {% filter replace('\n', '\n# ')|replace('# \n', '#\n')|trim %}
+
+
+            {% include 'libs/licenses/apache-2.0/plaintext.jinja2' %}
+
+        {% endfilter %}
+    {% endblock %}
+
+{% endif %}

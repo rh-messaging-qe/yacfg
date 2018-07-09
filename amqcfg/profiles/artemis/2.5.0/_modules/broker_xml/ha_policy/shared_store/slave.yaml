@@ -1,0 +1,6 @@
+  ha_policy:
+  - policy: shared-store
+    role: slave
+    properties:
+      failover_on_server_shutdown: true
+      allow_failback: true

@@ -1,0 +1,14 @@
+        {% if policy.role == 'slave' %}
+            {% if policy.properties is not defined %}
+                <slave/>
+            {% else %}
+                <slave>
+                    {% if policy.properties.failover_on_server_shutdown is defined %}
+                    <failover-on-server-shutdown>{{ mbool(policy.properties.failover_on_server_shutdown)  }}</failover-on-server-shutdown>
+                    {% endif %}
+                    {% if policy.properties.allow_failback is defined %}
+                    <allow-failback>{{ mbool(policy.properties.allow_failback) }}</allow-failback>
+                    {% endif %}
+                </slave>
+            {% endif %}
+        {% endif %}

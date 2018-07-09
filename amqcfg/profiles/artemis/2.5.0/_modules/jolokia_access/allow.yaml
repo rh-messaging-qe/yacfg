@@ -1,0 +1,4 @@
+jolokia_access:
+  allow_origins:
+  - "*"
+  strict_checking: true

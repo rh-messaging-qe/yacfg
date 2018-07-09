@@ -1,0 +1,7 @@
+  ha_policy:
+  - policy: replication
+    role: slave
+    properties:
+      group_name: fish
+      vote_on_replication_failure: true
+      allow_failback: true
