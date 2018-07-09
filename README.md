@@ -12,24 +12,32 @@ Furthermore it is possible to its API to use it in your python code.
 
 ## Getting started
 
-* python 3.5 (or python2.7)
-* current requirements in requirements.txt
-* python virtualenv recommended
+* python 3.5+ or python2.7
+* current requirements from setup.py (runtime requirements only)
+* python virtualenv recommended (install via system package manager
+or `pip install --user virtualenv`)
+
+for contributors:
+* requirements from requirements.txt (there are Dev and QA requirements as well)
 
 ### From git
 
-1. git clone <THIS_REPO>
-1. virtualenv -p python3 venv3
-1. source venv3/bin/activate
-1. ./setup.py install
-1. amqcfg --help
+```bash
+git clone git@bitbucket.org:msgqe/amqcfg.git
+python -m virtualenv -p python3 venv3
+source venv3/bin/activate
+./setup.py install
+amqcfg --help
+```
 
 ### From PiPy (not-yet-available)
 
-1. virtualenv -p python3 venv3
-1. source venv3/bin/activate
-1. pip install amqcfg
-1. amqcfg --help
+```bash
+python -m virtualenv -p python3 venv3
+source venv3/bin/activate
+pip install amqcfg
+amqcfg --help
+```
 
 ## User (CLI) guide
 
@@ -109,7 +117,7 @@ amqcfg --template my_new_template --profile [PROFILE]
 
 ## API guide
 
-Straight use of API is to use `generate()` nearly the same as the CLI.
+Direct use of API is to use `generate()` nearly the same as the CLI.
 
 ```python
 import amqcfg
