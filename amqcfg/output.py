@@ -90,9 +90,6 @@ def new_template(template, dest_template):
     """
     template_path = select_template_dir(template)
 
-    if dest_template:
-        ensure_output_path(dest_template)
-
     shutil.copytree(template_path, dest_template, symlinks=False)
 
 
