@@ -13,7 +13,7 @@
 # limitations under the License.
 
 NAME = 'amqcfg'
-VERSION = '0.6.7'
+VERSION = '0.6.8'
 DESCRIPTION = (
     'Template based configuration files generator based on jinja2 and yaml'
     ' mainly focused on Apache ActiveMQ Artemis and related projects'
