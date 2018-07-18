@@ -5,13 +5,12 @@ _defaults:
   broker_home: /opt/artemis-2.5.0
   broker_instance: /opt/artemis-2.5.0-i0
 
-  hostname: localhost
+  hostname: change_me_please
   # perf details
   java_xms: 4G
   java_xmx: 4G
 
   profile: 'baseline'
-  default_redelivery_delay: 1
   limit_destinations: 150
 
 render:
@@ -36,7 +35,7 @@ broker_xml:
 
 {% include 'artemis/2.5.0/_modules/users_roles_security/admin_broker_security_settings.yaml' %}
 
-{% include 'artemis/2.5.0/_modules/broker_xml/address_settings/performance.yaml' %}
+{% include 'artemis/2.5.0/_modules/broker_xml/address_settings/default.yaml' %}
 
 {% include 'artemis/2.5.0/_modules/broker_xml/addresses/performance.yaml' %}
 

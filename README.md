@@ -162,6 +162,7 @@ If you find a bug or room for improvement, submit either a ticket or PR.
 
 _Alphabetically ordered_
 
+* Otavio Piske <opiske@redhat.com>
 * Zdenek Kraus <zkraus@redhat.com>
 
 ## License

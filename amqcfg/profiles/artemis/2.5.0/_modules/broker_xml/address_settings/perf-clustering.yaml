@@ -1,5 +1,5 @@
 # _defaults:
-#   default_redelivery_delay: 1
+#   default_redistribution_delay: 1
 
   address_settings:
   - match: activemq.management#
@@ -14,7 +14,7 @@
     auto_create_jms_queues: true
     auto_create_jms_topics: true
   - match: 'test.performance.#'
-    redelivery_delay: {{ default_redelivery_delay|default('1') }}
+    redistribution_delay: {{ default_redistribution_delay|default('1') }}
   - match: '#'
     dead_letter_address: DLQ
     expiry_address: ExpiryQueue

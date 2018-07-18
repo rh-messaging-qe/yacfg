@@ -15,6 +15,10 @@ artemis_profile:
   - -XX:+PrintClassHistogram
   - -XX:+UseG1GC
   - -XX:+AggressiveOpts
+  - -XX:+PrintSafepointStatistics
+  - -XX:PrintSafepointStatisticsCount=1
+  - -XX:+LogVMOutput
+  - -XX:LogFile='{{ broker_instance }}/log/jvm-pauses.log'
   - -Xms{{ java_xms|default('4G') }}
   - -Xmx{{ java_xmx|default('4G') }}
   - -Dhawtio.realm=activemq

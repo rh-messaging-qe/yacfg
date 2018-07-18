@@ -5,9 +5,13 @@ _defaults:
   broker_home: /opt/artemis-2.5.0
   broker_instance: /opt/artemis-2.5.0-i0
 
-  hostname: localhost
+  hostname: change_me_please
+  # perf details
   java_xms: 4G
   java_xmx: 4G
+
+  profile: 'baseline'
+  limit_destinations: 150
 
 render:
   generator_notice: True
@@ -33,11 +37,11 @@ broker_xml:
 
 {% include 'artemis/2.5.0/_modules/broker_xml/address_settings/default.yaml' %}
 
-{% include 'artemis/2.5.0/_modules/broker_xml/addresses/default.yaml' %}
+{% include 'artemis/2.5.0/_modules/broker_xml/addresses/performance.yaml' %}
 
 
 # artemis.profile
-{% include 'artemis/2.5.0/_modules/artemis_profile/performance_default.yaml' %}
+{% include 'artemis/2.5.0/_modules/artemis_profile/performance/_selector.yaml' %}
 
 # users and roles properties xml
 {% include 'artemis/2.5.0/_modules/users_roles_security/admin.yaml' %}

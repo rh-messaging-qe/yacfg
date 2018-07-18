@@ -1,0 +1,66 @@
+---
+
+_defaults:
+  broker_name: amq
+  broker_home: /opt/artemis-2.5.0
+  broker_instance: /opt/artemis-2.5.0-i0
+  cluster_multicast_address: 223.7.7.9
+  cluster_multicast_port: 9876
+  cluster_connector_url: tcp://change_me_please:61616
+  hostname: change_me_please
+  log_level_all: INFO
+  cluster_load_balancing: ON_DEMAND
+  default_redistribution_delay: 1
+  limit_destinations: 150
+  profile: baseline
+
+
+render:
+  generator_notice: True
+  licenses: True
+  template: artemis/2.5.0
+
+broker_xml:
+  name: '{{ broker_name }}'
+
+{% include 'artemis/2.5.0/_modules/broker_xml/journal/default.yaml' %}
+
+  paging_directory: data/paging
+  bindings_directory: data/bindings
+  large_messages_directory: data/large-messages
+  disk_scan_period: 5000
+  max_disk_usage: 90
+
+{% include 'artemis/2.5.0/_modules/broker_xml/critical_analyzer_default.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/broker_xml/acceptors/default.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/users_roles_security/admin_broker_security_settings.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/broker_xml/address_settings/perf-clustering.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/broker_xml/addresses/performance.yaml' %}
+
+{% include 'artemis/2.5.0/_modules/broker_xml/cluster/basic_cluster.yaml' %}
+
+
+# artemis.profile
+{% include 'artemis/2.5.0/_modules/artemis_profile/performance/_selector.yaml' %}
+
+# users and roles properties xml
+{% include 'artemis/2.5.0/_modules/users_roles_security/admin.yaml' %}
+
+# bootstrap.xml
+{% include 'amq_broker/7.2.0/_modules/bootstrap_xml/allow.yaml' %}
+
+# jolokia-access.xml
+{% include 'artemis/2.5.0/_modules/jolokia_access/allow.yaml' %}
+
+# logging.properties
+{% include 'artemis/2.5.0/_modules/logging_properties/default.yaml' %}
+
+# login.config
+{% include 'artemis/2.5.0/_modules/login_config/jaas_required.yaml' %}
+
+# management.xml
+{% include 'artemis/2.5.0/_modules/management_xml/default_connector.yaml' %}
