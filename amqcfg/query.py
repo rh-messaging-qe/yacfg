@@ -14,6 +14,7 @@
 
 import logging
 import os
+import posixpath
 import re
 
 from .files import get_module_path
@@ -64,6 +65,8 @@ def list_templates():
                 result.append(prefix_path)
                 break
 
+    result = [posixpath.join(*i.split(os.path.sep)) for i in result]
+
     return result
 
 
@@ -99,6 +102,8 @@ def list_profiles():
                 for fn in tmp_files
             ]
         result += tmp_files
+
+    result = [posixpath.join(*i.split(os.path.sep)) for i in result]
 
     return result
 
