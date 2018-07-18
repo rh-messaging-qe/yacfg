@@ -47,10 +47,9 @@ setup(
     license='Apache-2.0',
     author='Zdenek Kraus',
     author_email='zkraus@redhat.com',
-    description=meta.get('DESCRIPTION'),
+    description=meta.get('SHORT_DESCRIPTION'),
+    long_description=meta.get('DESCRIPTION'),
     include_package_data=True,
-    download_url='https://bitbucket.org/msgqe/amqcfg/get/amqcfg-%s.tar.gz'
-                 % meta.get('VERSION'),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

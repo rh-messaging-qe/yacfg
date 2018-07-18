@@ -1,7 +1,3 @@
-# IN DEVELOPMENT
-
----
-
 # amqcfg - AMQ configurator
 
 This tool can generate a set of configuration files mainly needed for
@@ -30,7 +26,7 @@ source venv3/bin/activate
 amqcfg --help
 ```
 
-### From PiPy (not-yet-available)
+### From PiPy
 
 ```bash
 python -m virtualenv -p python3 venv3
@@ -162,7 +158,9 @@ I would like to have [readthedocs.org](http://readthedocs.org) documentation.
 
 If you find a bug or room for improvement, submit either a ticket or PR.
 
-## Authors
+## Contributors
+
+_Alphabetically ordered_
 
 * Zdenek Kraus <zkraus@redhat.com>
 
