@@ -31,7 +31,6 @@ def config_console_logger(filename=None, level=None, fmt=None, fmt_color=None,
     :param fmt: console log format
     :param fmt_color: console color log format (only with colorlog)
     :param datefmt: formatter date format, default like ISO8601
-    :return: None
     """
     import_error_msg = []
     # Windows compatibility section for colorama
