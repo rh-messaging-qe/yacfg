@@ -6,7 +6,9 @@ _defaults:
   broker_instance: /opt/artemis-2.5.0-i0
   cluster_multicast_address: 223.7.7.9
   cluster_multicast_port: 9876
-  cluster_connector_url: tcp://0.0.0.0:61616
+  cluster_connector_protocol: tcp
+  cluster_connector_address: 0.0.0.0
+  cluster_connector_port: 61616
   log_level_all: INFO
   cluster_load_balancing: STRICT
 

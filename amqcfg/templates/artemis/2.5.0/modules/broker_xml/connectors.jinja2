@@ -3,7 +3,7 @@
         <connectors>
     {% for connector in broker_xml.connectors %}
             <connector name="{{ connector.name }}">
-            {{- connector.url }}
+            {{- url(connector.protocol, connector.address, connector.port) -}}
             {%- if connector.properties is defined -%}
                 ?
                 {%- for option in connector.properties -%}

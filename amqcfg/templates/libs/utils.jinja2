@@ -30,3 +30,18 @@
         "{{ input }}"
     {%- endif -%}
 {%- endmacro %}
+
+{# URL creator helper
+  accepts protocol address and port
+#}
+{%- macro url(protocol, address, port) -%}
+    {%- if protocol is defined -%}
+        {{- protocol }}://
+    {%- endif -%}
+    {%- if address is defined -%}
+        {{- address }}
+    {%- endif -%}
+    {%- if port is defined -%}
+        :{{- port }}
+    {%- endif -%}
+{%- endmacro -%}

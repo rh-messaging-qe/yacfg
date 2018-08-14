@@ -1,23 +1,33 @@
   acceptors:
   - name: artemis
-    url: tcp://0.0.0.0:61616
+    protocol: tcp
+    address: 0.0.0.0
+    port: 61616
     properties:
     - tcpSendBufferSize: 1048576
     - tcpReceiveBufferSize: 1048576
   - name: amqp
-    url: tcp://0.0.0.0:5672
+    protocol: tcp
+    address: 0.0.0.0
+    port: 5672
     properties:
     - protocols: AMQP
     - multicastPrefix: topic://
   - name: stomp
-    url: tcp://0.0.0.0:61613
+    protocol: tcp
+    address: 0.0.0.0
+    port: 61613
     properties:
     - protocols: STOMP
   - name: hornetq
-    url: tcp://0.0.0.0:5445
+    protocol: tcp
+    address: 0.0.0.0
+    port: 5445
     properties:
     - protocols: HORNETQ,STOMP
   - name: mqtt
-    url: tcp://0.0.0.0:1883
+    protocol: tcp
+    address: 0.0.0.0
+    port: 1883
     properties:
     - protocols: MQTT

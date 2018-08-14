@@ -51,7 +51,9 @@ broker_xml:
 
   acceptors:
   - name: artemis
-    url: tcp://0.0.0.0:61616
+    protocol: tcp
+    address: 0.0.0.0
+    port: 61616
     properties:
     - tcpSendBufferSize: 1048576
     - tcpReceiveBufferSize: 1048576
@@ -60,7 +62,9 @@ broker_xml:
     - amqpCredits: 1000
     - amqpLowCredits: 300
   - name: amqp
-    url: tcp://0.0.0.0:5672
+    protocol: tcp
+    address: 0.0.0.0
+    port: 5672
     properties:
     - tcpSendBufferSize: 1048576
     - tcpReceiveBufferSize: 1048576
@@ -69,21 +73,27 @@ broker_xml:
     - amqpCredits: 1000
     - amqpLowCredits: 300
   - name: stomp
-    url: tcp://0.0.0.0:61613
+    protocol: tcp
+    address: 0.0.0.0
+    port: 61613
     properties:
     - tcpSendBufferSize: 1048576
     - tcpReceiveBufferSize: 1048576
     - protocols: STOMP
     - useEpoll: true
   - name: hornetq
-    url: tcp://0.0.0.0:5445
+    protocol: tcp
+    address: 0.0.0.0
+    port: 5445
     properties:
     - anycastPrefix: jms.queue.
     - multicastPrefix: jms.topic.
     - protocols: HORNETQ,STOMP
     - useEpoll: true
   - name: mqtt
-    url: tcp://0.0.0.0:1883
+    protocol: tcp
+    address: 0.0.0.0
+    port: 1883
     properties:
     - tcpSendBufferSize: 1048576
     - tcpReceiveBufferSize: 1048576
@@ -91,7 +101,9 @@ broker_xml:
     - useEpoll: true
 # kerberos acceptor
   - name: kerberos
-    url: tcp://0.0.0.0:5672
+    protocl: tcp
+    address: 0.0.0.0
+    port: 5672
     properties:
     - tcpSendBufferSize: 1048576
     - tcpReceiveBufferSize: 1048576
@@ -207,9 +219,13 @@ broker_xml:
 # cluster related configurations
   connectors:
     - name: artemis
-      url: tcp://10.0.0.1:61616
+      protocol: tcp
+      address: 10.0.0.1
+      port: 61616
     - name: test2
-      url: tcp://172.16.0.1:61616
+      protocol: tcp
+      address: 172.16.0.1
+      port: 61616
       properties:
       - tcpSendBufferSize: 1048576
       - tcpReceiveBufferSize: 1048576
