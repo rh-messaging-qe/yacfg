@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+{% from 'libs/utils.jinja2' import url without context %}
 {% include 'libs/headers/xml_header.jinja2' %}
 
 {% include 'libs/licenses/apache-2.0/xml.jinja2' %}
@@ -17,7 +18,10 @@
    <server configuration="{{ bootstrap_xml.server.configuration }}"/>
 
    <!-- The web server is only bound to localhost by default -->
-   <web bind="{{ bootstrap_xml.web.bind }}" path="{{ bootstrap_xml.web.path }}">
+   {% set protocol = bootstrap_xml.web.bind.protocol %}
+   {% set address = bootstrap_xml.web.bind.address %}
+   {% set port = bootstrap_xml.web.bind.port %}
+   <web bind="{{- url(protocol, address, port) -}}" path="{{ bootstrap_xml.web.path }}">
    {% for app in bootstrap_xml.web.apps %}
        <app url="{{ app.url }}" war="{{ app.war }}"/>
    {% endfor %}

@@ -7,7 +7,10 @@ bootstrap_xml:
   server:
     configuration: 'file:{{ broker_instance }}/etc/broker.xml'
   web:
-    bind: http://localhost:8161
+    bind:
+      protocol: http
+      address: localhost
+      port: 8161
     path: web
     apps:
     - url: activemq-branding
