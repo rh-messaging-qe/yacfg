@@ -4,7 +4,7 @@
                 <jdbc-connection-url>{{ store.properties.jdbc_connection_url }}</jdbc-connection-url>
                 {% endif %}
                 {% if store.properties.binding_table_name is defined %}
-                <binding-table-name>{{ store.properties.binding_table_name }}</binding-table-name>
+                <bindings-table-name>{{ store.properties.binding_table_name }}</bindings-table-name>
                 {% endif %}
                 {% if store.properties.message_table_name is defined %}
                 <message-table-name>{{ store.properties.message_table_name  }}</message-table-name>
@@ -13,7 +13,7 @@
                 <page-store-table-name>{{ store.properties.page_store_table_name  }}</page-store-table-name>
                 {% endif %}
                 {% if store.properties.large_message_table_name is defined %}
-                <large-message-table-name>store.properties.large_message_table_name </large-message-table-name>
+                <large-message-table-name>{{ store.properties.large_message_table_name }}</large-message-table-name>
                 {% endif %}
                 {% if store.properties.jdbc_driver_class_name is defined %}
                 <jdbc-driver-class-name>{{ store.properties.jdbc_driver_class_name  }}</jdbc-driver-class-name>
