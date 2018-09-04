@@ -4,9 +4,13 @@
 {% include 'libs/licenses/apache-2.0/xml.jinja2' %}
 
 <management-context xmlns="http://activemq.org/schema">
-    {% if management_xml.connector_port is defined %}
-    <connector connector-port="{{ management_xml.connector_port }}"/>
-    {% else %}
+    {% if management_xml.connector is defined %}
+    <connector
+      {%- if management_xml.connector.host is defined %} connector-host="{{ management_xml.connector.host }}"
+      {%- endif %}{% if management_xml.connector.port is defined %} connector-port="{{ management_xml.connector.port }}"
+      {%- endif -%}
+     />
+    {% else -%}
     <!--<connector connector-port="1099"/>-->
     {% endif %}
     <authorisation>

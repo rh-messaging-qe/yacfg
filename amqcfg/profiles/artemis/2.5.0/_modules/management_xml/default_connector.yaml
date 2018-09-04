@@ -1,5 +1,7 @@
 management_xml:
-  connector_port: 1099
+  connector:
+    host: 0.0.0.0
+    port: 1099
   whitelist:
   - domain: hawtio
   default_access:
