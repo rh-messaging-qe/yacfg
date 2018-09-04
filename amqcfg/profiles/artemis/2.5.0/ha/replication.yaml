@@ -10,7 +10,13 @@ _defaults:
   cluster_connector_url: tcp://0.0.0.0:61616
   log_level_all: INFO
   cluster_load_balancing: ON_DEMAND
+  # HA options
   ha_role: master
+  ha_slave_allow_failback: true
+  ha_group_name: my-artemis-ha-group
+  ha_vote_on_replication_failure: true
+  ha_check_for_live_server: true  # master only
+  ha_allow_failback: true         # slave only
 
 render:
   generator_notice: True
