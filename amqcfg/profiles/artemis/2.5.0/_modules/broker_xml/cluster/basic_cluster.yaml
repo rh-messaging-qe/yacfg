@@ -1,9 +1,9 @@
 # cluster related configurations
   connectors:
     - name: cluster-connector
-      protocol: '{{ cluster_connector_protocol }}'
+      protocol: '{{ cluster_connector_protocol | default('tcp') }}'
       address: '{{ cluster_connector_address }}'
-      port: '{{ cluster_connector_port }}'
+      port: '{{ cluster_connector_port | default('61617') }}'
 
   cluster:
     user: artemis_cluster_admin
