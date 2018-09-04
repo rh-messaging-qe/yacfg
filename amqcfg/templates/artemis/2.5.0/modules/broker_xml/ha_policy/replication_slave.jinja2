@@ -9,6 +9,9 @@
                     {% if policy.properties.group_name is defined %}
                     <group-name>{{ policy.properties.group_name  }}</group-name>
                     {% endif %}
+                    {% if policy.properties.vote_on_replication_failure is defined %}
+                    <vote-on-replication-failure>{{ mbool(policy.properties.vote_on_replication_failure)  }}</vote-on-replication-failure>
+                    {% endif %}
                     {% if policy.properties.max_saved_replicated_journals_size is defined %}
                     <max-saved-replicated-journals-size>{{ policy.properties.max_saved_replicated_journals_size  }}</max-saved-replicated-journals-size>
                     {% endif %}
