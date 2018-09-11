@@ -4,7 +4,7 @@ This tool can generate a set of configuration files mainly needed for
 AMQ Broker, but it is not limited to only generating files for one product.
 
 It has a user facing Command Line Tool for quick and easy command line usage.
-Furthermore it is possible to its API to use it in your python code.
+Furthermore, it is possible to use its API in your python code.
 
 ## Getting started
 
@@ -52,14 +52,14 @@ amqcfg --profile [PROFILE] --output [OUTDIR]
 ## Customization
 
 Quickest way to customize data is to use hot-variables, basically variables
-that profile itself provides for tuning. Next step is to write (modify) custom
+that the profile itself provides for tuning. Next step is to write (modify) custom
 profile with completely custom values.
-And if that does not satisfy your needs, then custom template might be required.
+If that does not satisfy your needs, then a custom template might be required.
 
 ### Profile tuning
 
 Simply export tuning values from profile you want to tune and change those you
-need to change. Then supply tuning file when generating.
+need to change. Then supply the custom tuning file(s) when generating the profile.
 
 ```bash
 amqcfg --profile [PROFILE] --export-tuning my_values.yaml
@@ -74,7 +74,7 @@ amqcfg --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
 
 ## Custom profiles
 
-Write your own, or simply export existing profile and modify that.
+Write your own, or simply export an existing profile and modify that.
 
 You can export dynamic version with includes of some modules, that would still
  work. Either you can use imports from package, or your own local files.
@@ -94,14 +94,14 @@ amqcfg --profile my_new_profile.yaml
 
 ## Custom templates
 
-And last resort is to export template and modify that. But remember template,
-or more correctly template set is a directory containing a set of main
+The last resort is to export a template and modify that. But remember a template,
+or more correctly a template set is a directory containing a set of main
 templates that subsequently generate a new file.
 
 Of course feel free to write your own templates. Especially when you need to
 generate files for something that is not packaged.
 
-Just remember for template set to be identified the directory must contain
+Just remember for a template set to be identified the directory must contain
 a file named '_template' and then main templates ending with '.jinja2'.
 
 ```bash
@@ -145,7 +145,7 @@ More API oriented changes will be done in future versions, for now development
 was focused on user facing CLI. And functions used by CLI is not optimal for
 use in another code.
 
-What is definitely needs to be done:
+What is definitely needed to be done:
 *   `generate` alternative that will use profile data directly from variable
 
 ## Documentation

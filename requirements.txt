@@ -1,10 +1,10 @@
-# amqcfg requirements for easy install all development and testing dependencies
+# amqcfg requirements for easy installation of all development and testing dependencies
 
 # Runtime Requirements
 pyyaml
 jinja2
 
-# Testing requirements
+# Testing Requirements
 pytest
 mock
 tox
