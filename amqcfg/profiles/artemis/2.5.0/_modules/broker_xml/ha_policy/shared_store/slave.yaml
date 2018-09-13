@@ -2,5 +2,7 @@
   - policy: shared-store
     role: slave
     properties:
-      failover_on_server_shutdown: true
       allow_failback: true
+      failback_delay: 5000
+      failover_on_shutdown: false
+      restart_backup: false

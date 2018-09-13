@@ -2,4 +2,6 @@
   - policy: shared-store
     role: master
     properties:
-      failover_on_server_shutdown: true
+      failback_delay: 5000
+      failover_on_shutdown: false
+      wait_for_activation: true

@@ -10,7 +10,13 @@ _defaults:
   log_level_all: INFO
   cluster_load_balancing: ON_DEMAND
   ha_role: master
-  jdbc_connection_url: jdbc://localhost
+
+  # TODO NFS/GFS2 data here
+  fs_paging_directory: data/paging
+  fs_bindings_directory: data/bindings
+  fs_large_messages_directory: data/large-messages
+  fs_disk_scan_period: 5000
+  fs_max_disk_usage: 90
 
 render:
   generator_notice: True
@@ -22,11 +28,11 @@ broker_xml:
 
 {% include 'artemis/2.5.0/_modules/broker_xml/journal/default.yaml' %}
 
-  paging_directory: data/paging
-  bindings_directory: data/bindings
-  large_messages_directory: data/large-messages
-  disk_scan_period: 5000
-  max_disk_usage: 90
+  paging_directory: '{{ fs_paging_directory | default('data/paging') }}'
+  bindings_directory: '{{ fs_bindings_directory | default('data/bindings') }}'
+  large_messages_directory: '{{ fs_large_messages_directory | default('data/large-messages') }}'
+  disk_scan_period: '{{ fs_disk_scan_period | default('5000') }}'
+  max_disk_usage: '{{ fs_max_disk_usage | default('90') }}'
 
 {% include 'artemis/2.5.0/_modules/broker_xml/critical_analyzer_default.yaml' %}
 
