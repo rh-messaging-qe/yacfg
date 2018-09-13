@@ -18,6 +18,15 @@
                     {% if policy.properties.initial_replication_sync_timeout is defined %}
                     <initial-replication-sync-timeout>{{ policy.properties.initial_replication_sync_timeout  }}</initial-replication-sync-timeout>
                     {% endif %}
+                    {% if policy.properties.quorum_size is defined %}
+                    <quorum-size>{{ policy.properties.quorum_size  }}</quorum-size>
+                    {% endif %}
+                    {% if policy.properties.vote_retries is defined %}
+                    <vote-retries>{{ policy.properties.vote_retries  }}</vote-retries>
+                    {% endif %}
+                    {% if policy.properties.vote_retry_wait is defined %}
+                    <vote-retry-wait>{{ policy.properties.vote_retry_wait  }}</vote-retry-wait>
+                    {% endif %}
                 </master>
             {% endif %}
         {% endif %} {# end of master #}
