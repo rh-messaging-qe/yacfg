@@ -1,6 +1,6 @@
 # amqcfg - AMQ configurator
 
-This tool can generate a set of configuration files mainly needed for
+This tool can generate_via_tuning_files a set of configuration files mainly needed for
 AMQ Broker, but it is not limited to only generating files for one product.
 
 It has a user facing Command Line Tool for quick and easy command line usage.
@@ -96,10 +96,10 @@ amqcfg --profile my_new_profile.yaml
 
 The last resort is to export a template and modify that. But remember a template,
 or more correctly a template set is a directory containing a set of main
-templates that subsequently generate a new file.
+templates that subsequently generate_via_tuning_files a new file.
 
 Of course feel free to write your own templates. Especially when you need to
-generate files for something that is not packaged.
+generate_via_tuning_files files for something that is not packaged.
 
 Just remember for a template set to be identified the directory must contain
 a file named '_template' and then main templates ending with '.jinja2'.
@@ -114,25 +114,53 @@ amqcfg --template my_new_template --profile [PROFILE]
 ## API guide
 
 Direct use of API is to use `generate()` nearly the same as the CLI.
+With option to use tuning values directly.
+
+Tuning data will be overlaid in order of appereance, using python
+dict.update(), so values that will appear later will overwrite previous
+values. We recommend that tuning values are always flat, because update
+is not recursive. The same applies for data from tuning files as well
+as the directly provided data.
+
+Data application order:
+
+- profile defaults
+- data from tuning files (in order of appearance) `tuning_files_list`
+- data provided directly (in order of appearance) `tuning_data_list`
+
 
 ```python
 import amqcfg
 
-# generate files as above CLI exaple to output directory
+# generating only broker.xml config using default values from profile,
+# no tuning, writing output to a target path
 amqcfg.generate(
     profile='artemis/2.5.0/default.yaml',
-    tuning_files=[
+    output_filter=['broker.xml'],
+    output_path='/opt/artemis-2.5.0-i0/etc/',
+)
+
+# using both files and direct values, and writing generated configs to
+# a target directory
+amqcfg.generate(
+    profile='artemis/2.5.0/default.yaml',
+    tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',
         'logging_debug.yaml'
     ],
+    tuning_data_list=[
+        {'name': 'custom name', 'config': 'option_a'},
+        {'address': '10.0.0.1'},
+        {'LOG_LEVEL': 'debug'},
+    ],
     output_path='/opt/artemis-2.5.0-i0/etc/',
 )
 
-# just get generated data for further processing
+# just get generated data for further processing, using just tuning files
 data = amqcfg.generate(
     profile='artemis/2.5.0/default.yaml',
-    tuning_files=[
+    tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',
         'logging_debug.yaml'
@@ -141,12 +169,97 @@ data = amqcfg.generate(
 print(data['broker.xml'])
 ```
 
-More API oriented changes will be done in future versions, for now development
-was focused on user facing CLI. And functions used by CLI is not optimal for
-use in another code.
+## Batch configurations
 
-What is definitely needed to be done:
-*   `generate` alternative that will use profile data directly from variable
+In case you have multiple services to configure in your environment,
+that you probably will have at some point, there is a tool for that
+as well. The tool is called amqcfg-batch. It has only yaml input and
+it uses amqcfg to generate configurations as you are already used to.
+
+Input yaml file defines all services you need to generate, what
+profiles to use, and what tuning to provide to `amqcfg`.
+It allows you to configure defaults and common for services.
+
+### Batch profile file
+
+As said it is YAML. It has two special sections: `_default` and `_common`.
+As the name suggests, `_default` values are used when values are not
+defined per specific section. Where `_common` is added to the values
+of all sections. The important thing here is that `_default` has lower
+priority than `_common` and that has lower priority than specific section
+values.
+
+Every section has 4 values: `profile`, `template`, `tuning_files`,
+ and `tuning`. As the name suggests, `profile` defines what generation profile
+ to select, and it directly correlates with `amqcfg`'s `--profile`.
+ `template` defines what generation template to use
+ (overrides one in the profile if defined), and it directly correlates with
+ `--template` from `amqcfg`. `tuning_files` option is a list of tuning
+ files to use, when combining defaults, commons, and specific values,
+ tuning_files list is concatenated. Finally `tuning` is a map of
+ specific tuning values, correlates with `--opt` of `amqcfg`. When combining
+ defaults, commons, and specifics, it will be updated over using python
+ dict.update() and it will work only on first level, so it is recommended
+ to use flat values for tuning only.
+
+Example:
+```yaml
+
+_default:
+    profile: artemis/2.5.0/default.yaml
+    tuning_files:
+      - defaults/broker_default.yaml
+
+_common:
+    tuning_files:
+      - common/security.yaml
+      - common/logging.yaml
+    tuning_values:
+      LOG_LEVEL_ALL: INFO
+
+brokerA/opt/artemis/etc:
+    pass: true
+
+brokerB/opt/artemis/etc:
+    profile: artemis/2.5.0/AIOBasic.yaml
+    tuning_files:
+      - brokerB/queues.yaml
+
+---
+
+_default:
+    profile: amq_broker/7.2.0/default.yaml
+    tuning_files:
+      - defaults/amq_broker_default.yaml
+
+brokerC/opt/amq/etc:
+    tuning:
+      LOG_LEVEL_ALL: DEBUG
+
+```
+
+As you can see, `amqcfg-batch` supports multiple sections, in single
+batch profile file, that allows you to generate multiple groups using
+separated `_default` and `_common` sections for that.
+
+### executing batch
+
+When you have defined all tuning files you need, and in the root of this
+batch configuration you have your batch profile file, you can now simply
+run `amqcfg-batch`:
+
+```bash
+
+amqcfg-batch --input [batch_profile_file] --output [output_path]
+```
+
+You can use multiple input files and all of those will be generated
+consecutively. In the output path, new subdirectories will be created
+for every item you configure (every section), section key will be used
+for that subdirectory. If the section name resembles a path, whole
+path will be created. For example for `brokerA/opt/artemis/etc`
+the configuration will be generated into
+`[output_path]/brokerA/opt/artemis/etc/`.
 
 ## Documentation
 

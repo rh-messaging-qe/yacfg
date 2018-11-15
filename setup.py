@@ -30,6 +30,7 @@ setup(
     entry_points={
         'console_scripts': [
             'amqcfg = amqcfg.amqcfg_cli:main',
+            'amqcfg-batch = amqcfg_batch.amqcfg_batch_cli:main'
         ],
     },
     install_requires=[
