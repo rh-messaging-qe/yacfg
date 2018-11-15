@@ -30,9 +30,9 @@ repos:
     language: python
     additional_dependencies: [tox]
     pass_filenames: false
-  - id: tox 35
-    name: tox 35
-    entry: tox -e py35
+  - id: tox 36
+    name: tox 36
+    entry: tox -e py36
     files: ^(.*py)$
     language: python
     additional_dependencies: [tox]
