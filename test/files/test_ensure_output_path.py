@@ -24,27 +24,27 @@ from amqcfg.files import ensure_output_path
 @mock.patch('os.path.isfile', side_effect=(False,))
 def test_create_true(*_):
     output_path = '/location/group/output/'
-    with mock.patch('os.mkdir', mock.Mock()):
+    with mock.patch('os.makedirs', mock.Mock()):
         ensure_output_path(output_path=output_path)
         # noinspection PyUnresolvedReferences
-        os.mkdir.assert_called()
+        os.makedirs.assert_called()
 
 
 @mock.patch('os.path.isdir', side_effect=(True,))
 def test_exists(*_):
     output_path = '/location/group/output/'
-    with mock.patch('os.mkdir', mock.Mock()):
+    with mock.patch('os.makedirs', mock.Mock()):
         ensure_output_path(output_path=output_path)
         # noinspection PyUnresolvedReferences
-        os.mkdir.assert_not_called()
+        os.makedirs.assert_not_called()
 
 
 @mock.patch('os.path.isdir', side_effect=(False,))
 @mock.patch('os.path.isfile', side_effect=(True,))
 def test_exists_but_file_exception(*_):
     output_path = '/location/group/output/'
-    with mock.patch('os.mkdir', mock.Mock()):
+    with mock.patch('os.makedirs', mock.Mock()):
         with pytest.raises(IOError):
             ensure_output_path(output_path=output_path)
         # noinspection PyUnresolvedReferences
-        os.mkdir.assert_not_called()
+        os.makedirs.assert_not_called()

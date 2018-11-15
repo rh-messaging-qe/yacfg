@@ -132,7 +132,7 @@ def ensure_output_path(output_path):
                 'Output path "%s" already exists and it is not a directory!'
                 % output_path
             )
-        os.mkdir(output_path)
+        os.makedirs(output_path)
         LOG.debug('Created directory "%s"', output_path)
     else:
         LOG.debug('Requested directory "%s" exists', output_path)
