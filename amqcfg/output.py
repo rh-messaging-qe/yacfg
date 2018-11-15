@@ -21,7 +21,7 @@ import yaml
 from .exceptions import ProfileError
 from .files import select_profile_file, ensure_output_path, select_template_dir
 from .meta import NAME
-from .profiles import load_tuned_profile, load_profile_defaults
+from .profiles import load_profile_defaults, get_tuned_profile
 
 LOG = logging.getLogger(__name__)
 
@@ -60,7 +60,7 @@ def new_profile_rendered(profile, dest_profile, tuning_files=None):
     :raises OSError: if there is a problem with destination path
     :raises ProfileError: if there is a problem with the existing template
     """
-    config_data, _ = load_tuned_profile(profile, tuning_files)
+    config_data, _ = get_tuned_profile(profile, tuning_files)
 
     dest_path = os.path.dirname(dest_profile)
     dest_name = os.path.basename(dest_profile)

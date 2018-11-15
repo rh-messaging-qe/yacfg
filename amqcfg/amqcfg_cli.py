@@ -20,7 +20,7 @@ import sys
 
 from .config_data import RenderOptions
 from .amqcfg import generate
-from .cli_arguments import parser, boolize
+from .cli_arguments import parser, boolize, parse_key_value_list
 from .exceptions import TemplateError, ProfileError, GenerationError
 from .meta import VERSION, NAME
 from .output import (
@@ -136,6 +136,19 @@ def main():
         boolize(options.render_licenses),
     )
 
+    # post-process direct options
+    if options.opt:
+        # list is because generate api expects list of tuning dicts
+        try:
+            # false negative, there is not type mismatch, ArgParse
+            # does not parse KEY=VALUE pairs automatically
+            # noinspection PyTypeChecker
+            options.opt = [parse_key_value_list(options.opt)]
+        except ValueError as exc:
+            error(exc, 2)
+
+    LOG.debug('Direct Tuning options %s', options.opt)
+
     try:
         generate(
             profile=options.profile,
@@ -143,7 +156,8 @@ def main():
             output_path=options.output,
             output_filter=options.filter,
             render_options=render_options,
-            tuning_files=options.tune,
+            tuning_files_list=options.tune,
+            tuning_data_list=options.opt,
             write_profile_data=options.save_effective_profile
         )
     except TemplateError as exc:

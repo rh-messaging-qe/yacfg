@@ -33,6 +33,7 @@ def test_true(*_):
     write_output(file_name, file_path, data)
     # noinspection PyUnresolvedReferences
     amqcfg.output.open.assert_called_with(file_pathname, 'w')
+    # noinspection PyUnresolvedReferences
     fh = amqcfg.output.open.return_value.__enter__.return_value
     fh.write.assert_has_calls([mock.call(data), mock.call(os.linesep)])
 

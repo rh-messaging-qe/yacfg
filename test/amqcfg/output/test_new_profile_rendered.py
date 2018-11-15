@@ -26,7 +26,7 @@ from ..profiles.fakes import (
 )
 
 
-@mock.patch('amqcfg.output.load_tuned_profile',
+@mock.patch('amqcfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_with_defaults)
 @mock.patch('amqcfg.output.write_output', mock.Mock())
 @mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
@@ -49,7 +49,7 @@ def test_true_defaults(*_):
                                                   expected_data)
 
 
-@mock.patch('amqcfg.output.load_tuned_profile',
+@mock.patch('amqcfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
 @mock.patch('amqcfg.output.write_output', mock.Mock())
 @mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
@@ -72,7 +72,7 @@ def test_true_no_defaults(*_):
                                                   expected_data)
 
 
-@mock.patch('amqcfg.output.load_tuned_profile',
+@mock.patch('amqcfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_with_defaults)
 @mock.patch('amqcfg.output.write_output', mock.Mock())
 @mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
@@ -93,7 +93,7 @@ def test_true_no_destination(*_):
                                                   expected_data)
 
 
-@mock.patch('amqcfg.output.load_tuned_profile',
+@mock.patch('amqcfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_with_defaults)
 @mock.patch('amqcfg.output.ensure_output_path',
             side_effect=OSError('[Errno 13] Permission denied: \'path\''))

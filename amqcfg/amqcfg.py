@@ -25,7 +25,7 @@ from .config_data import add_template_metadata, add_render_config
 from .exceptions import TemplateError, GenerationError
 from .files import ensure_output_path, get_output_filename
 from .output import write_output
-from .profiles import load_tuned_profile
+from .profiles import get_tuned_profile
 from .query import filter_template_list, get_main_template_list
 from .templates import get_template_environment
 
@@ -36,39 +36,40 @@ _ = Environment
 LOG = logging.getLogger(__name__)
 
 
-def generate(profile, template=None, output_path=None, output_filter=None,
-             render_options=None, tuning_files=None, write_profile_data=False):
-    """Generate procedure, do the main generation procedure
+def generate_core(config_data, tuned_profile=None, template=None,
+                  output_path=None, output_filter=None, render_options=None,
+                  write_profile_data=False):
+    """Core of the generator, gets complete dataset with selected
+    template in config data or explicitly selected via template
+    parameter at minimum, and generates outputs, if requested writes
+    to file.
 
-    generate output files based on output_filter, from selected template set,
-    with selected profile, and write output to a proposed output path.
-    :param profile: name of packaged profile,
+    :param config_data: complete and tuned config data
         or path to user provided profile
-    :type profile: str
+    :type config_data: dict
+    :param tuned_profile: complete rendered yaml of tuned profile
+        being used
+    :type tuned_profile: str or None
     :param template: name of packaged template set,
         or path to user provided template set
     :type template: str or None
     :param output_path: proposed output path,
         if do not exists, it will be created
     :type output_path: str or None
-    :param output_filter: list of regular expressions to filter out which
-        output files should be generated, if None, then all will be generated,
-        based on selected template set
+    :param output_filter: list of regular expressions to filter out
+        which output files should be generated, if None, then all will
+        be generated, based on selected template set
     :type output_filter: list[str] or None
     :param render_options: extra render options tuning
     :type render_options: RenderOptions
-    :param tuning_files: Additional user values to fine-tune profile before
-        applying it to template.
-    :type tuning_files: list[str] or None
-    :param write_profile_data: enables writing profile data used for templating
-        to file in a output path, output path must be specified
+    :param write_profile_data: enables writing profile data used for
+        templating to file in a output path, output path must be
+        specified
     :type write_profile_data: bool
 
     :return: mapping of filename to generated data for further use
     :rtype: dict[str, str] or dict[str, unicode]
     """
-    config_data, tuned_profile = load_tuned_profile(profile, tuning_files)
-
     add_template_metadata(config_data)
     if render_options:
         add_render_config(config_data, render_options)
@@ -90,12 +91,68 @@ def generate(profile, template=None, output_path=None, output_filter=None,
 
     LOG.debug('Config data: %s', json.dumps(config_data))
 
-    if output_path:
+    if output_path and tuned_profile:
         ensure_output_path(output_path)
         if write_profile_data:
             write_output('profile_data.yaml', output_path, tuned_profile)
 
     return generate_outputs(config_data, template_list, env, output_path)
+
+
+def generate(profile, template=None, output_path=None,
+             output_filter=None, render_options=None,
+             tuning_files_list=None, tuning_data_list=None,
+             write_profile_data=False):
+    """Generate procedure using list of tuning data
+
+    generate_via_tuning_files output files based on output_filter, from
+    selected template set, with selected profile, and write output to
+    a proposed output path.
+
+    :param profile: name of packaged profile,
+        or path to user provided profile
+    :type profile: str
+    :param template: name of packaged template set,
+        or path to user provided template set
+    :type template: str | None
+    :param output_path: proposed output path,
+        if do not exists, it will be created
+    :type output_path: str | None
+    :param output_filter: list of regular expressions to filter out
+        which output files should be generated, if None, then all will
+        be generated, based on selected template set
+    :type output_filter: list[str] | None
+    :param render_options: extra render options tuning
+    :type render_options: RenderOptions
+    :param tuning_files_list: Additional yaml tuning files with tuning
+        values.
+    :type tuning_files_list: list[str] | None
+    :param tuning_data_list: Additional user values to fine-tune profile
+        before applying it to template.
+    :type tuning_data_list: list[dict] | None
+    :param write_profile_data: enables writing profile data used for
+        templating to file in a output path, output path must be
+        specified
+    :type write_profile_data: bool
+
+    :return: mapping of filename to generated data for further use
+    :rtype: dict[str, str] or dict[str, unicode]
+    """
+    config_data, tuned_profile = get_tuned_profile(
+        profile=profile,
+        tuning_files_list=tuning_files_list,
+        tuning_data_list=tuning_data_list,
+    )
+
+    return generate_core(
+        config_data=config_data,
+        tuned_profile=tuned_profile,
+        template=template,
+        output_path=output_path,
+        output_filter=output_filter,
+        render_options=render_options,
+        write_profile_data=write_profile_data,
+    )
 
 
 # main alias
@@ -115,7 +172,7 @@ def generate_outputs(config_data, template_list, env, output_path=None):
     :type template_list: list[str]
     :param env: jinja2 template environment
     :type env: Environment
-    :param output_path: path where to generate output files,
+    :param output_path: path where to generate_via_tuning_files output files,
         or None to do a dry run
     :type output_path: str
 

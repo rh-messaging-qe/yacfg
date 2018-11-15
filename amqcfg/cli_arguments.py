@@ -50,6 +50,16 @@ group_main.add_argument(
     action='append',
 )
 
+group_main.add_argument(
+    '--opt',
+    metavar='KEY=VALUE',
+    help=(
+        'Fine tune one tuning value format KEY=VALUE, has higher'
+        ' priority than tuning files.'
+    ),
+    action='append'
+)
+
 # Group Extra
 group_extra = parser.add_argument_group(
     title='Extra Options'
@@ -58,7 +68,7 @@ group_extra = parser.add_argument_group(
 group_extra.add_argument(
     '-f', '--filter',
     help='Regular expression enabled output filename filter,'
-         ' to generate only selected config files',
+         ' to generate_via_tuning_files only selected config files',
     action='append',
 )
 
@@ -181,3 +191,36 @@ def boolize(data):
     if REX_BOOL_FALSE.match(data):
         return False
     raise ValueError('Cannot convert input option "%s" to bool' % data)
+
+
+def split_key_value(item):
+    """Split KEY=VALUE specifier or raise an ValueError exception.
+
+    :param item: input KEY=VALUE string option.
+    :type item: str
+
+    :raises ValueError: if cannot split
+
+    :return: pair of split key and value
+    :rtype: str, str
+    """
+    try:
+        key, value = item.split('=', 1)
+    except ValueError:
+        raise ValueError('Missing KEY=VALUE pair in option "{}"'.format(item))
+    return key, value
+
+
+def parse_key_value_list(items):
+    """Split all KEY=VALUE items in a list of such options.
+
+    :param items: list of KEY=VALUE string options to be split.
+    :type items: list[str]
+
+    :raises ValueError: if any option cannot be split.
+
+    :return: a map of KEY: VALUE split options
+    :rtype: dict
+    """
+    result = dict([split_key_value(item) for item in items])
+    return result

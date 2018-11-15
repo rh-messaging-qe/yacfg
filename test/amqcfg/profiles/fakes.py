@@ -33,7 +33,8 @@ def fake_load_tuned_profile_with_defaults(*_):
     )
 
 
-def fake_load_tuned_profile_no_defaults(*_):
+def fake_load_tuned_profile_no_defaults(*_, **kwargs):
+    del kwargs
     return (
         {'key': 'value'},
         (
@@ -42,7 +43,8 @@ def fake_load_tuned_profile_no_defaults(*_):
     )
 
 
-def fake_load_tuned_profile_w_template(*_):
+def fake_load_tuned_profile_w_template(*_, **kwargs):
+    del kwargs
     return (
         {'render': {'template': 'template/1.0.0'}, 'key': 'value'},
         (
