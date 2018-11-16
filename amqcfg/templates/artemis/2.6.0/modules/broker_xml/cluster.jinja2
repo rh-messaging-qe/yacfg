@@ -1,0 +1,10 @@
+{% if broker_xml.cluster is defined %}
+    <!-- Cluster configuration -->
+    {% if broker_xml.cluster.user is defined %}
+        <cluster-user>{{ broker_xml.cluster.user }}</cluster-user>
+    {% endif %}
+    {% if broker_xml.cluster.password %}
+        <cluster-password>{{ broker_xml.cluster.password }}</cluster-password>
+    {%  endif %}
+
+{% endif %}

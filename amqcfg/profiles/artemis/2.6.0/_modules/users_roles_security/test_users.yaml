@@ -1,0 +1,14 @@
+artemis_roles:
+  amq:
+  - admin
+  - tckuser
+  - superuser
+  - administrator
+
+
+artemis_users:
+  admin: admin
+  tckuser: tckuser
+  superuser: superuser
+  administrator: administrator
+  nobody: nobody

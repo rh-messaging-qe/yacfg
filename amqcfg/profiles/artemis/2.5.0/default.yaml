@@ -63,4 +63,4 @@ broker_xml:
 {% include 'artemis/2.5.0/_modules/login_config/jaas_sufficient.yaml' %}
 
 # management.xml
-{% include 'artemis/2.5.0/_modules/management_xml/default.yaml' %}
+{% include 'artemis/2.5.0/_modules/management_xml/default_connector.yaml' %}

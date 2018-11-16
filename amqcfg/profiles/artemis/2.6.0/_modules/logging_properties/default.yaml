@@ -1,0 +1,50 @@
+# _defaults:
+#  log_level_all: INFO
+#  log_level_root: DEBUG
+#  log_level_server: INFO
+#  log_level_journal: INFO
+#  log_level_utils: INFO
+#  log_level_jms: INFO
+#  log_level_integration: INFO
+#  log_level_jetty: WARN
+#  log_level_handler_console: DEBUG
+#  log_level_handler_file: DEBUG
+
+logging_properties:
+  loggers:
+  - org.eclipse.jetty
+  - org.jboss.logging
+  - org.apache.activemq.artemis.core.server
+  - org.apache.activemq.artemis.utils
+  - org.apache.activemq.artemis.journal
+  - org.apache.activemq.artemis.jms.server
+  - org.apache.activemq.artemis.integration.bootstrap
+  logger_level: '{{ log_level_root|default(log_level_all)|default('INFO') }}'
+  logger_properties:
+  - org.apache.activemq.artemis.core.server.level: '{{ log_level_server|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.core.journal.level: '{{ log_level_journal|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.core.utils.level: '{{ log_level_utils|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.core.jms.level: '{{ log_level_jms|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.core.integration.bootstrap.level: '{{ log_level_integration|default(log_level_all)|default('INFO') }}'
+  - org.eclipse.jetty.level: '{{ log_level_jetty|default(log_level_all)|default('WARN') }}'
+  handlers:
+  - name: CONSOLE
+    class_name: org.jboss.logmanager.handlers.ConsoleHandler
+    level: '{{ log_level_handler_console|default(log_level_all)|default('DEBUG') }}'
+    formatter: PATTERN
+    properties:
+    - autoFlush: true
+  - name: FILE
+    class_name: org.jboss.logmanager.handlers.PeriodicRotatingFileHandler
+    level: '{{ log_level_handler_file|default(log_level_all)|default('DEBUG') }}'
+    formatter: PATTERN
+    properties:
+    - suffix: .yyyy-MM-dd
+    - append: true
+    - autoFlush: true
+    - fileName: ${artemis.instance}/log/artemis.log
+  formatters:
+    - name: PATTERN
+      class_name: org.jboss.logmanager.formatters.PatternFormatter
+      properties:
+      - pattern: "%d %-5p [%c] %s%E%n"

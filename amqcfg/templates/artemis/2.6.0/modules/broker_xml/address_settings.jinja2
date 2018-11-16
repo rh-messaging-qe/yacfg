@@ -1,0 +1,46 @@
+{% if broker_xml.address_settings is defined %}
+    <!-- Address Settings configuration -->
+        <address-settings>
+            {% for address_setting in broker_xml.address_settings %}
+            <address-setting match="{{ address_setting.match }}">
+                {% if address_setting.dead_letter_address is defined %}
+                <dead-letter-address>{{ address_setting.dead_letter_address }}</dead-letter-address>
+                {% endif %}
+                {% if address_setting.expiry_address is defined %}
+                <expiry-address>{{ address_setting.expiry_address }}</expiry-address>
+                {% endif %}
+                {% if address_setting.redelivery_delay is defined %}
+                <redelivery-delay>{{ address_setting.redelivery_delay }}</redelivery-delay>
+                {% endif %}
+                {% if address_setting.redistribution_delay is defined %}
+                <redistribution-delay>{{ address_setting.redistribution_delay }}</redistribution-delay>
+                {% endif %}
+                {% if address_setting.max_size_bytes is defined %}
+                <max-size-bytes>{{ address_setting.max_size_bytes }}</max-size-bytes>
+                {% endif %}
+                {% if address_setting.message_counter_history_day_limit is defined %}
+                <message-counter-history-day-limit>{{ address_setting.message_counter_history_day_limit }}</message-counter-history-day-limit>
+                {% endif %}
+                {% if address_setting.address_full_policy is defined %}
+                <address-full-policy>{{ address_setting.address_full_policy }}</address-full-policy>
+                {% endif %}
+                {% if address_setting.auto_create_queues is defined %}
+                <auto-create-queues>{{ mbool(address_setting.auto_create_queues) }}</auto-create-queues>
+                {% endif %}
+                {% if address_setting.auto_create_addresses  is defined %}
+                <auto-create-addresses>{{ mbool(address_setting.auto_create_addresses) }}</auto-create-addresses>
+                {% endif %}
+                {% if address_setting.auto_create_jms_queues is defined %}
+                <auto-create-jms-queues>{{ mbool(address_setting.auto_create_jms_queues) }}</auto-create-jms-queues>
+                {% endif %}
+                {% if address_setting.quto_create_jms_topics is defined %}
+                <auto-create-jms-topics>{{ mbool(address_setting.auto_create_jms_topics) }}</auto-create-jms-topics>
+                {% endif %}
+            </address-setting>
+                {% if not loop.last %}
+
+                {% endif %}
+            {% endfor %}
+        </address-settings>
+
+{% endif %}

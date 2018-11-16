@@ -1,0 +1,9 @@
+  store:
+  - type: jdbc
+    properties:
+      jdbc_connection_url: {{ jdbc_connection_url }}
+      bindings_table_name: BINDINGS_TABLE
+      message_table_name: MESSAGE_TABLE
+      page_store_table_name: PAGE_TABLE
+      large_message_table_name: LARGE_MESSAGES_TABLE
+      jdbc_driver_class_name: com.ibm.db2.jcc.DB2Driver
