@@ -437,10 +437,10 @@ artemis_profile:
     - -Dcom.sun.management.jmxremote.authenticate=false
     - -XX:+PrintClassHistogram
     - -XX:+UseG1GC
-    - -XX:+AggressiveOpts
-    - -XX:+UseFastAccessorMethods
     - -Xms512M
     - -Xmx2G
+    - -Xloggc:gc.log
+    - -XX:+HeapDumpOnOutOfMemoryError
     - -Dhawtio.realm=activemq
     - -Dhawtio.offline="true"
     - -Dhawtio.role=amq
