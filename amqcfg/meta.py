@@ -13,7 +13,7 @@
 # limitations under the License.
 
 NAME = 'amqcfg'
-VERSION = '0.6.10'
+VERSION = '0.7.0'
 SHORT_DESCRIPTION = 'Template based configuration generator'
 DESCRIPTION = (
     'Template based configuration files generator based on jinja2 and yaml'
