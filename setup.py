@@ -26,7 +26,10 @@ with open('./amqcfg/meta.py', 'r') as meta_file:
 setup(
     name=meta.get('NAME'),
     version=meta.get('VERSION'),
-    packages=['amqcfg'],
+    packages=[
+        'amqcfg',
+        'amqcfg_batch'
+    ],
     entry_points={
         'console_scripts': [
             'amqcfg = amqcfg.amqcfg_cli:main',
