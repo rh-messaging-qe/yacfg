@@ -275,8 +275,10 @@ If you find a bug or room for improvement, submit either a ticket or PR.
 
 _Alphabetically ordered_
 
+* Michal Tóth <mtoth@redhat.com>
 * Otavio Piske <opiske@redhat.com>
-* Zdenek Kraus <zkraus@redhat.com>
+* Sean Davey <sdavey@redhat.com>
+* Zdenek Kraus <zkraus@redhat.com> (maintainer)
 
 ## License
 
