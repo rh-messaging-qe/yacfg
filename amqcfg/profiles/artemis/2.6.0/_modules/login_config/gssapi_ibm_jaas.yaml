@@ -1,0 +1,28 @@
+login_config:
+  - name: msgqekerb
+    modules:
+    - class_name: com.ibm.security.auth.module.Krb5LoginModule
+      flag: sufficient
+      properties:
+      - storeKey: true
+      - keyTab: "/var/dtests/node_data/gssapi/msgqe.com/keytabs/amq-server-6i.keytab"
+      - useTicketCache: false
+      - debug: true
+      - isInitiator: false
+      - useKeyTab: true
+      - principal: "amqp/amq-server-6i.msgqe.com"
+
+  - name: activemq
+    modules:
+    - class_name: org.apache.activemq.artemis.spi.core.security.jaas.Krb5LoginModule
+      flag: optional
+      properties:
+        - debug: true
+
+    - class_name: org.apache.activemq.artemis.spi.core.security.jaas.PropertiesLoginModule
+      flag: sufficient
+      properties:
+      - debug: true
+      - reload: true
+      - org.apache.activemq.jaas.properties.user: "artemis-users.properties"
+      - org.apache.activemq.jaas.properties.role: "artemis-roles.properties"
