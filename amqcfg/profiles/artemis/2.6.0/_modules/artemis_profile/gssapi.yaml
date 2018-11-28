@@ -20,7 +20,7 @@ artemis_profile:
     - -Dhawtio.offline=true
     - -Dhawtio.role=amq
     - -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal
-    - -Djolokia.policyLocation=${ARTEMIS_INSTANCE_ETC_URI}jolokia-access.xml
-    - -Djava.security.krb5.conf=/var/dtests/node_data/gssapi/msgqe.com/msgqe_krb5.conf
+    - -Djolokia.policyLocation=${ARTEMIS_INSTANCE_ETC_URI}/jolokia-access.xml
+    - -Djava.security.krb5.conf={{ gssapi_conf_file_path }}
     - -D{{ jvm_vendor_short_name }}.security.krb5.debug=true
     - -D{{ jvm_vendor_short_name }}.security.jgss.debug=true

@@ -21,8 +21,8 @@
     - useEpoll: true
     - amqpCredits: 1000
     - amqpLowCredits: 300
-    - saslMechanisms: GSSAPI
-    - saslLoginConfigScope: msgqekerb
+    - saslMechanisms: GSSAPI,PLAIN
+    - saslLoginConfigScope: {{ gssapi_sasl_login_config_scope }}
   - name: stomp
     protocol: tcp
     address: 0.0.0.0

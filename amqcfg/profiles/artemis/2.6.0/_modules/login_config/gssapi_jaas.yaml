@@ -1,16 +1,16 @@
 login_config:
-  - name: msgqekerb
+  - name: {{ gssapi_sasl_login_config_scope }}
     modules:
     - class_name: "com.{{ jvm_vendor_short_name }}.security.auth.module.Krb5LoginModule"
       flag: sufficient
       properties:
       - storeKey: true
-      - keyTab: "/var/dtests/node_data/gssapi/msgqe.com/keytabs/amq-server-6i.keytab"
+      - keyTab: {{ gssapi_broker_keytab_path }}
       - useTicketCache: false
       - debug: true
       - {{ jvm_vendor_gssapi_is_initiator_key | default('isInitiator') }}: {{ jvm_vendor_gssapi_is_initiator_value | default('false') }}
       - useKeyTab: true
-      - principal: "amqp/amq-server-6i.msgqe.com"
+      - principal: {{ gssapi_broker_principal }}
 
   - name: activemq
     modules:
