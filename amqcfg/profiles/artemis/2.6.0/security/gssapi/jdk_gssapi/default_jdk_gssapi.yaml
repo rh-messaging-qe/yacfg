@@ -1,0 +1,4 @@
+_defaults:
+  jvm_vendor_short_name: sun
+  jvm_vendor_gssapi_is_initiator_key: isInitiator
+  jvm_vendor_gssapi_is_initiator_value: false

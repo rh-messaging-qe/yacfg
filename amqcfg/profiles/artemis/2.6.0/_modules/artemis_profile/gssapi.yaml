@@ -1,6 +1,7 @@
 # _defaults:
 #   broker_home: /opt/artemis-2.6.0
 #   broker_instance: /opt/artemis-2.6.0-i0/
+#   jvm_vendor_short_name: sun
 
 artemis_profile:
   home: '{{ broker_home }}'
@@ -21,5 +22,5 @@ artemis_profile:
     - -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal
     - -Djolokia.policyLocation=${ARTEMIS_INSTANCE_ETC_URI}jolokia-access.xml
     - -Djava.security.krb5.conf=/var/dtests/node_data/gssapi/msgqe.com/msgqe_krb5.conf
-    - -Dsun.security.krb5.debug=true
-    - -Dsun.security.jgss.debug=true
+    - -D{{ jvm_vendor_short_name }}.security.krb5.debug=true
+    - -D{{ jvm_vendor_short_name }}.security.jgss.debug=true

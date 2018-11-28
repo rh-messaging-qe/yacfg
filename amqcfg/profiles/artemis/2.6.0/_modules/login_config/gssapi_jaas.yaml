@@ -1,7 +1,7 @@
 login_config:
   - name: msgqekerb
     modules:
-    - class_name: com.sun.security.auth.module.Krb5LoginModule
+    - class_name: "com.{{ jvm_vendor_short_name }}.security.auth.module.Krb5LoginModule"
       flag: sufficient
       properties:
       - storeKey: true
