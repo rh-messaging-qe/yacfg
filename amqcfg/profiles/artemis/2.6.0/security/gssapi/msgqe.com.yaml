@@ -4,15 +4,17 @@ _defaults:
   broker_name: amq
   broker_home: /opt/artemis-2.6.0
   broker_instance: /opt/artemis-2.6.0-i0
-  jvm_vendor_ibm: false
-  jvm_vendor_short_name: sun
-  jvm_vendor_gssapi_is_initiator_key: isInitiator
-  jvm_vendor_gssapi_is_initiator_value: false
+  jvm_vendor_ibm: true
+#  jvm_vendor_short_name: sun
+#  jvm_vendor_gssapi_is_initiator_key: isInitiator
+#  jvm_vendor_gssapi_is_initiator_value: false
 
 render:
   generator_notice: True
   licenses: True
   template: artemis/2.6.0
+
+{% include 'artemis/2.6.0/security/gssapi/jdk_gssapi/_selector.yaml' %}
 
 broker_xml:
   name: '{{ broker_name }}'
@@ -26,8 +28,6 @@ broker_xml:
   max_disk_usage: 90
 #  global_max_size: 2GB
 
-
-{% include 'artemis/2.6.0/security/gssapi/jdk_gssapi/_selector.yaml' %}
 
 {% include 'artemis/2.6.0/_modules/broker_xml/critical_analyzer_default.yaml' %}
 
