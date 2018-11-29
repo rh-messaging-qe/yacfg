@@ -47,7 +47,8 @@ def new_profile(profile, dest_profile):
     shutil.copyfile(src, dest_profile)
 
 
-def new_profile_rendered(profile, dest_profile, tuning_files=None):
+def new_profile_rendered(profile, dest_profile, tuning_files=None,
+                         tuning_data_list=None):
     """Export an existing profile in static form, stripped defaults section
 
     :param profile: existing profile name (from user or packaged)
@@ -55,12 +56,15 @@ def new_profile_rendered(profile, dest_profile, tuning_files=None):
     :param dest_profile: filename of new profile
     :type dest_profile: str
     :param tuning_files: user specified tuning file path
-    :type tuning_files: list[str] or None
+    :type tuning_files: list[str] | None
+    :param tuning_data_list: user specific tuning data list
+        provided directly
+    :type tuning_data_list: list[dict] | None
 
     :raises OSError: if there is a problem with destination path
     :raises ProfileError: if there is a problem with the existing template
     """
-    config_data, _ = get_tuned_profile(profile, tuning_files)
+    config_data, _ = get_tuned_profile(profile, tuning_files, tuning_data_list)
 
     dest_path = os.path.dirname(dest_profile)
     dest_name = os.path.basename(dest_profile)

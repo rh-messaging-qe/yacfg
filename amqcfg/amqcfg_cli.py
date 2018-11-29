@@ -54,6 +54,19 @@ def main():
     if options.debug:
         root_logger.setLevel(logging.DEBUG)
 
+    # post-process direct options
+    if options.opt:
+        # list is because generate api expects list of tuning dicts
+        try:
+            # false negative, there is not type mismatch, ArgParse
+            # does not parse KEY=VALUE pairs automatically
+            # noinspection PyTypeChecker
+            options.opt = [parse_key_value_list(options.opt)]
+        except ValueError as exc:
+            error(exc, 2)
+
+    LOG.debug('Direct Tuning options %s', options.opt)
+
     do_not_generate = False
 
     if options.version:
@@ -85,7 +98,8 @@ def main():
                     new_profile_rendered(
                         profile=options.profile,
                         dest_profile=options.new_profile_static,
-                        tuning_files=options.tune
+                        tuning_files=options.tune,
+                        tuning_data_list=options.opt,
                     )
             except (ProfileError, IOError, OSError) as exc:
                 error(exc, 0)
@@ -135,19 +149,6 @@ def main():
         boolize(options.render_generator_notice),
         boolize(options.render_licenses),
     )
-
-    # post-process direct options
-    if options.opt:
-        # list is because generate api expects list of tuning dicts
-        try:
-            # false negative, there is not type mismatch, ArgParse
-            # does not parse KEY=VALUE pairs automatically
-            # noinspection PyTypeChecker
-            options.opt = [parse_key_value_list(options.opt)]
-        except ValueError as exc:
-            error(exc, 2)
-
-    LOG.debug('Direct Tuning options %s', options.opt)
 
     try:
         generate(
