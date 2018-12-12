@@ -4,13 +4,21 @@ _defaults:
   broker_name: amq
   broker_home: /opt/amq-broker-7.2.0
   broker_instance: /opt/amq-broker-7.2.0-i0
+<<<<<<< HEAD
   cluster_multicast_address: 233.7.7.9
+=======
+  cluster_multicast_address: 223.7.7.9
+>>>>>>> NEW(Profiles) Cluster profiles for AMQ7 & Artemis
   cluster_multicast_port: 9876
   cluster_connector_protocol: tcp
   cluster_connector_address: 0.0.0.0
   cluster_connector_port: 61616
   log_level_all: INFO
+<<<<<<< HEAD
   cluster_load_balancing: 'STRICT'
+=======
+  cluster_load_balancing: STRICT
+>>>>>>> NEW(Profiles) Cluster profiles for AMQ7 & Artemis
 
 render:
   generator_notice: True
