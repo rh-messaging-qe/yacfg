@@ -8,7 +8,7 @@ _defaults:
   cluster_multicast_port: 9876
   cluster_connector_address: 0.0.0.0
   log_level_all: INFO
-  cluster_load_balancing: STRICT
+  cluster_load_balancing: 'STRICT'
 
 render:
   generator_notice: True

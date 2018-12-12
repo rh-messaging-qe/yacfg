@@ -10,7 +10,7 @@ _defaults:
   cluster_connector_address: 0.0.0.0
   cluster_connector_port: 61616
   log_level_all: INFO
-  cluster_load_balancing: STRICT
+  cluster_load_balancing: 'STRICT'
 
 render:
   generator_notice: True
