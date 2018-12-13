@@ -1,0 +1,3 @@
+jvm_vendor_short_name: ibm
+jvm_vendor_gssapi_is_initiator_key: credsType
+jvm_vendor_gssapi_is_initiator_value: both
