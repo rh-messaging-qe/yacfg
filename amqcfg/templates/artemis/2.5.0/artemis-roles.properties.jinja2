@@ -4,5 +4,5 @@
 {% include 'libs/licenses/apache-2.0/properties.jinja2' %}
 
 {% for role, users in artemis_roles.items() %}
-{{ role }} = {{ users|join(', ') }}
+{{ role }} = {{ users|join(',') }}
 {% endfor %}
