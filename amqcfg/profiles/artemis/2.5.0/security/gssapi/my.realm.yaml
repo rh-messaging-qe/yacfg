@@ -53,7 +53,7 @@ broker_xml:
 {% include 'artemis/2.5.0/_modules/users_roles_security/gssapi_msgqe.yaml' %}
 
 # bootstrap.xml
-{% include 'artemis/2.5.0/_modules/bootstrap_xml/default.yaml' %}
+{% include 'artemis/2.5.0/_modules/bootstrap_xml/allow.yaml' %}
 
 # jolokia-access.xml
 {% include 'artemis/2.5.0/_modules/jolokia_access/localhost.yaml' %}
