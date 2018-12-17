@@ -3,6 +3,8 @@
 #   broker_instance: /opt/artemis-2.6.0-i0/
 #   jvm_vendor_short_name: sun
 
+{% import 'artemis/2.6.0/_modules/security/jdk_gssapi/jvm_vendor.yaml' as jvm_vendor with context %}
+
 artemis_profile:
   home: '{{ broker_home }}'
   instance: '{{ broker_instance }}'
@@ -22,5 +24,5 @@ artemis_profile:
     - -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal
     - -Djolokia.policyLocation=${ARTEMIS_INSTANCE_ETC_URI}/jolokia-access.xml
     - -Djava.security.krb5.conf={{ gssapi_conf_file_path }}
-    - -D{{ jvm_vendor_short_name }}.security.krb5.debug=true
-    - -D{{ jvm_vendor_short_name }}.security.jgss.debug=true
+    - -D{{ jvm_vendor.short_name | default('sun') }}.security.krb5.debug=true
+    - -D{{ jvm_vendor.short_name | default('sun') }}.security.jgss.debug=true

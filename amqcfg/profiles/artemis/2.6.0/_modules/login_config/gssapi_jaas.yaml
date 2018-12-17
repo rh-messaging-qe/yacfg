@@ -1,14 +1,17 @@
+
+{% import 'artemis/2.6.0/_modules/security/jdk_gssapi/jvm_vendor.yaml' as jvm_vendor with context %}
+
 login_config:
   - name: {{ gssapi_sasl_login_config_scope }}
     modules:
-    - class_name: "com.{{ jvm_vendor_short_name }}.security.auth.module.Krb5LoginModule"
+    - class_name: "com.{{ jvm_vendor.short_name }}.security.auth.module.Krb5LoginModule"
       flag: sufficient
       properties:
       - storeKey: true
       - keyTab: {{ gssapi_broker_keytab_path }}
       - useTicketCache: false
       - debug: true
-      - {{ jvm_vendor_gssapi_is_initiator_key | default('isInitiator') }}: {{ jvm_vendor_gssapi_is_initiator_value | default('false') }}
+      - {{ jvm_vendor.gssapi_is_initiator_key | default('isInitiator') }}: {{ jvm_vendor.gssapi_is_initiator_value | default('false') }}
       - useKeyTab: true
       - principal: {{ gssapi_broker_principal }}
 

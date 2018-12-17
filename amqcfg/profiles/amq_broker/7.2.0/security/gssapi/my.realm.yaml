@@ -5,23 +5,16 @@ _defaults:
   broker_home: /opt/amq-broker-7.2.0
   broker_instance: /opt/amq-broker-7.2.0-i0
   log_level_all: INFO
-  jvm_vendor_ibm: true
   gssapi_broker_keytab_path: /path/to/my_keytabs/mybroker.keytab
   gssapi_broker_principal: amqp/mybroker.myrealm.com
   gssapi_sasl_login_config_scope: krb5loginconfig
   gssapi_conf_file_path: /path/to/my_krb5.conf
-
-# TODO remove following variables -> tmp fix for MSGQE-6245
-  jvm_vendor_short_name: sun
-  jvm_vendor_gssapi_is_initiator_key: isInitiator
-  jvm_vendor_gssapi_is_initiator_value: false
+  jvm_vendor: sun
 
 render:
   generator_notice: True
   licenses: True
   template: artemis/2.6.0
-
-{% include 'artemis/2.6.0/_modules/security/jdk_gssapi/_selector.yaml' %}
 
 broker_xml:
   name: '{{ broker_name }}'

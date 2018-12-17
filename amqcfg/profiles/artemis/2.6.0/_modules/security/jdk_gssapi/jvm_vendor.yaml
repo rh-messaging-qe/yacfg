@@ -1,0 +1,9 @@
+{% if jvm_vendor == 'ibm' %}
+  {% set short_name='ibm' %}
+  {% set gssapi_is_initiator_key='credsType' %}
+  {% set gssapi_is_initiator_value='both' %}
+{% else %}
+  {% set short_name='sun' %}
+  {% set gssapi_is_initiator_key='isInitiator' %}
+  {% set gssapi_is_initiator_value='false' %}
+{% endif %}
