@@ -7,13 +7,18 @@ login_config:
     - class_name: "com.{{ jvm_vendor.short_name }}.security.auth.module.Krb5LoginModule"
       flag: sufficient
       properties:
-      - storeKey: true
-      - keyTab: {{ gssapi_broker_keytab_path }}
-      - useTicketCache: false
-      - debug: true
-      - {{ jvm_vendor.gssapi_is_initiator_key | default('isInitiator') }}: {{ jvm_vendor.gssapi_is_initiator_value | default('false') }}
-      - useKeyTab: true
-      - principal: {{ gssapi_broker_principal }}
+        # Common
+        - principal: {{ gssapi_broker_principal }}
+        - debug: true
+        # IBM / JDK Specific
+        - {{ jvm_vendor.gssapi_is_initiator_key }}: {{ jvm_vendor.gssapi_is_initiator_value }}
+        - {{ jvm_vendor.gssapi_usekeytab_key }}: {{ jvm_vendor.gssapi_usekeytab_value }}
+        # JDK Specific extra
+        {% if jvm_vendor.short_name == 'sun' %}
+        - {{ jvm_vendor.gssapi_keytab_key }}: {{ jvm_vendor.gssapi_keytab_value }}
+        - {{ jvm_vendor.gssapi_storekey_key }}: {{ jvm_vendor.gssapi_storekey_value }}
+        - {{ jvm_vendor.gssapi_useticketcache_key }}: {{ jvm_vendor.gssapi_useticketcache_value }}
+        {% endif %}
 
   - name: activemq
     modules:
