@@ -2,12 +2,14 @@
   {% set short_name='ibm' %}
   {% set gssapi_is_initiator_key='credsType' %}
   {% set gssapi_is_initiator_value='both' %}
+  {% set gssapi_is_initiator_ldap_value='both' %}
   {% set gssapi_usekeytab_key='useKeytab' %}
   {% set gssapi_usekeytab_value=gssapi_broker_keytab_path %}
 {% else %}
   {% set short_name='sun' %}
   {% set gssapi_is_initiator_key='isInitiator' %}
   {% set gssapi_is_initiator_value='false' %}
+  {% set gssapi_is_initiator_ldap_value='true' %}
   {% set gssapi_usekeytab_key='useKeyTab' %}
   {% set gssapi_usekeytab_value='true' %}
   {% set gssapi_keytab_key='keyTab' %}
