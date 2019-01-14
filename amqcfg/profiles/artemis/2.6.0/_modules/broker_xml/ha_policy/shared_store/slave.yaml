@@ -5,3 +5,4 @@
       allow_failback: true
       failback_delay: 5000
       failover_on_shutdown: false
+      restart_backup: true
