@@ -2,7 +2,7 @@
   connectors:
     - name: cluster-connector
       protocol: '{{ cluster_connector_protocol | default('tcp') }}'
-      address: '{{ cluster_connector_address }}'
+      address: '{{ cluster_connector_address | default('0.0.0.0') }}'
       port: '{{ cluster_connector_port | default('61616') }}'
 
   cluster:
