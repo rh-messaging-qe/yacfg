@@ -113,7 +113,9 @@ def get_tuned_profile(profile, tuning_files_list=None, tuning_data_list=None):
     )
 
     tuning_profile = get_profile_template(profile)
+    tuning_data['profile_path'] = tuning_profile.name
     tuned_profile = tuning_profile.render(tuning_data)
+
     try:
         config_data = yaml.load(tuned_profile)
     except yaml.YAMLError as exc:
