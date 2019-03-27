@@ -7,6 +7,7 @@ render:
   generator_notice: True
   licenses: True
   template: artemis/2.6.0
+  profile_path: '{{ profile_path }}'
 
 broker_xml:
   name: amq

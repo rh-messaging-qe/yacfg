@@ -21,9 +21,6 @@
                 {% if store.properties.jdbc_network_timeout is defined %}
                 <jdbc-network-timeout>{{ store.properties.jdbc_network_timeout }}</jdbc-network-timeout>
                 {% endif %}
-                {% if store.properties.jdbc_lock_acquisition_timeout is defined %}
-                <jdbc-lock-acquisition-timeout>{{ store.properties.jdbc_lock_acquisition_timeout  }}</jdbc-lock-acquisition-timeout>
-                {% endif %}
                 {% if store.properties.jdbc_lock_renew_period is defined %}
                 <jdbc-lock-renew-period>{{ store.properties.jdbc_lock_renew_period  }}</jdbc-lock-renew-period>
                 {% endif %}
