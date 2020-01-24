@@ -1,0 +1,16 @@
+{% if broker_xml.critical_analyzer is defined %}
+    <!-- Critical Analyzer configuration -->
+        <critical-analyzer>{{ mbool(broker_xml.critical_analyzer.enabled) }}</critical-analyzer>
+    {% if broker_xml.critical_analyzer.enabled %}
+        {% if broker_xml.critical_analyzer.timeout is defined %}
+        <critical-analyzer-timeout>{{ broker_xml.critical_analyzer.timeout }}</critical-analyzer-timeout>
+        {% endif %}
+        {% if broker_xml.critical_analyzer.check_period is defined %}
+        <critical-analyzer-check-period>{{ broker_xml.critical_analyzer.check_period }}</critical-analyzer-check-period>
+        {% endif %}
+        {% if broker_xml.critical_analyzer.policy is defined %}
+        <critical-analyzer-policy>{{ broker_xml.critical_analyzer.policy }}</critical-analyzer-policy>
+        {% endif %}
+    {% endif %}
+
+{% endif %}

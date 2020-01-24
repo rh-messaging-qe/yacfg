@@ -1,0 +1,21 @@
+#  _defaults:
+#    ha_group_name: my-artemis-ha-group
+#    ha_vote_ont_replication_failure: true
+#    ha_allow_failback: true
+
+  ha_policy:
+  - policy: replication
+    role: slave
+    properties:
+      group_name: {{ ha_group_name | default('my-artemis-ha-group') }}
+      vote_on_replication_failure: {{ ha_vote_on_replication_failure | default('true') }}
+      allow_failback: {{ ha_allow_failback | default('true') }}
+# Implicit default values
+#      cluster_name: <name>
+#      scale_down: TODO
+#      initial_replication_sync_timeout: 30000
+#      restart_backup: true
+#      failback_delay: 5000
+#      quorum_size: -1
+#      vote_retries: 12
+#      vote_retry_wait: 5000

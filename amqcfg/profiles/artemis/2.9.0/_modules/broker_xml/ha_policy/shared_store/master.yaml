@@ -1,0 +1,7 @@
+  ha_policy:
+  - policy: shared-store
+    role: master
+    properties:
+      failback_delay: 5000
+      failover_on_shutdown: false
+      wait_for_activation: true
