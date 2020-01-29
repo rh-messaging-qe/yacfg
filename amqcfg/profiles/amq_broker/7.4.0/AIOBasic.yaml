@@ -41,7 +41,7 @@ broker_xml:
 {% include 'artemis/2.9.0/_modules/users_roles_security/test_users.yaml' %}
 
 # bootstrap.xml
-{% include 'amq_broker/7.2.0/_modules/bootstrap_xml/allow.yaml' %}
+{% include 'amq_broker/7.4.0/_modules/bootstrap_xml/allow.yaml' %}
 
 # jolokia-access.xml
 {% include 'artemis/2.9.0/_modules/jolokia_access/allow.yaml' %}
