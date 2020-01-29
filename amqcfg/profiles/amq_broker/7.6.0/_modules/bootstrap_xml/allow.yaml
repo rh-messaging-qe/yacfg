@@ -14,7 +14,7 @@ bootstrap_xml:
       war: redhat-branding.war
     - url: artemis-plugin
       war: artemis-plugin.war
-    - url: dispatch-hawtio-console
-      war: dispatch-hawtio-console.war
     - url: console
       war: console.war
+    - url: metrics
+      war: metrics.war

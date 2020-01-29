@@ -16,3 +16,5 @@ bootstrap_xml:
       war: artemis-plugin.war
     - url: console
       war: console.war
+    - url: metrics
+      war: metrics.war
