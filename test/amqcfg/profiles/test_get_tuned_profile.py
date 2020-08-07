@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import copy
 
 import mock
 import pytest
@@ -31,13 +32,14 @@ def test_no_tuning(*_):
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = expected_data[0]
+    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
     amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
+    fake_profile.name = profile_name
     amqcfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
@@ -55,8 +57,11 @@ def test_no_tuning(*_):
     amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
     amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+
+    expected_data_render = copy.deepcopy(expected_data[0])
+    expected_data_render['profile_path'] = profile_name
     fake_profile.render.assert_called_with(
-        expected_data[0]
+        expected_data_render
     )
 
 
@@ -69,13 +74,14 @@ def test_tuning_data(*_):
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = expected_data[0]
+    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
     amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
+    fake_profile.name = profile_name
     amqcfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
@@ -96,8 +102,11 @@ def test_tuning_data(*_):
     amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
     amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+
+    expected_data_render = copy.deepcopy(expected_data[0])
+    expected_data_render['profile_path'] = profile_name
     fake_profile.render.assert_called_with(
-        expected_data[0]
+        expected_data_render
     )
 
 
@@ -111,13 +120,14 @@ def test_tuning_files_data(*_):
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = expected_data[0]
+    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
     amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
+    fake_profile.name = profile_name
     amqcfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
@@ -139,8 +149,11 @@ def test_tuning_files_data(*_):
     amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
     amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+
+    expected_data_render = copy.deepcopy(expected_data[0])
+    expected_data_render['profile_path'] = profile_name
     fake_profile.render.assert_called_with(
-        expected_data[0]
+        expected_data_render
     )
 
 
@@ -154,13 +167,14 @@ def test_tuning_files(*_):
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = expected_data[0]
+    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
     amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
+    fake_profile.name = profile_name
     amqcfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
@@ -182,8 +196,11 @@ def test_tuning_files(*_):
     amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
     amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+
+    expected_data_render = copy.deepcopy(expected_data[0])
+    expected_data_render['profile_path'] = profile_name
     fake_profile.render.assert_called_with(
-        expected_data[0]
+        expected_data_render
     )
 
 
