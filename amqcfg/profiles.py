@@ -117,7 +117,7 @@ def get_tuned_profile(profile, tuning_files_list=None, tuning_data_list=None):
     tuned_profile = tuning_profile.render(tuning_data)
 
     try:
-        config_data = yaml.load(tuned_profile)
+        config_data = yaml.load(stream=tuned_profile, Loader=yaml.SafeLoader)
     except yaml.YAMLError as exc:
         raise ProfileError(
             'Unable to parse tuned profile "{}" {}'.format(
@@ -143,7 +143,7 @@ def load_profile_defaults(profile):
     # scratch render of profile template for _defaults extraction
     scratch_profile = get_profile_template(profile)
     scratch_profile = scratch_profile.render()
-    tmp_data = yaml.load(scratch_profile)
+    tmp_data = yaml.load(stream=scratch_profile, Loader=yaml.SafeLoader)
     tuning_data = tmp_data.get('_defaults', {})
     LOG.debug('Tuning data: %s', tuning_data)
     return tuning_data
