@@ -102,14 +102,15 @@ def test_advanced(*_):
         common,
         profile_file_data
     )
+    import os
 
     calls = [
-        mock.call(profile='test', template=None, output_path='test/service',
+        mock.call(profile='test', template=None, output_path=os.path.join('test','service'),
                   tuning_files_list=None, tuning_data_list=None),
-        mock.call(profile='test2', template=None, output_path='test/service2',
+        mock.call(profile='test2', template=None, output_path=os.path.join('test','service2'),
                   tuning_files_list=['a'], tuning_data_list=None),
         mock.call(profile='test2', template='My Template',
-                  output_path='test/service3', tuning_files_list=None,
+                  output_path=os.path.join('test','service3'), tuning_files_list=None,
                   tuning_data_list=[{'a': 1}]),
     ]
 
