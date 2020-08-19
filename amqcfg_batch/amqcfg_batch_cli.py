@@ -19,7 +19,7 @@ import sys
 
 from amqcfg import logger_settings
 from amqcfg.meta import VERSION, NAME
-from amqcfg_batch import generate
+from .amqcfg_batch import generate
 from .cli_arguments import parser
 
 logger_settings.config_console_logger()
