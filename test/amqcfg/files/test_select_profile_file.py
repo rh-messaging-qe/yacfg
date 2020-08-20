@@ -18,12 +18,13 @@ import mock
 import pytest
 
 import amqcfg.files
+import amqcfg.meta
 from amqcfg.exceptions import ProfileError
 from .fakes import fake_module_path, fake_profile_path, fake_os_abspath
 
 
 @mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
-@mock.patch('os.path.isfile', side_effect=(False, True))
+@mock.patch('os.path.isfile', side_effect=(False, False, True))
 def test_packaged_true(*_):
     """Packaged profile selection"""
     expected_name = 'packaged_profile.yaml'
@@ -34,7 +35,7 @@ def test_packaged_true(*_):
 
 
 @mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
-@mock.patch('os.path.isfile', side_effect=(True, True))
+@mock.patch('os.path.isfile', side_effect=(True, True, True))
 @mock.patch('os.path.abspath', side_effect=fake_os_abspath)
 def test_user_true(*_):
     """User Specified profile selection"""
@@ -46,7 +47,31 @@ def test_user_true(*_):
 
 
 @mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
-@mock.patch('os.path.isfile', side_effect=(False, False))
+@mock.patch('os.path.isfile', side_effect=(True, False, True))
+@mock.patch('os.path.abspath', side_effect=fake_os_abspath)
+def test_user_basedir_true(*_):
+    """User Specified profile selection"""
+    expected_name = 'user_profile.yaml'
+    expected_path = fake_os_abspath(amqcfg.meta.PROFILES)
+    result_name, result_path = amqcfg.files.select_profile_file(expected_name)
+    assert result_name == expected_name
+    assert result_path == expected_path
+
+
+@mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
+@mock.patch('os.path.isfile', side_effect=(True, True, True))
+@mock.patch('os.path.abspath', side_effect=fake_os_abspath)
+def test_user_both_true(*_):
+    """User Specified profile selection"""
+    expected_name = 'user_profile.yaml'
+    expected_path = os.path.dirname(fake_os_abspath(''))
+    result_name, result_path = amqcfg.files.select_profile_file(expected_name)
+    assert result_name == expected_name
+    assert result_path == expected_path
+
+
+@mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
+@mock.patch('os.path.isfile', side_effect=(False, False, False))
 def test_non_existing(*_):
     """Non-existing packaged profile selection"""
     expected_name = 'non_existing_packaged_profile.yaml'
@@ -55,7 +80,7 @@ def test_non_existing(*_):
 
 
 @mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
-@mock.patch('os.path.isfile', side_effect=(False, False))
+@mock.patch('os.path.isfile', side_effect=(False, False, False))
 @mock.patch('os.path.abspath', side_effect=fake_os_abspath)
 def test_user_non_existing(*_):
     """Non-existing user profile selection"""
