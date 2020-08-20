@@ -23,16 +23,9 @@ repos:
     additional_dependencies: [pytest, mock, jinja2, pyyaml]
     python_version: python2.7
     pass_filenames: false
-  - id: tox 27
-    name: tox 27
-    entry: tox -e py27
-    files: ^(.*py)$
-    language: python
-    additional_dependencies: [tox]
-    pass_filenames: false
-  - id: tox 36
-    name: tox 36
-    entry: tox -e py36
+  - id: tox
+    name: tox
+    entry: tox
     files: ^(.*py)$
     language: python
     additional_dependencies: [tox]

@@ -18,12 +18,13 @@ import mock
 import pytest
 
 import amqcfg.files
+from amqcfg import meta
 from amqcfg.exceptions import TemplateError
 from .fakes import fake_templates_path
 
 
 @mock.patch('amqcfg.files.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.path.isdir', side_effect=(False, True))
+@mock.patch('os.path.isdir', side_effect=(False, False, True))
 @mock.patch('os.path.isfile', side_effect=(True,))
 def test_packaged_true(*_):
     """Packaged template selection"""
@@ -33,16 +34,36 @@ def test_packaged_true(*_):
 
 
 @mock.patch('amqcfg.files.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.path.isdir', side_effect=(True, True))
+@mock.patch('os.path.isdir', side_effect=(False, True, True))
 @mock.patch('os.path.isfile', side_effect=(True,))
 def test_user_true(*_):
     """User specified template selection"""
-    template_name = 'user_product/1.0.0'
+    template_name = 'custom/user_product/1.0.0'
     assert amqcfg.files.select_template_dir(template_name) == template_name
 
 
 @mock.patch('amqcfg.files.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.path.isdir', side_effect=(False, False))
+@mock.patch('os.path.isdir', side_effect=(True, False, True))
+@mock.patch('os.path.isfile', side_effect=(True,))
+def test_user_basedir_true(*_):
+    """User specified template selection"""
+    template_name = 'user_product/1.0.0'
+    expected_name = os.path.join(meta.TEMPLATES, template_name)
+    assert amqcfg.files.select_template_dir(template_name) == expected_name
+
+
+@mock.patch('amqcfg.files.get_templates_path', side_effect=fake_templates_path)
+@mock.patch('os.path.isdir', side_effect=(True, True, True))
+@mock.patch('os.path.isfile', side_effect=(True,))
+def test_user_both_true(*_):
+    """User specified template selection"""
+    template_name = 'user_product/1.0.0'
+    expected_name = template_name
+    assert amqcfg.files.select_template_dir(template_name) == expected_name
+
+
+@mock.patch('amqcfg.files.get_templates_path', side_effect=fake_templates_path)
+@mock.patch('os.path.isdir', side_effect=(False, False, False))
 @mock.patch('os.path.isfile', side_effect=(True,))
 def test_not_directory(*_):
     """Template set not a directory"""
@@ -52,7 +73,7 @@ def test_not_directory(*_):
 
 
 @mock.patch('amqcfg.files.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.path.isdir', side_effect=(False, True))
+@mock.patch('os.path.isdir', side_effect=(False, False, True))
 @mock.patch('os.path.isfile', side_effect=(False,))
 def test_packaged_missing_template_marker(*_):
     """Packaged Template set not a directory"""
@@ -62,7 +83,7 @@ def test_packaged_missing_template_marker(*_):
 
 
 @mock.patch('amqcfg.files.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.path.isdir', side_effect=(True, True))
+@mock.patch('os.path.isdir', side_effect=(True, True, True))
 @mock.patch('os.path.isfile', side_effect=(False,))
 def test_user_missing_template_marker(*_):
     """User specified Template set not a directory"""
