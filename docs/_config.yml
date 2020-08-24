@@ -1,0 +1,14 @@
+# Book settings
+title: YamlConfiger
+author: rh-messaging-qe
+repository:
+  url: https://github.com/rh-messaging-qe/YamlConfiger
+  path_to_book: docs
+html:
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: true
+
+sphinx:
+  extra_extensions:
+    - 'sphinx.ext.autodoc'
