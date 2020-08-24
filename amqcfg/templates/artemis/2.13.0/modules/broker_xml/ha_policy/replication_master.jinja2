@@ -1,0 +1,32 @@
+        {% if policy.role == 'master' %}
+            {% if policy.properties is not defined %}
+                <master/>
+            {% else %}
+                <master>
+                    {% if policy.properties.cluster_name is defined %}
+                    <cluster-name>{{ policy.properties.cluster_name  }}</cluster-name>
+                    {% endif %}
+                    {% if policy.properties.group_name is defined %}
+                    <group-name>{{ policy.properties.group_name  }}</group-name>
+                    {% endif %}
+                    {% if policy.properties.vote_on_replication_failure is defined %}
+                    <vote-on-replication-failure>{{ mbool(policy.properties.vote_on_replication_failure)  }}</vote-on-replication-failure>
+                    {% endif %}
+                    {% if policy.properties.check_for_live_server is defined %}
+                    <check-for-live-server>{{ mbool(policy.properties.check_for_live_server) }}</check-for-live-server>
+                    {% endif %}
+                    {% if policy.properties.initial_replication_sync_timeout is defined %}
+                    <initial-replication-sync-timeout>{{ policy.properties.initial_replication_sync_timeout  }}</initial-replication-sync-timeout>
+                    {% endif %}
+                    {% if policy.properties.quorum_size is defined %}
+                    <quorum-size>{{ policy.properties.quorum_size  }}</quorum-size>
+                    {% endif %}
+                    {% if policy.properties.vote_retries is defined %}
+                    <vote-retries>{{ policy.properties.vote_retries  }}</vote-retries>
+                    {% endif %}
+                    {% if policy.properties.vote_retry_wait is defined %}
+                    <vote-retry-wait>{{ policy.properties.vote_retry_wait  }}</vote-retry-wait>
+                    {% endif %}
+                </master>
+            {% endif %}
+        {% endif %} {# end of master #}

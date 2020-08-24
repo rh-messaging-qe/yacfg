@@ -1,0 +1,38 @@
+{% if store.type == 'jdbc' %}
+            <database-store>
+              {% if store.properties.jdbc_masked_username is defined and store.properties.jdbc_masked_password is defined and
+               store.properties.jdbc_masked_username != 'None' and store.properties.jdbc_masked_password != 'None' %}
+                <jdbc-connection-url>{{ store.properties.jdbc_connection_url_short }}</jdbc-connection-url>
+                <jdbc-user>ENC({{ store.properties.jdbc_masked_username }})</jdbc-user>
+                <jdbc-password>ENC({{ store.properties.jdbc_masked_password }})</jdbc-password>
+              {% else %}
+                {% if store.properties.jdbc_connection_url is defined %}
+                <jdbc-connection-url>{{ store.properties.jdbc_connection_url }}</jdbc-connection-url>
+                {% endif %}
+              {% endif %}
+                {% if store.properties.binding_table_name is defined %}
+                <bindings-table-name>{{ store.properties.binding_table_name }}</bindings-table-name>
+                {% endif %}
+                {% if store.properties.message_table_name is defined %}
+                <message-table-name>{{ store.properties.message_table_name  }}</message-table-name>
+                {% endif %}
+                {% if store.properties.page_store_table_name is defined %}
+                <page-store-table-name>{{ store.properties.page_store_table_name  }}</page-store-table-name>
+                {% endif %}
+                {% if store.properties.large_message_table_name is defined %}
+                <large-message-table-name>{{ store.properties.large_message_table_name }}</large-message-table-name>
+                {% endif %}
+                {% if store.properties.jdbc_driver_class_name is defined %}
+                <jdbc-driver-class-name>{{ store.properties.jdbc_driver_class_name  }}</jdbc-driver-class-name>
+                {% endif %}
+                {% if store.properties.jdbc_network_timeout is defined %}
+                <jdbc-network-timeout>{{ store.properties.jdbc_network_timeout }}</jdbc-network-timeout>
+                {% endif %}
+                {% if store.properties.jdbc_lock_renew_period is defined %}
+                <jdbc-lock-renew-period>{{ store.properties.jdbc_lock_renew_period  }}</jdbc-lock-renew-period>
+                {% endif %}
+                {% if store.properties.jdbc_lock_expiration is defined %}
+                <jdbc-lock-expiration>{{ store.properties.jdbc_lock_expiration  }}</jdbc-lock-expiration>
+                {% endif %}
+            </database-store>
+{% endif %}

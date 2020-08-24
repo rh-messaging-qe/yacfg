@@ -1,0 +1,30 @@
+# cluster related configurations
+  connectors:
+    - name: cluster-connector
+      protocol: '{{ cluster_connector_protocol | default('tcp') }}'
+      address: '{{ cluster_connector_address | default('0.0.0.0') }}'
+      port: '{{ cluster_connector_port | default('61616') }}'
+
+  cluster:
+    user: artemis_cluster_admin
+    password: cluster_secret_password
+
+  broadcast_groups:
+  - name: cluster-broadcast-group
+    address: '{{ cluster_multicast_address }}'
+    port: '{{ cluster_multicast_port }}'
+    broadcast_period: 5000
+    connector_ref: cluster-connector
+
+  discovery_groups:
+  - name: cluster-discovery-group
+    address: '{{ cluster_multicast_address }}'
+    port: '{{ cluster_multicast_port }}'
+    refresh_timeout: 10000
+
+  cluster_connections:
+    - name: artemis-cluster
+      connector_ref: cluster-connector
+      message_load_balancing: '{{ cluster_load_balancing }}'
+      max_hops: 1
+      discovery_group_ref: cluster-discovery-group

@@ -1,0 +1,5 @@
+{% if policy.policy == 'live-only' %}
+            <live-only>
+                {% include 'modules/broker_xml/ha_policy/live_only_scale_down.jinja2' %}
+            </live-only>
+{% endif %}

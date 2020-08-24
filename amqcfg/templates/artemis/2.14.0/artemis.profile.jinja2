@@ -1,0 +1,67 @@
+{% include 'libs/headers/properties_headers.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/properties.jinja2' %}
+
+{% if artemis_profile.home is defined %}
+ARTEMIS_HOME='{{ artemis_profile.home }}'
+{% endif %}
+{% if artemis_profile.instance is defined %}
+ARTEMIS_INSTANCE='{{ artemis_profile.instance }}'
+{% endif %}
+{% if artemis_profile.data_dir is defined %}
+ARTEMIS_DATA_DIR='{{ artemis_profile.data_dir }}'
+{% endif %}
+
+{% if artemis_profile.instance_uri is defined or artemis_profile.instance_etc_uri is defined %}
+# The logging config will need an URI
+# this will be encoded in case you use spaces or special characters
+# on your directory structure
+    {% if artemis_profile.instance_uri is defined %}
+ARTEMIS_INSTANCE_URI='{{ artemis_profile.instance_uri }}'
+    {% endif %}
+    {% if artemis_profile.instance_etc_uri is defined %}
+ARTEMIS_INSTANCE_ETC_URI='{{ artemis_profile.instance_etc_uri }}'
+    {% endif %}
+{% endif %}
+
+{% if artemis_profile.cluster_properties is defined %}
+# Cluster Properties: Used to pass arguments to ActiveMQ Artemis which can be referenced in broker.xml
+ARTEMIS_CLUSTER_PROPS="{{ artemis_profile.cluster_properties|join(' ') }}"
+{% else %}
+# Cluster Properties: Used to pass arguments to ActiveMQ Artemis which can be referenced in broker.xml
+#ARTEMIS_CLUSTER_PROPS="-Dactivemq.remoting.default.port=61617 -Dactivemq.remoting.amqp.port=5673 -Dactivemq.remoting.stomp.port=61614 -Dactivemq.remoting.hornetq.port=5446"
+{% endif %}
+
+{% if artemis_profile.java_args is defined %}
+# Java Opts
+JAVA_ARGS="{{- artemis_profile.java_args|join(' ') -}}"
+{% endif %}
+
+{% if artemis_profile.java_args_run is defined %}
+# Java argument for "run" action
+if [ "$1" = "run" ]; then
+    JAVA_ARGS="$JAVA_ARGS {{ artemis_profile.java_args_run|join(' ') -}}"
+fi
+{% else %}
+# There might be options that you only want to enable on specifc commands, like setting a JMX port
+# See https://issues.apache.org/jira/browse/ARTEMIS-318
+#if [ "$1" = "run" ]; then
+#  JAVA_ARGS="$JAVA_ARGS -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1098 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+#fi
+{% endif %}
+
+
+# Logs Safepoints JVM pauses: Uncomment to enable them
+# In addition to the traditional GC logs you could enable some JVM flags to know any meaningful and "hidden" pause that could
+# affect the latencies of the services delivered by the broker, including those that are not reported by the classic GC logs
+# and dependent by JVM background work (eg method deoptimizations, lock unbiasing, JNI, counted loops and obviously GC activity).
+# Replace "all_pauses.log" with the file name you want to log to.
+# JAVA_ARGS="$JAVA_ARGS -XX:+PrintSafepointStatistics -XX:PrintSafepointStatisticsCount=1 -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+LogVMOutput -XX:LogFile=all_pauses.log"
+
+# Debug args: Uncomment to enable debug
+#DEBUG_ARGS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+
+{% if artemis_profile.debug_args is defined %}
+# Debug args: Uncomment to enable debug
+DEBUG_ARGS="$DEBUG_ARGS {{ artemis_profile.debug_args|join(' ') }}"
+{% endif %}

@@ -1,0 +1,28 @@
+{% if broker_xml.addresses is defined %}
+    <!-- Addresses configuration -->
+        <addresses>
+            {% for address in broker_xml.addresses %}
+            <address name="{{ address.name }}">
+                {% if address.anycast %}
+                <anycast>
+                    {% for node in address.anycast %}
+                        {% include 'modules/broker_xml/queue.jinja2' %}
+                    {% endfor %}
+                </anycast>
+                {% endif %}
+                {% if address.multicast is defined %}
+                {% if address.multicast is sameas true %}
+                <multicast/>
+                {% else %}
+                <multicast>
+                    {% for node in address.multicast %}
+                        {% include 'modules/broker_xml/queue.jinja2' %}
+                    {% endfor %}
+                </multicast>
+                {% endif %}
+                {% endif %}
+            </address>
+            {% endfor %}
+        </addresses>
+
+{% endif %}
