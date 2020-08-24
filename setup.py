@@ -14,22 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Version reading from amqcfg/meta.py
 # according to (3b) from:
 # https://packaging.python.org/guides/single-sourcing-package-version/
 meta = {}
-with open('./amqcfg/meta.py', 'r') as meta_file:
-    exec (meta_file.read(), meta)
+with open('./src/amqcfg/meta.py', 'r') as meta_file:
+    exec(meta_file.read(), meta)
 
 setup(
     name=meta.get('NAME'),
     version=meta.get('VERSION'),
-    packages=[
-        'amqcfg',
-        'amqcfg_batch'
-    ],
+    packages=find_packages(where="src"),
+    package_dir={'': 'src'},
     entry_points={
         'console_scripts': [
             'amqcfg = amqcfg.amqcfg_cli:main',
@@ -54,6 +52,7 @@ setup(
     description=meta.get('SHORT_DESCRIPTION'),
     long_description=meta.get('DESCRIPTION'),
     include_package_data=True,
+    # package_data={'amqcfg': ['src/amqcfg/profiles/*/*', 'src/amqcfg/templates/*/*'']},
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
