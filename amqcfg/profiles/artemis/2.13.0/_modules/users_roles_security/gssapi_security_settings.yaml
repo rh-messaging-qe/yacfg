@@ -1,0 +1,23 @@
+  security_settings:
+    - match: '#'
+      permissions:
+        createNonDurableQueue:
+        - amq,senders,receivers
+        deleteNonDurableQueue:
+        - amq
+        createDurableQueue:
+        - amq,senders,receivers
+        deleteDurableQueue:
+        - amq
+        createAddress:
+        - amq,senders,receivers
+        deleteAddress:
+        - amq
+        consume:
+        - amq,receivers
+        browse:
+        - amq,senders,receivers
+        send:
+        - amq,senders
+        manage:
+        - amq

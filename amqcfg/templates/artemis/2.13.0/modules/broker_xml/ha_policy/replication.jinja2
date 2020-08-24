@@ -1,0 +1,11 @@
+{% if policy.policy == 'replication' %}
+            {% if policy.role is not defined %}
+            <replication/>
+            {% else %}
+            <replication>
+                {% include 'modules/broker_xml/ha_policy/replication_master.jinja2' %}
+                {% include 'modules/broker_xml/ha_policy/replication_slave.jinja2' %}
+                {% include 'modules/broker_xml/ha_policy/replication_colocated.jinja2' %}
+            </replication>
+            {% endif %}
+{% endif %}

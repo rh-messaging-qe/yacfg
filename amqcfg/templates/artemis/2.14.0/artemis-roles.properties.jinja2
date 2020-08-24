@@ -1,0 +1,8 @@
+{#  Jinja 2 template for Artemis etc/artemis-roles.properties #}
+{% include 'libs/headers/properties_headers.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/properties.jinja2' %}
+
+{% for role, users in artemis_roles.items() %}
+{{ role }} = {{ users|join(',') }}
+{% endfor %}

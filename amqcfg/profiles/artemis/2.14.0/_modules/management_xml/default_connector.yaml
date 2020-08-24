@@ -1,0 +1,40 @@
+management_xml:
+  connector:
+    host: 0.0.0.0
+    port: 1099
+  whitelist:
+  - domain: hawtio
+  default_access:
+    - method: 'list*'
+      roles:
+      - amq
+    - method: 'get*'
+      roles:
+      - amq
+    - method: 'is*'
+      roles:
+      - amq
+    - method: 'set*'
+      roles:
+      - amq
+    - method: '*'
+      roles:
+      - amq
+  role_access:
+    - domain: org.apache.activemq.artemis
+      access:
+      - method: 'list*'
+        roles:
+        - amq
+      - method: 'get*'
+        roles:
+        - amq
+      - method: 'is*'
+        roles:
+        - amq
+      - method: 'set*'
+        roles:
+        - amq
+      - method: '*'
+        roles:
+        - amq

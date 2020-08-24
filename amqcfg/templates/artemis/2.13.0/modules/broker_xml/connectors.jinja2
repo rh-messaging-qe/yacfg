@@ -1,0 +1,23 @@
+{% if broker_xml.connectors is defined %}
+    <!-- Connectors configuration -->
+        <connectors>
+    {% for connector in broker_xml.connectors %}
+            <connector name="{{ connector.name }}">
+            {{- url(connector.protocol, connector.address, connector.port) -}}
+            {%- if connector.properties is defined -%}
+                ?
+                {%- for option in connector.properties -%}
+                    {%- for key, value in option.items() -%}{{ key }}={{ mbool(value) }}
+                        {%- if not loop.last -%};
+                        {%- endif -%}
+                    {%- endfor -%}
+                    {%- if not loop.last -%};
+                    {%- endif -%}
+                {%- endfor -%}
+            {%- endif -%}
+
+            </connector>
+    {% endfor %}
+        </connectors>
+
+{% endif %}

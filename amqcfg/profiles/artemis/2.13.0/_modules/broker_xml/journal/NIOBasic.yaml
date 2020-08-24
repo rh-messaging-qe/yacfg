@@ -1,0 +1,6 @@
+  journal:
+    persistence_enabled: true
+    type: '{{ journal_type|default('NIO') }}'
+    directory: data/journal
+    min_files: 2
+    pool_files: -1
