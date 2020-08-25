@@ -8,9 +8,7 @@ Furthermore, it is possible to use its API in your python code.
 
 ## Documentation
 
-this readme and docstrings, for now. Sorry about that.
-
-I would like to have [readthedocs.org](http://readthedocs.org) documentation.
+Formatted documentation can be viewed at [rh-messaging-qe.github.io/YamlConfiger/index.html](https://rh-messaging-qe.github.io/YamlConfiger/index.html).
 
 ## Contributing
 
