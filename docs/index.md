@@ -14,14 +14,14 @@ Formatted documentation can be viewed at [rh-messaging-qe.github.io/YamlConfiger
 
 If you find a bug or room for improvement, submit either a ticket or PR.
 
-## Contributors
+## Maintainers
 
 _Alphabetically ordered_
 
-* Michal Tóth <mtoth@redhat.com>
-* Otavio Piske <opiske@redhat.com>
-* Sean Davey <sdavey@redhat.com>
-* Zdenek Kraus <zkraus@redhat.com> (maintainer)
+* Dominik Lenoch <dlenoch@redhat.com>
+* Zdenek Kraus <zkraus@redhat.com>
+
+See GitHub statistics for an [up-to-date list of contributors](https://github.com/rh-messaging-qe/YamlConfiger/graphs/contributors).
 
 ## License
 
