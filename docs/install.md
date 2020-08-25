@@ -11,7 +11,7 @@ for contributors:
 ## From git
 
 ```bash
-git clone git@bitbucket.org:msgqe/amqcfg.git
+git clone https://github.com/rh-messaging-qe/YamlConfiger.git
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
 ./setup.py install
