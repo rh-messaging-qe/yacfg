@@ -1,6 +1,6 @@
 # Getting started
 
-* python 3.5+ or python2.7
+* Python 3.6+
 * current requirements from setup.py (runtime requirements only)
 * python virtualenv recommended (install via system package manager
 or `pip install --user virtualenv`)
