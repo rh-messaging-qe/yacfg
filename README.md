@@ -26,7 +26,7 @@ source venv3/bin/activate
 amqcfg --help
 ```
 
-### From PiPy
+### From PyPI
 
 ```bash
 python -m virtualenv -p python3 venv3
@@ -116,7 +116,7 @@ amqcfg --template my_new_template --profile [PROFILE]
 Direct use of API is to use `generate()` nearly the same as the CLI.
 With option to use tuning values directly.
 
-Tuning data will be overlaid in order of appereance, using python
+Tuning data will be overlaid in order of appearance, using python
 dict.update(), so values that will appear later will overwrite previous
 values. We recommend that tuning values are always flat, because update
 is not recursive. The same applies for data from tuning files as well

@@ -1,0 +1,9 @@
+- file: index
+- file: install
+- file: usage
+  sections:
+  - file: customization
+  - file: batch
+- file: api
+  sections:
+  - file: public
