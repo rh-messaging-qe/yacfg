@@ -72,11 +72,19 @@ def select_profile_file(profile_name):
     profiles_path = get_profiles_path()
     selected_template_path = profiles_path
     selected_template_name = profile_name
-    if os.path.isfile(profile_name):
-        profile_name = os.path.abspath(profile_name)
-        selected_template_path = os.path.dirname(profile_name)
-        selected_template_name = os.path.basename(profile_name)
-        LOG.debug('Using user defined template path "%s"', profile_name)
+
+    user_extra_path = os.path.join(PROFILES, profile_name)
+    if os.path.isfile(user_extra_path):  # user path omitting 'profile' dir
+        profile_tmp_name = os.path.abspath(user_extra_path)
+        selected_template_path = os.path.dirname(profile_tmp_name)
+        selected_template_name = os.path.basename(profile_tmp_name)
+        LOG.debug('Using user defined template path "%s"', profile_tmp_name)
+
+    if os.path.isfile(profile_name):  # user direct path
+        profile_tmp_name = os.path.abspath(profile_name)
+        selected_template_path = os.path.dirname(profile_tmp_name)
+        selected_template_name = os.path.basename(profile_tmp_name)
+        LOG.debug('Using user defined template path "%s"', profile_tmp_name)
 
     complete_path = os.path.join(selected_template_path,
                                  selected_template_name)
@@ -100,6 +108,10 @@ def select_template_dir(template_name):
     """
     templates_path = get_templates_path()
     selected_template_path = os.path.join(templates_path, template_name)
+    user_extra_path = os.path.join(TEMPLATES, template_name)
+    if os.path.isdir(user_extra_path):
+        selected_template_path = user_extra_path
+        LOG.debug('Using user defined template path "%s"', template_name)
     if os.path.isdir(template_name):
         selected_template_path = template_name
         LOG.debug('Using user defined template path "%s"', template_name)
