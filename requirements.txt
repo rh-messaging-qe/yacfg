@@ -6,11 +6,16 @@ jinja2
 
 # Testing Requirements
 pytest
+flake8
+mypy
 mock
 tox
+coverage
+yamllint
 
 # Committing Requirements
 pre-commit
 
 # Optionals
 colorlog
+colorama

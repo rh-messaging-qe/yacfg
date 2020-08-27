@@ -26,7 +26,7 @@ with open('./src/amqcfg/meta.py', 'r') as meta_file:
 setup(
     name=meta.get('NAME'),
     version=meta.get('VERSION'),
-    packages=find_packages(where="src"),
+    packages=find_packages(where='src'),
     package_dir={'': 'src'},
     entry_points={
         'console_scripts': [
@@ -38,6 +38,9 @@ setup(
         'jinja2',
         'pyyaml',
     ],
+    extras_require={
+        'color_log': ['colorama', 'colorlog']
+    },
     setup_requires=[
         'pytest-runner'
     ],
