@@ -16,12 +16,12 @@ repos:
 - repo: local
   hooks:
   - id: pytest
-    name: pytest test/
-    entry: pytest --color=yes test/
+    name: pytest tests/
+    entry: pytest --color=yes tests/ -ra -q
     files: ^(.*py)$
     language: python
     additional_dependencies: [pytest, mock, jinja2, pyyaml]
-    python_version: python2.7
+    python_version: python3
     pass_filenames: false
   - id: tox
     name: tox
