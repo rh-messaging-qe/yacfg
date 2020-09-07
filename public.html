@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Public API &#8212; YamlConfiger</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
@@ -14,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
@@ -26,8 +27,6 @@
     <script src="_static/copybutton.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -68,7 +67,14 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="index.html">
+   YamlConfiger — AMQ configurator
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="install.html">
    Getting started
@@ -96,6 +102,10 @@
 </nav>
 
  <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
 
 </div>
 
@@ -183,46 +193,8 @@
         
               <div>
                 
-  <div class="section" id="module-amqcfg">
-<span id="public-api"></span><h1>Public API<a class="headerlink" href="#module-amqcfg" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="amqcfg.generate">
-<code class="sig-prename descclassname">amqcfg.</code><code class="sig-name descname">generate</code><span class="sig-paren">(</span><em class="sig-param">profile</em>, <em class="sig-param">template=None</em>, <em class="sig-param">output_path=None</em>, <em class="sig-param">output_filter=None</em>, <em class="sig-param">render_options=None</em>, <em class="sig-param">tuning_files_list=None</em>, <em class="sig-param">tuning_data_list=None</em>, <em class="sig-param">write_profile_data=False</em><span class="sig-paren">)</span><a class="headerlink" href="#amqcfg.generate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate procedure using list of tuning data</p>
-<p>generate_via_tuning_files output files based on output_filter, from
-selected template set, with selected profile, and write output to
-a proposed output path.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>profile</strong> (<em>str</em>) – name of packaged profile,
-or path to user provided profile</p></li>
-<li><p><strong>template</strong> (<em>str | None</em>) – name of packaged template set,
-or path to user provided template set</p></li>
-<li><p><strong>output_path</strong> (<em>str | None</em>) – proposed output path,
-if do not exists, it will be created</p></li>
-<li><p><strong>output_filter</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| None</em>) – list of regular expressions to filter out
-which output files should be generated, if None, then all will
-be generated, based on selected template set</p></li>
-<li><p><strong>render_options</strong> (<em>RenderOptions</em>) – extra render options tuning</p></li>
-<li><p><strong>tuning_files_list</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| None</em>) – Additional yaml tuning files with tuning
-values.</p></li>
-<li><p><strong>tuning_data_list</strong> (<em>list</em><em>[</em><em>dict</em><em>] </em><em>| None</em>) – Additional user values to fine-tune profile
-before applying it to template.</p></li>
-<li><p><strong>write_profile_data</strong> (<em>bool</em>) – enables writing profile data used for
-templating to file in a output path, output path must be
-specified</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>mapping of filename to generated data for further use</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict[str, str] or dict[str, unicode]</p>
-</dd>
-</dl>
-</dd></dl>
-
+  <div class="section" id="public-api">
+<h1>Public API<a class="headerlink" href="#public-api" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
