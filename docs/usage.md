@@ -9,13 +9,13 @@ The profile is represented as a directory containing YAML files.
 ## User (CLI) guide
 
 ```bash
-amqcfg --help
+yacgf --help
 
-amqcfg --list-profiles
-amqcfg --list-templates
+yacgf --list-profiles
+yacgf --list-templates
 
 # perform a generation of a default profile
-amqcfg --profile artemis/2.5.0/default.yaml
+yacgf --profile artemis/2.5.0/default.yaml
 # also save result to [OUTDIR] directory
-amqcfg --profile [PROFILE] --output [OUTDIR]
+yacgf --profile [PROFILE] --output [OUTDIR]
 ```

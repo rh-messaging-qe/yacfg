@@ -17,7 +17,7 @@ import pytest
 import yaml
 import yacfg_batch
 from yacfg_batch.yacfg_batch import iter_gen_profiles
-from yacfg_batch.exceptions import AmqcfgBatchException
+from yacfg_batch.exceptions import YacfgBatchException
 
 
 @mock.patch('yacfg_batch.yacfg_batch.open', mock.Mock())
@@ -48,7 +48,7 @@ def test_true(*_):
 def test_io_error(*_):
     filename = 'test.yaml'
 
-    with pytest.raises(AmqcfgBatchException):
+    with pytest.raises(YacfgBatchException):
         list(iter_gen_profiles(filename))
 
     # noinspection PyUnresolvedReferences
@@ -65,7 +65,7 @@ def test_yaml_error(*_):
     # noinspection PyUnresolvedReferences
     yacfg_batch.yacfg_batch.open.return_value = file_desc
 
-    with pytest.raises(AmqcfgBatchException):
+    with pytest.raises(YacfgBatchException):
         list(iter_gen_profiles(filename))
 
     # noinspection PyUnresolvedReferences

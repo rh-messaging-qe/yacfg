@@ -1,5 +1,5 @@
 import yacfg.exceptions
 
 
-class AmqcfgBatchException(yacfg.exceptions.AmqcfgException):
+class YacfgBatchException(yacfg.exceptions.YacfgException):
     pass

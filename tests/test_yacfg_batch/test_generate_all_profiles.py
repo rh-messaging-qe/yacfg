@@ -17,7 +17,7 @@ import pytest
 
 import yacfg
 from yacfg_batch.yacfg_batch import generate_all_profiles, GenerateData
-from yacfg_batch.exceptions import AmqcfgBatchException
+from yacfg_batch.exceptions import YacfgBatchException
 
 
 @mock.patch('yacfg.yacfg.generate', mock.Mock())
@@ -30,7 +30,7 @@ def test_no_profile_name(*_):
         'service': {'pass': True}
     }
 
-    with pytest.raises(AmqcfgBatchException):
+    with pytest.raises(YacfgBatchException):
         generate_all_profiles(
             input_path,
             output_path,
