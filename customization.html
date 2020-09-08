@@ -226,13 +226,13 @@ If that does not satisfy your needs, then a custom template might be required.</
 <h2>Profile tuning<a class="headerlink" href="#profile-tuning" title="Permalink to this headline">¶</a></h2>
 <p>Simply export tuning values from profile you want to tune and change those you
 need to change. Then supply the custom tuning file(s) when generating the profile.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>amqcfg --profile <span class="o">[</span>PROFILE<span class="o">]</span> --export-tuning my_values.yaml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --export-tuning my_values.yaml
 vim my_values.yaml
-amqcfg --profile <span class="o">[</span>PROFILE<span class="o">]</span> --tune my_values.yaml
+yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --tune my_values.yaml
 
 <span class="c1"># multiple tuning files can be overlaid</span>
 <span class="c1"># they are updated in sequence, only values present are overwritten</span>
-amqcfg --profile <span class="o">[</span>PROFILE<span class="o">]</span> --tune my_values.yaml --tune machine_specific.yaml <span class="se">\</span>
+yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --tune my_values.yaml --tune machine_specific.yaml <span class="se">\</span>
        --tune logging_debug.yaml --output <span class="o">[</span>OUTDIR<span class="o">]</span>
 </pre></div>
 </div>
@@ -246,11 +246,11 @@ work. Either you can use imports from package, or your own local files.</p>
 <p>Or you can export completely rendered profile file without any includes or
 variables and modify that as you like.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># export profile with dynamic includes</span>
-amqcfg --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile my_new_profile.yaml
+yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile my_new_profile.yaml
 <span class="c1"># export completely generated profile</span>
-amqcfg --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile-static my_new_profile.yaml
+yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile-static my_new_profile.yaml
 vim my_new_profile.yaml
-amqcfg --profile my_new_profile.yaml
+yacgf --profile my_new_profile.yaml
 </pre></div>
 </div>
 </div>
@@ -263,9 +263,9 @@ templates that subsequently generate_via_tuning_files a new file.</p>
 generate_via_tuning_files files for something that is not packaged.</p>
 <p>Just remember for a template set to be identified the directory must contain
 a file named ‘_template’ and then main templates ending with ‘.jinja2’.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>amqcfg --template <span class="o">[</span>TEMPLATE<span class="o">]</span> --new-template my_new_template
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yacgf --template <span class="o">[</span>TEMPLATE<span class="o">]</span> --new-template my_new_template
 vim my_new_template/<span class="o">[</span>MAIN_TEMPLATES<span class="o">]</span>.jinja2
-amqcfg --template my_new_template --profile <span class="o">[</span>PROFILE<span class="o">]</span>
+yacgf --template my_new_template --profile <span class="o">[</span>PROFILE<span class="o">]</span>
 </pre></div>
 </div>
 </div>

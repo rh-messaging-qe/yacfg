@@ -209,11 +209,11 @@ as the directly provided data.</p>
 <li><p>data from tuning files (in order of appearance) <code class="docutils literal notranslate"><span class="pre">tuning_files_list</span></code></p></li>
 <li><p>data provided directly (in order of appearance) <code class="docutils literal notranslate"><span class="pre">tuning_data_list</span></code></p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">amqcfg</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yacfg</span>
 
 <span class="c1"># generating only broker.xml config using default values from profile,</span>
 <span class="c1"># no tuning, writing output to a target path</span>
-<span class="n">amqcfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+<span class="n">yacfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
     <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml&#39;</span><span class="p">,</span>
     <span class="n">output_filter</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;broker.xml&#39;</span><span class="p">],</span>
     <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;/opt/artemis-2.5.0-i0/etc/&#39;</span><span class="p">,</span>
@@ -221,7 +221,7 @@ as the directly provided data.</p>
 
 <span class="c1"># using both files and direct values, and writing generated configs to</span>
 <span class="c1"># a target directory</span>
-<span class="n">amqcfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+<span class="n">yacfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
     <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml&#39;</span><span class="p">,</span>
     <span class="n">tuning_files_list</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;my_values.yaml&#39;</span><span class="p">,</span>
@@ -237,7 +237,7 @@ as the directly provided data.</p>
 <span class="p">)</span>
 
 <span class="c1"># just get generated data for further processing, using just tuning files</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">amqcfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">yacfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
     <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml&#39;</span><span class="p">,</span>
     <span class="n">tuning_files_list</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;my_values.yaml&#39;</span><span class="p">,</span>

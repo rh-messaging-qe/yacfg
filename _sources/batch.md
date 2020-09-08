@@ -2,11 +2,11 @@
 
 In case you have multiple services to configure in your environment,
 that you probably will have at some point, there is a tool for that
-as well. The tool is called amqcfg-batch. It has only yaml input and
-it uses amqcfg to generate configurations as you are already used to.
+as well. The tool is called yacfg-batch. It has only yaml input and
+it uses yacfg to generate configurations as you are already used to.
 
 Input yaml file defines all services you need to generate, what
-profiles to use, and what tuning to provide to `amqcfg`.
+profiles to use, and what tuning to provide to `yacgf`.
 It allows you to configure defaults and common for services.
 
 ## Batch profile file
@@ -20,13 +20,13 @@ values.
 
 Every section has 4 values: `profile`, `template`, `tuning_files`,
  and `tuning`. As the name suggests, `profile` defines what generation profile
- to select, and it directly correlates with `amqcfg`'s `--profile`.
+ to select, and it directly correlates with `yacgf`'s `--profile`.
  `template` defines what generation template to use
  (overrides one in the profile if defined), and it directly correlates with
- `--template` from `amqcfg`. `tuning_files` option is a list of tuning
+ `--template` from `yacgf`. `tuning_files` option is a list of tuning
  files to use, when combining defaults, commons, and specific values,
  tuning_files list is concatenated. Finally `tuning` is a map of
- specific tuning values, correlates with `--opt` of `amqcfg`. When combining
+ specific tuning values, correlates with `--opt` of `yacgf`. When combining
  defaults, commons, and specifics, it will be updated over using python
  dict.update() and it will work only on first level, so it is recommended
  to use flat values for tuning only.
@@ -67,7 +67,7 @@ brokerC/opt/amq/etc:
 
 ```
 
-As you can see, `amqcfg-batch` supports multiple sections, in single
+As you can see, `yacgf-batch` supports multiple sections, in single
 batch profile file, that allows you to generate multiple groups using
 separated `_default` and `_common` sections for that.
 
@@ -75,11 +75,11 @@ separated `_default` and `_common` sections for that.
 
 When you have defined all tuning files you need, and in the root of this
 batch configuration you have your batch profile file, you can now simply
-run `amqcfg-batch`:
+run `yacgf-batch`:
 
 ```bash
 
-amqcfg-batch --input [batch_profile_file] --output [output_path]
+yacgf-batch --input [batch_profile_file] --output [output_path]
 ```
 
 You can use multiple input files and all of those will be generated

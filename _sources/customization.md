@@ -11,13 +11,13 @@ Simply export tuning values from profile you want to tune and change those you
 need to change. Then supply the custom tuning file(s) when generating the profile.
 
 ```bash
-amqcfg --profile [PROFILE] --export-tuning my_values.yaml
+yacgf --profile [PROFILE] --export-tuning my_values.yaml
 vim my_values.yaml
-amqcfg --profile [PROFILE] --tune my_values.yaml
+yacgf --profile [PROFILE] --tune my_values.yaml
 
 # multiple tuning files can be overlaid
 # they are updated in sequence, only values present are overwritten
-amqcfg --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
+yacgf --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
        --tune logging_debug.yaml --output [OUTDIR]
 ```
 
@@ -34,11 +34,11 @@ variables and modify that as you like.
 
 ```bash
 # export profile with dynamic includes
-amqcfg --profile [PROFILE] --new-profile my_new_profile.yaml
+yacgf --profile [PROFILE] --new-profile my_new_profile.yaml
 # export completely generated profile
-amqcfg --profile [PROFILE] --new-profile-static my_new_profile.yaml
+yacgf --profile [PROFILE] --new-profile-static my_new_profile.yaml
 vim my_new_profile.yaml
-amqcfg --profile my_new_profile.yaml
+yacgf --profile my_new_profile.yaml
 ```
 
 # Custom templates
@@ -54,8 +54,8 @@ Just remember for a template set to be identified the directory must contain
 a file named '_template' and then main templates ending with '.jinja2'.
 
 ```bash
-amqcfg --template [TEMPLATE] --new-template my_new_template
+yacgf --template [TEMPLATE] --new-template my_new_template
 vim my_new_template/[MAIN_TEMPLATES].jinja2
-amqcfg --template my_new_template --profile [PROFILE]
+yacgf --template my_new_template --profile [PROFILE]
 
 ```

@@ -15,7 +15,7 @@ git clone https://github.com/rh-messaging-qe/YamlConfiger.git
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
 ./setup.py install
-amqcfg --help
+yacgf --help
 ```
 
 ## From PyPI
@@ -23,6 +23,6 @@ amqcfg --help
 ```bash
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
-pip install amqcfg
-amqcfg --help
+pip install yacgf
+yacgf --help
 ```

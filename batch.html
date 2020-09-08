@@ -225,10 +225,10 @@
 <h1>Batch configurations<a class="headerlink" href="#batch-configurations" title="Permalink to this headline">¶</a></h1>
 <p>In case you have multiple services to configure in your environment,
 that you probably will have at some point, there is a tool for that
-as well. The tool is called amqcfg-batch. It has only yaml input and
-it uses amqcfg to generate configurations as you are already used to.</p>
+as well. The tool is called yacfg-batch. It has only yaml input and
+it uses yacfg to generate configurations as you are already used to.</p>
 <p>Input yaml file defines all services you need to generate, what
-profiles to use, and what tuning to provide to <code class="docutils literal notranslate"><span class="pre">amqcfg</span></code>.
+profiles to use, and what tuning to provide to <code class="docutils literal notranslate"><span class="pre">yacgf</span></code>.
 It allows you to configure defaults and common for services.</p>
 <div class="section" id="batch-profile-file">
 <h2>Batch profile file<a class="headerlink" href="#batch-profile-file" title="Permalink to this headline">¶</a></h2>
@@ -240,13 +240,13 @@ priority than <code class="docutils literal notranslate"><span class="pre">_comm
 values.</p>
 <p>Every section has 4 values: <code class="docutils literal notranslate"><span class="pre">profile</span></code>, <code class="docutils literal notranslate"><span class="pre">template</span></code>, <code class="docutils literal notranslate"><span class="pre">tuning_files</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">tuning</span></code>. As the name suggests, <code class="docutils literal notranslate"><span class="pre">profile</span></code> defines what generation profile
-to select, and it directly correlates with <code class="docutils literal notranslate"><span class="pre">amqcfg</span></code>’s <code class="docutils literal notranslate"><span class="pre">--profile</span></code>.
+to select, and it directly correlates with <code class="docutils literal notranslate"><span class="pre">yacgf</span></code>’s <code class="docutils literal notranslate"><span class="pre">--profile</span></code>.
 <code class="docutils literal notranslate"><span class="pre">template</span></code> defines what generation template to use
 (overrides one in the profile if defined), and it directly correlates with
-<code class="docutils literal notranslate"><span class="pre">--template</span></code> from <code class="docutils literal notranslate"><span class="pre">amqcfg</span></code>. <code class="docutils literal notranslate"><span class="pre">tuning_files</span></code> option is a list of tuning
+<code class="docutils literal notranslate"><span class="pre">--template</span></code> from <code class="docutils literal notranslate"><span class="pre">yacgf</span></code>. <code class="docutils literal notranslate"><span class="pre">tuning_files</span></code> option is a list of tuning
 files to use, when combining defaults, commons, and specific values,
 tuning_files list is concatenated. Finally <code class="docutils literal notranslate"><span class="pre">tuning</span></code> is a map of
-specific tuning values, correlates with <code class="docutils literal notranslate"><span class="pre">--opt</span></code> of <code class="docutils literal notranslate"><span class="pre">amqcfg</span></code>. When combining
+specific tuning values, correlates with <code class="docutils literal notranslate"><span class="pre">--opt</span></code> of <code class="docutils literal notranslate"><span class="pre">yacgf</span></code>. When combining
 defaults, commons, and specifics, it will be updated over using python
 dict.update() and it will work only on first level, so it is recommended
 to use flat values for tuning only.</p>
@@ -283,7 +283,7 @@ to use flat values for tuning only.</p>
       <span class="nt">LOG_LEVEL_ALL</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
 </pre></div>
 </div>
-<p>As you can see, <code class="docutils literal notranslate"><span class="pre">amqcfg-batch</span></code> supports multiple sections, in single
+<p>As you can see, <code class="docutils literal notranslate"><span class="pre">yacgf-batch</span></code> supports multiple sections, in single
 batch profile file, that allows you to generate multiple groups using
 separated <code class="docutils literal notranslate"><span class="pre">_default</span></code> and <code class="docutils literal notranslate"><span class="pre">_common</span></code> sections for that.</p>
 </div>
@@ -291,8 +291,8 @@ separated <code class="docutils literal notranslate"><span class="pre">_default<
 <h2>executing batch<a class="headerlink" href="#executing-batch" title="Permalink to this headline">¶</a></h2>
 <p>When you have defined all tuning files you need, and in the root of this
 batch configuration you have your batch profile file, you can now simply
-run <code class="docutils literal notranslate"><span class="pre">amqcfg-batch</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>amqcfg-batch --input <span class="o">[</span>batch_profile_file<span class="o">]</span> --output <span class="o">[</span>output_path<span class="o">]</span>
+run <code class="docutils literal notranslate"><span class="pre">yacgf-batch</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yacgf-batch --input <span class="o">[</span>batch_profile_file<span class="o">]</span> --output <span class="o">[</span>output_path<span class="o">]</span>
 </pre></div>
 </div>
 <p>You can use multiple input files and all of those will be generated

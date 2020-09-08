@@ -17,11 +17,11 @@ Data application order:
 
 
 ```python
-import amqcfg
+import yacfg
 
 # generating only broker.xml config using default values from profile,
 # no tuning, writing output to a target path
-amqcfg.generate(
+yacfg.generate(
     profile='artemis/2.5.0/default.yaml',
     output_filter=['broker.xml'],
     output_path='/opt/artemis-2.5.0-i0/etc/',
@@ -29,7 +29,7 @@ amqcfg.generate(
 
 # using both files and direct values, and writing generated configs to
 # a target directory
-amqcfg.generate(
+yacfg.generate(
     profile='artemis/2.5.0/default.yaml',
     tuning_files_list=[
         'my_values.yaml',
@@ -45,7 +45,7 @@ amqcfg.generate(
 )
 
 # just get generated data for further processing, using just tuning files
-data = amqcfg.generate(
+data = yacfg.generate(
     profile='artemis/2.5.0/default.yaml',
     tuning_files_list=[
         'my_values.yaml',
