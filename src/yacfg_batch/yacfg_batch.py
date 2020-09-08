@@ -21,7 +21,7 @@ import os
 import yaml
 
 import yacfg.yacfg
-from .exceptions import AmqcfgBatchException
+from .exceptions import YacfgBatchException
 
 LOG = logging.getLogger(__name__)
 
@@ -59,11 +59,11 @@ def iter_gen_profiles(filename):
     try:
         profile_data_list = yaml.load_all(open(filename, 'r'))
     except IOError as exc:
-        raise AmqcfgBatchException(
+        raise YacfgBatchException(
             'Unable to open gen profile "{}" {}'.format(filename, exc)
         )
     except yaml.YAMLError as exc:
-        raise AmqcfgBatchException(
+        raise YacfgBatchException(
             'Unable to parse YAML gen profile "{}" {}'.format(filename, exc)
         )
 
@@ -205,7 +205,7 @@ def generate_all_profiles(input_path, output_path, default, common,
         generate_data = prioritize_generate_data(profile_data, common, default)
 
         if not generate_data.profile_name:
-            raise AmqcfgBatchException(
+            raise YacfgBatchException(
                 'No selected profile,'
                 ' cannot generate_via_tuning_files.'
             )

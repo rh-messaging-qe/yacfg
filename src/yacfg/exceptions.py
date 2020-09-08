@@ -13,17 +13,17 @@
 # limitations under the License.
 
 
-class AmqcfgException(Exception):
+class YacfgException(Exception):
     pass
 
 
-class TemplateError(AmqcfgException):
+class TemplateError(YacfgException):
     pass
 
 
-class ProfileError(AmqcfgException):
+class ProfileError(YacfgException):
     pass
 
 
-class GenerationError(AmqcfgException):
+class GenerationError(YacfgException):
     pass
