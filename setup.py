@@ -52,6 +52,8 @@ setup(
     license='Apache-2.0',
     author='Zdenek Kraus',
     author_email='zkraus@redhat.com',
+    maintainer="Dominik Lenoch",
+    maintainer_email="dlenoch@redhat.com",
     description=meta.get('SHORT_DESCRIPTION'),
     long_description=meta.get('DESCRIPTION'),
     include_package_data=True,
