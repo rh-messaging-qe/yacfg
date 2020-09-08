@@ -17,18 +17,18 @@ import os
 import mock
 import pytest
 
-import amqcfg.output
-from amqcfg.exceptions import ProfileError
-from amqcfg.meta import NAME
-from amqcfg.output import export_tuning_variables
+import yacfg.output
+from yacfg.exceptions import ProfileError
+from yacfg.meta import NAME
+from yacfg.output import export_tuning_variables
 from ..profiles.fakes import fake_load_profile_defaults, \
     fake_profile_defaults_yaml
 
 
-@mock.patch('amqcfg.output.load_profile_defaults',
+@mock.patch('yacfg.output.load_profile_defaults',
             side_effect=fake_load_profile_defaults)
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.output.write_output', mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.write_output', mock.Mock())
 def test_true(*_):
     profile_name = 'my_profile.yaml'
     destination_path = '/destination/path/tuning'
@@ -43,17 +43,17 @@ def test_true(*_):
     export_tuning_variables(profile_name, destination)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_called_with(destination_path)
+    yacfg.output.ensure_output_path.assert_called_with(destination_path)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_called_with(destination_name,
-                                                  destination_path,
-                                                  expected_data)
+    yacfg.output.write_output.assert_called_with(destination_name,
+                                                 destination_path,
+                                                 expected_data)
 
 
-@mock.patch('amqcfg.output.load_profile_defaults',
+@mock.patch('yacfg.output.load_profile_defaults',
             side_effect=({},))
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.output.write_output', mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.write_output', mock.Mock())
 def test_no_defaults_exception(*_):
     profile_name = 'my_profile.yaml'
     destination_path = '/destination/path/tuning'
@@ -64,16 +64,16 @@ def test_no_defaults_exception(*_):
         export_tuning_variables(profile_name, destination)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_not_called()
+    yacfg.output.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_not_called()
+    yacfg.output.write_output.assert_not_called()
 
 
-@mock.patch('amqcfg.output.load_profile_defaults',
+@mock.patch('yacfg.output.load_profile_defaults',
             side_effect=fake_load_profile_defaults)
-@mock.patch('amqcfg.output.ensure_output_path',
+@mock.patch('yacfg.output.ensure_output_path',
             side_effect=OSError('[Errno 13] Permission denied: \'path\''))
-@mock.patch('amqcfg.output.write_output', mock.Mock())
+@mock.patch('yacfg.output.write_output', mock.Mock())
 def test_bad_destination_exception(*_):
     profile_name = 'my_profile.yaml'
     destination_path = '/bad/destination'
@@ -84,15 +84,15 @@ def test_bad_destination_exception(*_):
         export_tuning_variables(profile_name, destination)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_called_with(destination_path)
+    yacfg.output.ensure_output_path.assert_called_with(destination_path)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_not_called()
+    yacfg.output.write_output.assert_not_called()
 
 
-@mock.patch('amqcfg.output.load_profile_defaults',
+@mock.patch('yacfg.output.load_profile_defaults',
             side_effect=fake_load_profile_defaults)
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.output.write_output',
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.write_output',
             side_effect=OSError('[Errno 13] Permission denied: \'path\''))
 def test_no_destination_exception(*_):
     profile_name = 'my_profile.yaml'
@@ -104,6 +104,6 @@ def test_no_destination_exception(*_):
         export_tuning_variables(profile_name, destination)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_not_called()
+    yacfg.output.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_called()
+    yacfg.output.write_output.assert_called()

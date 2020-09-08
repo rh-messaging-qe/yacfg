@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-NAME = 'amqcfg'
+NAME = 'yacfg'
 VERSION = '0.7.0'
 SHORT_DESCRIPTION = 'Template based configuration generator'
 DESCRIPTION = (

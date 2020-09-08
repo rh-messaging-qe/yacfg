@@ -14,7 +14,7 @@
 
 import mock
 
-from amqcfg.query import get_main_template_list
+from yacfg.query import get_main_template_list
 
 
 def fake_list_templates(filter_func):

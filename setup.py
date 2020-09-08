@@ -16,11 +16,11 @@
 
 from setuptools import setup, find_packages
 
-# Version reading from amqcfg/meta.py
+# Version reading from yacfg/meta.py
 # according to (3b) from:
 # https://packaging.python.org/guides/single-sourcing-package-version/
 meta = {}
-with open('./src/amqcfg/meta.py', 'r') as meta_file:
+with open('src/yacfg/meta.py', 'r') as meta_file:
     exec(meta_file.read(), meta)
 
 setup(
@@ -30,8 +30,8 @@ setup(
     package_dir={'': 'src'},
     entry_points={
         'console_scripts': [
-            'amqcfg = amqcfg.amqcfg_cli:main',
-            'amqcfg-batch = amqcfg_batch.amqcfg_batch_cli:main'
+            'yacfg = yacfg.yacfg_cli:main',
+            'yacfg-batch = yacfg_batch.yacfg_batch_cli:main'
         ],
     },
     install_requires=[
@@ -48,7 +48,7 @@ setup(
         'pytest',
         'mock',
     ],
-    url='https://bitbucket.org/msgqe/amqcfg',
+    url='https://github.com/rh-messaging-qe/yacfg',
     license='Apache-2.0',
     author='Zdenek Kraus',
     author_email='zkraus@redhat.com',
@@ -57,7 +57,7 @@ setup(
     description=meta.get('SHORT_DESCRIPTION'),
     long_description=meta.get('DESCRIPTION'),
     include_package_data=True,
-    # package_data={'amqcfg': ['src/amqcfg/profiles/*/*', 'src/amqcfg/templates/*/*'']},
+    # package_data={'yacfg': ['src/yacfg/profiles/*/*', 'src/yacfg/templates/*/*'']},
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

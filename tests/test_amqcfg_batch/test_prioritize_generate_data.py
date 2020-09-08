@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from amqcfg_batch.amqcfg_batch import (
+from yacfg_batch.yacfg_batch import (
     prioritize_generate_data,
     GenerateData
 )

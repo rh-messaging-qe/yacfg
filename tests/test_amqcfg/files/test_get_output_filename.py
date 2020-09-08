@@ -14,7 +14,7 @@
 
 import pytest
 
-from amqcfg.files import get_output_filename
+from yacfg.files import get_output_filename
 
 
 def test_jinja_suffix():

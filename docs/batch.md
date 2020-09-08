@@ -2,7 +2,7 @@
 
 In case you have multiple services to configure in your environment,
 that you probably will have at some point, there is a tool for that
-as well. The tool is called amqcfg-batch. It has only yaml input and
+as well. The tool is called yacfg-batch. It has only yaml input and
 it uses amqcfg to generate configurations as you are already used to.
 
 Input yaml file defines all services you need to generate, what

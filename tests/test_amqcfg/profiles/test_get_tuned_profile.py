@@ -17,30 +17,30 @@ import mock
 import pytest
 import yaml
 
-import amqcfg.profiles
-from amqcfg.exceptions import ProfileError
-from amqcfg.profiles import get_tuned_profile
+import yacfg.profiles
+from yacfg.exceptions import ProfileError
+from yacfg.profiles import get_tuned_profile
 from .fakes import fake_load_tuned_profile_no_defaults
 
 
-@mock.patch('amqcfg.profiles.load_tuning', mock.Mock())
-@mock.patch('amqcfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('amqcfg.profiles.get_profile_template', mock.Mock())
+@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
+@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
+@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
 def test_no_tuning(*_):
     profile_name = 'profile.yaml'
     tuning_data = None
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
+    yacfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
-    amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
+    yacfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
     fake_profile.name = profile_name
-    amqcfg.profiles.get_profile_template.return_value = fake_profile
+    yacfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
     profile_data = get_tuned_profile(profile_name, tuning_data)
@@ -48,15 +48,15 @@ def test_no_tuning(*_):
     assert profile_data == expected_data
 
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_tuning.assert_called_with(
+    yacfg.profiles.load_tuning.assert_called_with(
         profile_defaults=expected_data[0],
         tuning_data_list=None,
         tuning_files_list=None,
     )
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
+    yacfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+    yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
     expected_data_render['profile_path'] = profile_name
@@ -65,24 +65,24 @@ def test_no_tuning(*_):
     )
 
 
-@mock.patch('amqcfg.profiles.load_tuning', mock.Mock())
-@mock.patch('amqcfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('amqcfg.profiles.get_profile_template', mock.Mock())
+@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
+@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
+@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
 def test_tuning_data(*_):
     profile_name = 'profile.yaml'
     tuning_data = [{'a': 1}]
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
+    yacfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
-    amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
+    yacfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
     fake_profile.name = profile_name
-    amqcfg.profiles.get_profile_template.return_value = fake_profile
+    yacfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
     profile_data = get_tuned_profile(
@@ -93,15 +93,15 @@ def test_tuning_data(*_):
     assert profile_data == expected_data
 
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_tuning.assert_called_with(
+    yacfg.profiles.load_tuning.assert_called_with(
         profile_defaults=expected_data[0],
         tuning_data_list=tuning_data,
         tuning_files_list=None,
     )
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
+    yacfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+    yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
     expected_data_render['profile_path'] = profile_name
@@ -110,9 +110,9 @@ def test_tuning_data(*_):
     )
 
 
-@mock.patch('amqcfg.profiles.load_tuning', mock.Mock())
-@mock.patch('amqcfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('amqcfg.profiles.get_profile_template', mock.Mock())
+@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
+@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
+@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
 def test_tuning_files_data(*_):
     profile_name = 'profile.yaml'
     tuning_data = [{'a': 1}]
@@ -120,15 +120,15 @@ def test_tuning_files_data(*_):
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
+    yacfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
-    amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
+    yacfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
     fake_profile.name = profile_name
-    amqcfg.profiles.get_profile_template.return_value = fake_profile
+    yacfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
     profile_data = get_tuned_profile(
@@ -140,15 +140,15 @@ def test_tuning_files_data(*_):
     assert profile_data == expected_data
 
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_tuning.assert_called_with(
+    yacfg.profiles.load_tuning.assert_called_with(
         profile_defaults=expected_data[0],
         tuning_data_list=tuning_data,
         tuning_files_list=tuning_files,
     )
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
+    yacfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+    yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
     expected_data_render['profile_path'] = profile_name
@@ -157,9 +157,9 @@ def test_tuning_files_data(*_):
     )
 
 
-@mock.patch('amqcfg.profiles.load_tuning', mock.Mock())
-@mock.patch('amqcfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('amqcfg.profiles.get_profile_template', mock.Mock())
+@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
+@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
+@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
 def test_tuning_files(*_):
     profile_name = 'profile.yaml'
     tuning_data = None
@@ -167,15 +167,15 @@ def test_tuning_files(*_):
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
-    amqcfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
+    yacfg.profiles.load_tuning.return_value = copy.deepcopy(expected_data[0])
 
     # mock load_profile_defaults
-    amqcfg.profiles.load_profile_defaults.return_value = expected_data[0]
+    yacfg.profiles.load_profile_defaults.return_value = expected_data[0]
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
     fake_profile.name = profile_name
-    amqcfg.profiles.get_profile_template.return_value = fake_profile
+    yacfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data[1]
 
     profile_data = get_tuned_profile(
@@ -187,15 +187,15 @@ def test_tuning_files(*_):
     assert profile_data == expected_data
 
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_tuning.assert_called_with(
+    yacfg.profiles.load_tuning.assert_called_with(
         profile_defaults=expected_data[0],
         tuning_data_list=tuning_data,
         tuning_files_list=tuning_files,
     )
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
+    yacfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.get_profile_template.assert_called_with(profile_name)
+    yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
     expected_data_render['profile_path'] = profile_name
@@ -204,12 +204,12 @@ def test_tuning_files(*_):
     )
 
 
-@mock.patch('amqcfg.profiles.load_profile_defaults',
+@mock.patch('yacfg.profiles.load_profile_defaults',
             side_effect=ProfileError)
-@mock.patch('amqcfg.profiles.open',
+@mock.patch('yacfg.profiles.open',
             side_effect=('%this is not yaml',))
 @mock.patch('yaml.load', mock.Mock())
-@mock.patch('amqcfg.profiles.get_profile_template', mock.Mock())
+@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
 def test_bad_profile_exception(*_):
     profile_name = 'profile.yaml'
     tuning_files = ['bad']
@@ -217,18 +217,18 @@ def test_bad_profile_exception(*_):
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()
-    amqcfg.profiles.get_profile_template.return_value = fake_profile
+    yacfg.profiles.get_profile_template.return_value = fake_profile
     fake_profile.render.return_value = expected_data
 
     with pytest.raises(ProfileError):
         get_tuned_profile(profile_name, tuning_files)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.load_profile_defaults.assert_called_with(profile_name)
+    yacfg.profiles.load_profile_defaults.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.open.assert_not_called()
+    yacfg.profiles.open.assert_not_called()
     # noinspection PyUnresolvedReferences
     yaml.load.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.get_profile_template.assert_not_called()
+    yacfg.profiles.get_profile_template.assert_not_called()
     fake_profile.render.assert_not_called()

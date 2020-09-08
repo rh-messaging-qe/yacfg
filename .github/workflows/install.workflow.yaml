@@ -11,7 +11,7 @@ install:
       - uses: "actions/setup-python@v2"
         with:
           python-version: "3.8"
-      - name: "Install amqcfg"
+      - name: "Install yacfg"
         run: "python setup.py install"
       - name: "Run help"
-        run: "amqcfg --help"
+        run: "yacfg --help"

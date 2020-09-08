@@ -1,4 +1,4 @@
-# amqcfg - AMQ configurator
+# yacfg - YAML Configurator
 
 This tool can generate_via_tuning_files a set of configuration files mainly needed for
 AMQ Broker, but it is not limited to only generating files for one product.
@@ -19,11 +19,11 @@ for contributors:
 ### From git
 
 ```bash
-git clone git@bitbucket.org:msgqe/amqcfg.git
+git clone git@bitbucket.org:msgqe/yacfg.git
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
 ./setup.py install
-amqcfg --help
+yacfg --help
 ```
 
 ### From PyPI
@@ -31,22 +31,22 @@ amqcfg --help
 ```bash
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
-pip install amqcfg
-amqcfg --help
+pip install yacfg
+yacfg --help
 ```
 
 ## User (CLI) guide
 
 ```bash
-amqcfg --help
+yacfg --help
 
-amqcfg --list-profiles
-amqcfg --list-templates
+yacfg --list-profiles
+yacfg --list-templates
 
 # perform a generation of a default profile
-amqcfg --profile artemis/2.5.0/default.yaml
+yacfg --profile artemis/2.5.0/default.yaml
 # also save result to [OUTDIR] directory
-amqcfg --profile [PROFILE] --output [OUTDIR]
+yacfg --profile [PROFILE] --output [OUTDIR]
 ```
 
 ## Customization
@@ -62,13 +62,13 @@ Simply export tuning values from profile you want to tune and change those you
 need to change. Then supply the custom tuning file(s) when generating the profile.
 
 ```bash
-amqcfg --profile [PROFILE] --export-tuning my_values.yaml
+yacfg --profile [PROFILE] --export-tuning my_values.yaml
 vim my_values.yaml
-amqcfg --profile [PROFILE] --tune my_values.yaml
+yacfg --profile [PROFILE] --tune my_values.yaml
 
 # multiple tuning files can be overlaid
 # they are updated in sequence, only values present are overwritten
-amqcfg --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
+yacfg --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
        --tune logging_debug.yaml --output [OUTDIR]
 ```
 
@@ -85,11 +85,11 @@ variables and modify that as you like.
 
 ```bash
 # export profile with dynamic includes
-amqcfg --profile [PROFILE] --new-profile my_new_profile.yaml
+yacfg --profile [PROFILE] --new-profile my_new_profile.yaml
 # export completely generated profile
-amqcfg --profile [PROFILE] --new-profile-static my_new_profile.yaml
+yacfg --profile [PROFILE] --new-profile-static my_new_profile.yaml
 vim my_new_profile.yaml
-amqcfg --profile my_new_profile.yaml
+yacfg --profile my_new_profile.yaml
 ```
 
 ## Custom templates
@@ -105,9 +105,9 @@ Just remember for a template set to be identified the directory must contain
 a file named '_template' and then main templates ending with '.jinja2'.
 
 ```bash
-amqcfg --template [TEMPLATE] --new-template my_new_template
+yacfg --template [TEMPLATE] --new-template my_new_template
 vim my_new_template/[MAIN_TEMPLATES].jinja2
-amqcfg --template my_new_template --profile [PROFILE]
+yacfg --template my_new_template --profile [PROFILE]
 
 ```
 
@@ -130,11 +130,11 @@ Data application order:
 
 
 ```python
-import amqcfg
+import yacfg
 
 # generating only broker.xml config using default values from profile,
 # no tuning, writing output to a target path
-amqcfg.generate(
+yacfg.generate(
     profile='artemis/2.5.0/default.yaml',
     output_filter=['broker.xml'],
     output_path='/opt/artemis-2.5.0-i0/etc/',
@@ -142,7 +142,7 @@ amqcfg.generate(
 
 # using both files and direct values, and writing generated configs to
 # a target directory
-amqcfg.generate(
+yacfg.generate(
     profile='artemis/2.5.0/default.yaml',
     tuning_files_list=[
         'my_values.yaml',
@@ -158,7 +158,7 @@ amqcfg.generate(
 )
 
 # just get generated data for further processing, using just tuning files
-data = amqcfg.generate(
+data = yacfg.generate(
     profile='artemis/2.5.0/default.yaml',
     tuning_files_list=[
         'my_values.yaml',
@@ -173,11 +173,11 @@ print(data['broker.xml'])
 
 In case you have multiple services to configure in your environment,
 that you probably will have at some point, there is a tool for that
-as well. The tool is called amqcfg-batch. It has only yaml input and
-it uses amqcfg to generate configurations as you are already used to.
+as well. The tool is called yacfg-batch. It has only yaml input and
+it uses yacfg to generate configurations as you are already used to.
 
 Input yaml file defines all services you need to generate, what
-profiles to use, and what tuning to provide to `amqcfg`.
+profiles to use, and what tuning to provide to `yacfg`.
 It allows you to configure defaults and common for services.
 
 ### Batch profile file
@@ -191,13 +191,13 @@ values.
 
 Every section has 4 values: `profile`, `template`, `tuning_files`,
  and `tuning`. As the name suggests, `profile` defines what generation profile
- to select, and it directly correlates with `amqcfg`'s `--profile`.
+ to select, and it directly correlates with `yacfg`'s `--profile`.
  `template` defines what generation template to use
  (overrides one in the profile if defined), and it directly correlates with
- `--template` from `amqcfg`. `tuning_files` option is a list of tuning
+ `--template` from `yacfg`. `tuning_files` option is a list of tuning
  files to use, when combining defaults, commons, and specific values,
  tuning_files list is concatenated. Finally `tuning` is a map of
- specific tuning values, correlates with `--opt` of `amqcfg`. When combining
+ specific tuning values, correlates with `--opt` of `yacfg`. When combining
  defaults, commons, and specifics, it will be updated over using python
  dict.update() and it will work only on first level, so it is recommended
  to use flat values for tuning only.
@@ -238,7 +238,7 @@ brokerC/opt/amq/etc:
 
 ```
 
-As you can see, `amqcfg-batch` supports multiple sections, in single
+As you can see, `yacfg-batch` supports multiple sections, in single
 batch profile file, that allows you to generate multiple groups using
 separated `_default` and `_common` sections for that.
 
@@ -246,11 +246,11 @@ separated `_default` and `_common` sections for that.
 
 When you have defined all tuning files you need, and in the root of this
 batch configuration you have your batch profile file, you can now simply
-run `amqcfg-batch`:
+run `yacfg-batch`:
 
 ```bash
 
-amqcfg-batch --input [batch_profile_file] --output [output_path]
+yacfg-batch --input [batch_profile_file] --output [output_path]
 ```
 
 You can use multiple input files and all of those will be generated

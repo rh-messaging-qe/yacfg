@@ -14,7 +14,7 @@
 
 import pytest
 
-from amqcfg.query import filter_template_list
+from yacfg.query import filter_template_list
 
 basic_template_list = [
     'a.xml',

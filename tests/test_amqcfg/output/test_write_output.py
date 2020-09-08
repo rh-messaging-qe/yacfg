@@ -17,12 +17,12 @@ import os
 import mock
 import pytest
 
-import amqcfg.output
+import yacfg.output
 
-from amqcfg.output import write_output
+from yacfg.output import write_output
 
 
-@mock.patch('amqcfg.output.open', mock.MagicMock())
+@mock.patch('yacfg.output.open', mock.MagicMock())
 def test_true(*_):
     file_name = 'my_output.txt'
     file_path = '/output/path'
@@ -32,13 +32,13 @@ def test_true(*_):
 
     write_output(file_name, file_path, data)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.open.assert_called_with(file_pathname, 'w')
+    yacfg.output.open.assert_called_with(file_pathname, 'w')
     # noinspection PyUnresolvedReferences
-    fh = amqcfg.output.open.return_value.__enter__.return_value
+    fh = yacfg.output.open.return_value.__enter__.return_value
     fh.write.assert_has_calls([mock.call(data), mock.call(os.linesep)])
 
 
-@mock.patch('amqcfg.output.open', side_effect=IOError)
+@mock.patch('yacfg.output.open', side_effect=IOError)
 def test_bad_filename(*_):
     file_name = 'my_output.txt'
     file_path = '/bad/output/path'
@@ -49,4 +49,4 @@ def test_bad_filename(*_):
     with pytest.raises(IOError):
         write_output(file_name, file_path, data)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.open.assert_called_with(file_pathname, 'w')
+    yacfg.output.open.assert_called_with(file_pathname, 'w')

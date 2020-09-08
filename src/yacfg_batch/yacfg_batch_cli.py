@@ -17,9 +17,9 @@ from __future__ import print_function
 import logging
 import sys
 
-from amqcfg import logger_settings
-from amqcfg.meta import VERSION, NAME
-from .amqcfg_batch import generate
+from yacfg import logger_settings
+from yacfg.meta import VERSION, NAME
+from .yacfg_batch import generate
 from .cli_arguments import parser
 
 logger_settings.config_console_logger()
