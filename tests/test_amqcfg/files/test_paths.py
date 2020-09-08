@@ -14,18 +14,18 @@
 
 import mock
 
-import amqcfg.files
+import yacfg.files
 from .fakes import fake_module_path, fake_profile_path, \
     fake_templates_path
 
 
-@mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
+@mock.patch('yacfg.files.get_module_path', side_effect=fake_module_path)
 def test_get_profiles_path(_):
     expected = fake_profile_path()
-    assert amqcfg.files.get_profiles_path() == expected
+    assert yacfg.files.get_profiles_path() == expected
 
 
-@mock.patch('amqcfg.files.get_module_path', side_effect=fake_module_path)
+@mock.patch('yacfg.files.get_module_path', side_effect=fake_module_path)
 def test_get_templates_path(_):
     expected = fake_templates_path()
-    assert amqcfg.files.get_templates_path() == expected
+    assert yacfg.files.get_templates_path() == expected

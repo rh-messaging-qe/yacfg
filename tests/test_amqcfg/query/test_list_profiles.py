@@ -16,7 +16,7 @@ import os
 
 import mock
 
-from amqcfg.query import list_profiles
+from yacfg.query import list_profiles
 from ..files.fakes import fake_profile_path, fake_module_path
 
 
@@ -61,7 +61,7 @@ def fake_os_walk_profiles_basic(*_):
     ]
 
 
-@mock.patch('amqcfg.query.get_module_path',
+@mock.patch('yacfg.query.get_module_path',
             side_effect=fake_module_path)
 @mock.patch('os.walk', side_effect=fake_os_walk_profiles_basic)
 def test_basic(*_):
@@ -96,7 +96,7 @@ def fake_os_walk_not_a_profile(*_):
     ]
 
 
-@mock.patch('amqcfg.query.get_module_path',
+@mock.patch('yacfg.query.get_module_path',
             side_effect=fake_module_path)
 @mock.patch('os.walk', side_effect=fake_os_walk_not_a_profile)
 def test_not_a_profile(*_):
@@ -105,7 +105,7 @@ def test_not_a_profile(*_):
     assert expected == result
 
 
-@mock.patch('amqcfg.query.get_module_path',
+@mock.patch('yacfg.query.get_module_path',
             side_effect=fake_module_path)
 @mock.patch('os.walk', side_effect=((),))
 def test_empty(*_):

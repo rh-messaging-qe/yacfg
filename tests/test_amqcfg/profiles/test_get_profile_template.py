@@ -15,19 +15,19 @@
 import mock
 import pytest
 
-import amqcfg.profiles
-from amqcfg.exceptions import TemplateError
-from amqcfg.profiles import get_profile_template
+import yacfg.profiles
+from yacfg.exceptions import TemplateError
+from yacfg.profiles import get_profile_template
 from ..files.fakes import fake_select_profile_file, fake_profile_path
 
 
-@mock.patch('amqcfg.profiles.select_profile_file',
+@mock.patch('yacfg.profiles.select_profile_file',
             side_effect=fake_select_profile_file)
 @mock.patch('os.path.isdir', side_effect=(True,))
-@mock.patch('amqcfg.profiles.get_profiles_path',
+@mock.patch('yacfg.profiles.get_profiles_path',
             side_effect=fake_profile_path)
-@mock.patch('amqcfg.profiles.FileSystemLoader', mock.Mock())
-@mock.patch('amqcfg.profiles.Environment', mock.Mock())
+@mock.patch('yacfg.profiles.FileSystemLoader', mock.Mock())
+@mock.patch('yacfg.profiles.Environment', mock.Mock())
 def test_true(*_):
     profile_name = 'profile.yaml'
     expected_template = 'my_template'
@@ -35,42 +35,42 @@ def test_true(*_):
         fake_select_profile_file(profile_name)
 
     fake_env = mock.Mock()
-    amqcfg.profiles.Environment.return_value = fake_env
+    yacfg.profiles.Environment.return_value = fake_env
     fake_env.get_template.return_value = expected_template
 
     template = get_profile_template(profile_name)
 
     assert template == expected_template
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.select_profile_file.assert_called_with(profile_name)
+    yacfg.profiles.select_profile_file.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.FileSystemLoader.assert_called_with([
+    yacfg.profiles.FileSystemLoader.assert_called_with([
         expected_selected_path,
         fake_profile_path()
     ])
     fake_env.get_template.assert_called_with(expected_selected_name)
 
 
-@mock.patch('amqcfg.profiles.select_profile_file',
+@mock.patch('yacfg.profiles.select_profile_file',
             side_effect=fake_select_profile_file)
 @mock.patch('os.path.isdir', side_effect=(False,))
-@mock.patch('amqcfg.profiles.get_profiles_path',
+@mock.patch('yacfg.profiles.get_profiles_path',
             side_effect=fake_profile_path)
-@mock.patch('amqcfg.profiles.FileSystemLoader', mock.Mock())
-@mock.patch('amqcfg.profiles.Environment', mock.Mock())
+@mock.patch('yacfg.profiles.FileSystemLoader', mock.Mock())
+@mock.patch('yacfg.profiles.Environment', mock.Mock())
 def test_bad_profile_exception(*_):
     profile_name = 'bad_profile.yaml'
     expected_template = 'my_template'
 
     fake_env = mock.Mock()
-    amqcfg.profiles.Environment.return_value = fake_env
+    yacfg.profiles.Environment.return_value = fake_env
     fake_env.get_template.return_value = expected_template
 
     with pytest.raises(TemplateError):
         get_profile_template(profile_name)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.select_profile_file.assert_called_with(profile_name)
+    yacfg.profiles.select_profile_file.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    amqcfg.profiles.FileSystemLoader.assert_not_called()
+    yacfg.profiles.FileSystemLoader.assert_not_called()
     fake_env.get_template.assert_not_called()

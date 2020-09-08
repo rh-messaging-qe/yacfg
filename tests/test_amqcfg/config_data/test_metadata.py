@@ -14,7 +14,7 @@
 
 import pytest
 
-import amqcfg.config_data
+import yacfg.config_data
 
 dataset_metadata_members = (
     'tool_name',
@@ -25,7 +25,7 @@ dataset_metadata_members = (
 @pytest.mark.parametrize('member', dataset_metadata_members)
 def test_add_template_metadata_check_member(member):
     data = {}
-    amqcfg.config_data.add_template_metadata(data)
+    yacfg.config_data.add_template_metadata(data)
     assert member in data['metadata']
 
 
@@ -41,5 +41,5 @@ dataset_metadata_datetime_members = (
 @pytest.mark.parametrize('member', dataset_metadata_datetime_members)
 def test_add_template_metadata_datetime_check_member(member):
     data = {}
-    amqcfg.config_data.add_template_metadata(data)
+    yacfg.config_data.add_template_metadata(data)
     assert member in data['metadata']['datetime']

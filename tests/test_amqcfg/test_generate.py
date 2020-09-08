@@ -15,25 +15,25 @@
 import mock
 import pytest
 
-import amqcfg.amqcfg
-from amqcfg.amqcfg import generate
-from amqcfg.exceptions import ProfileError, TemplateError
+import yacfg.yacfg
+from yacfg.yacfg import generate
+from yacfg.exceptions import ProfileError, TemplateError
 from .profiles.fakes import (
     fake_load_tuned_profile_no_defaults,
     fake_load_tuned_profile_w_template
 )
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.amqcfg.add_template_metadata', mock.Mock())
-@mock.patch('amqcfg.amqcfg.add_render_config', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.add_template_metadata', mock.Mock())
+@mock.patch('yacfg.yacfg.add_render_config', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_render_options(*_):
     profile = 'profile.yaml'
     template = 'template/1.0.0'
@@ -42,7 +42,7 @@ def test_true_render_options(*_):
 
     config_data, _ = fake_load_tuned_profile_no_defaults()
 
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(
         profile=profile,
@@ -53,38 +53,38 @@ def test_true_render_options(*_):
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.add_render_config.assert_called_with(config_data,
-                                                       render_options)
+    yacfg.yacfg.add_render_config.assert_called_with(config_data,
+                                                     render_options)
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_tuned_profile', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_tuning_files(*_):
     profile = 'profile.yaml'
     template = 'template/1.0.0'
     tuning_files = ['tune1.yaml', 'tune2.yaml']
     expected_result = 'generated data'
 
-    amqcfg.amqcfg.get_tuned_profile.side_effect = \
+    yacfg.yacfg.get_tuned_profile.side_effect = \
         fake_load_tuned_profile_no_defaults
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(
         profile=profile,
@@ -95,33 +95,33 @@ def test_true_tuning_files(*_):
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_tuned_profile.assert_called_with(
+    yacfg.yacfg.get_tuned_profile.assert_called_with(
         profile=profile,
         tuning_files_list=tuning_files,
         tuning_data_list=None,
     )
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_tuning_data(*_):
     profile = 'profile.yaml'
     template = 'template/1.0.0'
@@ -131,9 +131,9 @@ def test_true_tuning_data(*_):
     ]
     expected_result = 'generated data'
 
-    amqcfg.amqcfg.get_tuned_profile.side_effect = \
+    yacfg.yacfg.get_tuned_profile.side_effect = \
         fake_load_tuned_profile_no_defaults
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(
         profile=profile,
@@ -144,39 +144,39 @@ def test_true_tuning_data(*_):
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_tuned_profile.assert_called_with(
+    yacfg.yacfg.get_tuned_profile.assert_called_with(
         profile=profile,
         tuning_files_list=None,
         tuning_data_list=tuning_data,
     )
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_no_output_path_write_profile(*_):
     profile = 'profile.yaml'
     template = 'template/1.0.0'
     expected_result = 'generated data'
 
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(
         profile=profile,
@@ -187,34 +187,34 @@ def test_true_no_output_path_write_profile(*_):
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_output_path_write_profile(*_):
     profile = 'profile.yaml'
     template = 'template/1.0.0'
     output_path = '/out/directory'
     expected_result = 'generated data'
 
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(
         profile=profile,
@@ -226,34 +226,34 @@ def test_true_output_path_write_profile(*_):
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_called()
+    yacfg.yacfg.ensure_output_path.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_called()
+    yacfg.yacfg.write_output.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_output_path(*_):
     profile = 'profile.yaml'
     template = 'template/1.0.0'
     output_path = '/out/directory'
     expected_result = 'generated data'
 
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(
         profile=profile,
@@ -264,33 +264,33 @@ def test_true_output_path(*_):
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_called()
+    yacfg.yacfg.ensure_output_path.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_template(*_):
     profile = 'profile.yaml'
     template = 'template/1.0.0'
     expected_result = 'generated data'
 
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(
         profile=profile,
@@ -300,59 +300,59 @@ def test_true_template(*_):
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_w_template)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_true_profile_template(*_):
     profile = 'profile.yaml'
     expected_result = 'generated data'
 
-    amqcfg.amqcfg.generate_outputs.return_value = expected_result
+    yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate(profile=profile)
 
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_called()
+    yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_called()
+    yacfg.yacfg.get_main_template_list.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_called()
+    yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile',
+@mock.patch('yacfg.yacfg.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_no_template_exception(*_):
     profile = 'profile.yaml'
 
@@ -360,26 +360,26 @@ def test_no_template_exception(*_):
         generate(profile=profile)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_not_called()
+    yacfg.yacfg.get_template_environment.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_not_called()
+    yacfg.yacfg.get_main_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_not_called()
+    yacfg.yacfg.generate_outputs.assert_not_called()
 
 
-@mock.patch('amqcfg.amqcfg.get_tuned_profile', side_effect=ProfileError)
-@mock.patch('amqcfg.amqcfg.get_template_environment', mock.Mock())
-@mock.patch('amqcfg.amqcfg.get_main_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.filter_template_list', mock.Mock())
-@mock.patch('amqcfg.amqcfg.ensure_output_path', mock.Mock())
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
-@mock.patch('amqcfg.amqcfg.generate_outputs', mock.Mock())
+@mock.patch('yacfg.yacfg.get_tuned_profile', side_effect=ProfileError)
+@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
+@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
+@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
 def test_bad_profile_exception(*_):
     profile = 'bad_profile.yaml'
 
@@ -387,14 +387,14 @@ def test_bad_profile_exception(*_):
         generate(profile=profile)
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_template_environment.assert_not_called()
+    yacfg.yacfg.get_template_environment.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.get_main_template_list.assert_not_called()
+    yacfg.yacfg.get_main_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.filter_template_list.assert_not_called()
+    yacfg.yacfg.filter_template_list.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.ensure_output_path.assert_not_called()
+    yacfg.yacfg.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate_outputs.assert_not_called()
+    yacfg.yacfg.generate_outputs.assert_not_called()

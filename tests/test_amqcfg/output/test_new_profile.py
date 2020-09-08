@@ -18,18 +18,18 @@ import shutil
 
 import pytest
 
-from amqcfg.output import new_profile
-import amqcfg.output
+from yacfg.output import new_profile
+import yacfg.output
 from ..files.fakes import (
     fake_select_profile_file,
     fake_profile_path
 )
 
 
-@mock.patch('amqcfg.output.select_profile_file',
+@mock.patch('yacfg.output.select_profile_file',
             side_effect=fake_select_profile_file)
 @mock.patch('shutil.copyfile', mock.Mock())
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
 def test_true(*_):
     """Creating new profile true path"""
     profile_name = 'existing_profile.yaml'
@@ -40,16 +40,16 @@ def test_true(*_):
 
     new_profile(profile_name, destination)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_called_with(expected_target_dir)
+    yacfg.output.ensure_output_path.assert_called_with(expected_target_dir)
     # noinspection PyUnresolvedReferences
     shutil.copyfile.assert_called_with(expected_source_file,
                                        expected_target_file)
 
 
-@mock.patch('amqcfg.output.select_profile_file',
+@mock.patch('yacfg.output.select_profile_file',
             side_effect=fake_select_profile_file)
 @mock.patch('shutil.copyfile', mock.Mock())
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
 def test_true_no_destination(*_):
     """Creating new profile true path"""
     profile_name = 'existing_profile.yaml'
@@ -59,16 +59,16 @@ def test_true_no_destination(*_):
 
     new_profile(profile_name, destination)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_not_called()
+    yacfg.output.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
     shutil.copyfile.assert_called_with(expected_source_file,
                                        expected_target_file)
 
 
-@mock.patch('amqcfg.output.select_profile_file',
+@mock.patch('yacfg.output.select_profile_file',
             side_effect=fake_select_profile_file)
 @mock.patch('shutil.copyfile', mock.Mock())
-@mock.patch('amqcfg.output.ensure_output_path',
+@mock.patch('yacfg.output.ensure_output_path',
             side_effect=OSError('[Errno 13] Permission denied: \'path\''))
 def test_destination_problem_exception(*_):
     """Creating new profile true path"""
@@ -79,6 +79,6 @@ def test_destination_problem_exception(*_):
     with pytest.raises(OSError):
         new_profile(profile_name, destination)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_called_with(expected_target_dir)
+    yacfg.output.ensure_output_path.assert_called_with(expected_target_dir)
     # noinspection PyUnresolvedReferences
     shutil.copyfile.assert_not_called()

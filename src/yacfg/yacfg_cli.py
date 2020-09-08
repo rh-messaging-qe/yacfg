@@ -19,7 +19,7 @@ import os
 import sys
 
 from .config_data import RenderOptions
-from .amqcfg import generate
+from .yacfg import generate
 from .cli_arguments import parser, boolize, parse_key_value_list
 from .exceptions import TemplateError, ProfileError, GenerationError
 from .meta import VERSION, NAME

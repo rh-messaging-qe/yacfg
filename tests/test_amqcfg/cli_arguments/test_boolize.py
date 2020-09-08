@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import pytest
-import amqcfg.cli_arguments
+import yacfg.cli_arguments
 
 dataset_boolize = (
     (None, None),
@@ -36,9 +36,9 @@ dataset_boolize = (
 
 @pytest.mark.parametrize('value,result', dataset_boolize)
 def test_boolize_values(value, result):
-    assert amqcfg.cli_arguments.boolize(value) == result
+    assert yacfg.cli_arguments.boolize(value) == result
 
 
 def test_boolize_exception():
     with pytest.raises(ValueError):
-        amqcfg.cli_arguments.boolize('test')
+        yacfg.cli_arguments.boolize('test')

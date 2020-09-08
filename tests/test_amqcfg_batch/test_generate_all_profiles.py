@@ -15,12 +15,12 @@
 import mock
 import pytest
 
-import amqcfg
-from amqcfg_batch.amqcfg_batch import generate_all_profiles, GenerateData
-from amqcfg_batch.exceptions import AmqcfgBatchException
+import yacfg
+from yacfg_batch.yacfg_batch import generate_all_profiles, GenerateData
+from yacfg_batch.exceptions import AmqcfgBatchException
 
 
-@mock.patch('amqcfg.amqcfg.generate', mock.Mock())
+@mock.patch('yacfg.yacfg.generate', mock.Mock())
 def test_no_profile_name(*_):
     input_path = ''
     output_path = ''
@@ -40,7 +40,7 @@ def test_no_profile_name(*_):
         )
 
 
-@mock.patch('amqcfg.amqcfg.generate', mock.Mock())
+@mock.patch('yacfg.yacfg.generate', mock.Mock())
 def test_basic(*_):
     input_path = ''
     output_path = ''
@@ -61,7 +61,7 @@ def test_basic(*_):
     )
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate.assert_called_with(
+    yacfg.yacfg.generate.assert_called_with(
         profile='test',
         template=None,
         output_path=None,
@@ -70,7 +70,7 @@ def test_basic(*_):
     )
 
 
-@mock.patch('amqcfg.amqcfg.generate', mock.Mock())
+@mock.patch('yacfg.yacfg.generate', mock.Mock())
 def test_advanced(*_):
     input_path = ''
     output_path = 'test'
@@ -115,4 +115,4 @@ def test_advanced(*_):
     ]
 
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.generate.assert_has_calls(calls, any_order=True)
+    yacfg.yacfg.generate.assert_has_calls(calls, any_order=True)

@@ -16,12 +16,12 @@ import jinja2
 import mock
 import pytest
 
-import amqcfg.amqcfg
-from amqcfg.amqcfg import generate_outputs
-from amqcfg.exceptions import GenerationError
+import yacfg.yacfg
+from yacfg.yacfg import generate_outputs
+from yacfg.exceptions import GenerationError
 
 
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
 def test_one_true_no_output(*_):
     config_data = {}
     template_list = [
@@ -50,10 +50,10 @@ def test_one_true_no_output(*_):
     env.get_template.assert_called_with('broker.xml.jinja2')
     template.render.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
 
 
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
 def test_one_true_output(*_):
     config_data = {}
     output_file = 'broker.xml'
@@ -84,11 +84,11 @@ def test_one_true_output(*_):
     env.get_template.assert_called_with('broker.xml.jinja2')
     template.render.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_called_with(output_file, output_path,
-                                                  expected_output_data)
+    yacfg.yacfg.write_output.assert_called_with(output_file, output_path,
+                                                expected_output_data)
 
 
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
 def test_one_exception_render(*_):
     config_data = {}
     output_file = 'broker.xml'
@@ -114,10 +114,10 @@ def test_one_exception_render(*_):
     env.get_template.assert_called_with('broker.xml.jinja2')
     template.render.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()
 
 
-@mock.patch('amqcfg.amqcfg.write_output', mock.Mock())
+@mock.patch('yacfg.yacfg.write_output', mock.Mock())
 def test_one_exception_template(*_):
     config_data = {}
     output_file = 'broker.xml'
@@ -140,4 +140,4 @@ def test_one_exception_template(*_):
 
     env.get_template.assert_called_with('broker.xml.jinja2')
     # noinspection PyUnresolvedReferences
-    amqcfg.amqcfg.write_output.assert_not_called()
+    yacfg.yacfg.write_output.assert_not_called()

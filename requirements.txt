@@ -1,4 +1,4 @@
-# amqcfg requirements for easy installation of all development and testing dependencies
+# yacfg requirements for easy installation of all development and testing dependencies
 
 # Runtime Requirements
 pyyaml

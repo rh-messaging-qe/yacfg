@@ -14,8 +14,8 @@
 
 import mock
 
-import amqcfg_batch
-from amqcfg_batch.amqcfg_batch import generate
+import yacfg_batch
+from yacfg_batch.yacfg_batch import generate
 from .fakes import (
     fake_iter_gen_profiles_one,
     fake_iter_gen_profiles_two,
@@ -26,15 +26,15 @@ from .fakes import (
 )
 
 
-@mock.patch('amqcfg_batch.amqcfg_batch.generate_all_profiles', mock.Mock())
-@mock.patch('amqcfg_batch.amqcfg_batch.iter_gen_profiles',
+@mock.patch('yacfg_batch.yacfg_batch.generate_all_profiles', mock.Mock())
+@mock.patch('yacfg_batch.yacfg_batch.iter_gen_profiles',
             fake_iter_gen_profiles_one)
 def test_one(*_):
     input_files = ['a/b.yaml']
     generate(input_files)
 
     # noinspection PyUnresolvedReferences
-    amqcfg_batch.amqcfg_batch.generate_all_profiles.assert_called_with(
+    yacfg_batch.yacfg_batch.generate_all_profiles.assert_called_with(
         'a',
         None,
         fake_default_one,
@@ -43,8 +43,8 @@ def test_one(*_):
     )
 
 
-@mock.patch('amqcfg_batch.amqcfg_batch.generate_all_profiles', mock.Mock())
-@mock.patch('amqcfg_batch.amqcfg_batch.iter_gen_profiles',
+@mock.patch('yacfg_batch.yacfg_batch.generate_all_profiles', mock.Mock())
+@mock.patch('yacfg_batch.yacfg_batch.iter_gen_profiles',
             fake_iter_gen_profiles_two)
 def test_two(*_):
     input_files = ['a/b.yaml']
@@ -60,13 +60,13 @@ def test_two(*_):
     ]
 
     # noinspection PyUnresolvedReferences
-    amqcfg_batch.amqcfg_batch.generate_all_profiles.assert_has_calls(
+    yacfg_batch.yacfg_batch.generate_all_profiles.assert_has_calls(
         calls
     )
 
 
-@mock.patch('amqcfg_batch.amqcfg_batch.generate_all_profiles', mock.Mock())
-@mock.patch('amqcfg_batch.amqcfg_batch.iter_gen_profiles',
+@mock.patch('yacfg_batch.yacfg_batch.generate_all_profiles', mock.Mock())
+@mock.patch('yacfg_batch.yacfg_batch.iter_gen_profiles',
             fake_iter_gen_profiles_two)
 def test_two_files_two(*_):
     input_files = ['a/b.yaml', 'c/d.yaml']
@@ -86,6 +86,6 @@ def test_two_files_two(*_):
     ]
 
     # noinspection PyUnresolvedReferences
-    amqcfg_batch.amqcfg_batch.generate_all_profiles.assert_has_calls(
+    yacfg_batch.yacfg_batch.generate_all_profiles.assert_has_calls(
         calls
     )

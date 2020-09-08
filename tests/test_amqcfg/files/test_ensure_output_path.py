@@ -17,7 +17,7 @@ import os.path
 import pytest
 import mock
 
-from amqcfg.files import ensure_output_path
+from yacfg.files import ensure_output_path
 
 
 @mock.patch('os.path.isdir', side_effect=(False,))

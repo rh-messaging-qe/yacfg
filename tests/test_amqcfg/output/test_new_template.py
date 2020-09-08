@@ -18,12 +18,12 @@ import shutil
 import mock as mock
 import pytest
 
-import amqcfg.output
-from amqcfg.output import new_template
+import yacfg.output
+from yacfg.output import new_template
 from ..files.fakes import fake_templates_path, fake_select_template_dir
 
 
-@mock.patch('amqcfg.output.select_template_dir',
+@mock.patch('yacfg.output.select_template_dir',
             side_effect=fake_select_template_dir)
 @mock.patch('shutil.copytree', mock.Mock())
 def test_true(*_):
@@ -40,7 +40,7 @@ def test_true(*_):
                                        symlinks=False)
 
 
-@mock.patch('amqcfg.output.select_template_dir',
+@mock.patch('yacfg.output.select_template_dir',
             side_effect=fake_select_template_dir)
 @mock.patch('shutil.copytree',
             side_effect=OSError('[Errno 13] Permission denied: \'path\''))
@@ -54,9 +54,9 @@ def test_bad_destination(*_):
     shutil.copytree.assert_called()
 
 
-@mock.patch('amqcfg.output.select_template_dir',
+@mock.patch('yacfg.output.select_template_dir',
             side_effect=fake_select_template_dir)
-@mock.patch('amqcfg.output.ensure_output_path', side_effect=mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', side_effect=mock.Mock())
 def test_no_destination(*_):
     template_name = 'my_template/1.2.3'
     destination = ''
@@ -64,4 +64,4 @@ def test_no_destination(*_):
     with pytest.raises(OSError):
         new_template(template_name, destination)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_not_called()
+    yacfg.output.ensure_output_path.assert_not_called()

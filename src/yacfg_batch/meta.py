@@ -11,5 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import yacfg.meta
 
-from .amqcfg import generate  # noqa: F401
+NAME = 'yacfg-batch'
+VERSION = yacfg.meta.VERSION
+SHORT_DESCRIPTION = 'Template based configuration generator'
+DESCRIPTION = (
+    'Batch configuration generator supporting generation of multiple services'
+    ' from a set of profiles using the template based configuration files'
+    ' generator \'yacfg\' based on jinja2 and yaml mainly focused on Apache'
+    ' ActiveMQ Artemis and related projects'
+)

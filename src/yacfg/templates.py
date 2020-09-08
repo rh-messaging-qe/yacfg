@@ -48,7 +48,7 @@ def get_template_environment(template_name):
         )
     except jinja2.TemplateError:
         LOG.exception('Original Error')
-        # this is amqcfg.exceptions.TemplateError
+        # this is yacfg.exceptions.TemplateError
         raise TemplateError(
             'There was a problem with templating environment.'
         )

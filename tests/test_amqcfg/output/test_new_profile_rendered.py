@@ -17,19 +17,19 @@ import os
 import mock as mock
 import pytest
 
-import amqcfg.output
-from amqcfg.output import new_profile_rendered
-from amqcfg.meta import NAME
+import yacfg.output
+from yacfg.output import new_profile_rendered
+from yacfg.meta import NAME
 from ..profiles.fakes import (
     fake_load_tuned_profile_with_defaults,
     fake_load_tuned_profile_no_defaults,
 )
 
 
-@mock.patch('amqcfg.output.get_tuned_profile',
+@mock.patch('yacfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_with_defaults)
-@mock.patch('amqcfg.output.write_output', mock.Mock())
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.write_output', mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
 def test_true_defaults(*_):
     profile_name = 'product/1.0.0/my_profile.yaml'
     destination_name = 'destination_profile.yaml'
@@ -42,17 +42,17 @@ def test_true_defaults(*_):
 
     new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_called_with(destination_path)
+    yacfg.output.ensure_output_path.assert_called_with(destination_path)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_called_with(destination_name,
-                                                  destination_path,
-                                                  expected_data)
+    yacfg.output.write_output.assert_called_with(destination_name,
+                                                 destination_path,
+                                                 expected_data)
 
 
-@mock.patch('amqcfg.output.get_tuned_profile',
+@mock.patch('yacfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_no_defaults)
-@mock.patch('amqcfg.output.write_output', mock.Mock())
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.write_output', mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
 def test_true_no_defaults(*_):
     profile_name = 'product/1.0.0/my_profile.yaml'
     destination_name = 'destination_profile.yaml'
@@ -65,17 +65,17 @@ def test_true_no_defaults(*_):
 
     new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_called_with(destination_path)
+    yacfg.output.ensure_output_path.assert_called_with(destination_path)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_called_with(destination_name,
-                                                  destination_path,
-                                                  expected_data)
+    yacfg.output.write_output.assert_called_with(destination_name,
+                                                 destination_path,
+                                                 expected_data)
 
 
-@mock.patch('amqcfg.output.get_tuned_profile',
+@mock.patch('yacfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_with_defaults)
-@mock.patch('amqcfg.output.write_output', mock.Mock())
-@mock.patch('amqcfg.output.ensure_output_path', mock.Mock())
+@mock.patch('yacfg.output.write_output', mock.Mock())
+@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
 def test_true_no_destination(*_):
     profile_name = 'product/1.0.0/my_profile.yaml'
     destination = ''
@@ -86,24 +86,24 @@ def test_true_no_destination(*_):
 
     new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_not_called()
+    yacfg.output.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_called_with(destination,
-                                                  destination,
-                                                  expected_data)
+    yacfg.output.write_output.assert_called_with(destination,
+                                                 destination,
+                                                 expected_data)
 
 
-@mock.patch('amqcfg.output.get_tuned_profile',
+@mock.patch('yacfg.output.get_tuned_profile',
             side_effect=fake_load_tuned_profile_with_defaults)
-@mock.patch('amqcfg.output.ensure_output_path',
+@mock.patch('yacfg.output.ensure_output_path',
             side_effect=OSError('[Errno 13] Permission denied: \'path\''))
-@mock.patch('amqcfg.output.write_output', mock.Mock())
+@mock.patch('yacfg.output.write_output', mock.Mock())
 def test_destination_problem_exception(*_):
     profile_name = 'product/1.0.0/my_profile.yaml'
     destination = '/problematic/destination'
     with pytest.raises(OSError):
         new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    amqcfg.output.ensure_output_path.assert_called()
+    yacfg.output.ensure_output_path.assert_called()
     # noinspection PyUnresolvedReferences
-    amqcfg.output.write_output.assert_not_called()
+    yacfg.output.write_output.assert_not_called()

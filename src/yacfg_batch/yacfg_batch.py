@@ -20,7 +20,7 @@ import os
 
 import yaml
 
-import amqcfg.amqcfg
+import yacfg.yacfg
 from .exceptions import AmqcfgBatchException
 
 LOG = logging.getLogger(__name__)
@@ -73,7 +73,7 @@ def iter_gen_profiles(filename):
 
 def generate(input_files, output_path=None):
     """Main batch generation function, get input files, collects data,
-    and uses core amqcfg's generate to do the work.
+    and uses core yacfg's generate to do the work.
 
     :param input_files: list of yaml input files with generation
         specification
@@ -227,7 +227,7 @@ def generate_all_profiles(input_path, output_path, default, common,
             tuning_data = [generate_data.tuning_data]
 
         LOG.debug(
-            'CALL: amqcfg --profile {} --template {} '
+            'CALL: yacfg --profile {} --template {} '
             '--tuning {} --output {} # extra tuning: {} '
             '>> {}'.format(
                 generate_data.profile_name, generate_data.template_name,
@@ -235,7 +235,7 @@ def generate_all_profiles(input_path, output_path, default, common,
                 generate_data.tuning_data, target_path
             ))
 
-        amqcfg.amqcfg.generate(
+        yacfg.yacfg.generate(
             profile=generate_data.profile_name,
             template=generate_data.template_name,
             output_path=target_path,
