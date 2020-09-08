@@ -19,7 +19,7 @@ for contributors:
 ### From git
 
 ```bash
-git clone git@bitbucket.org:msgqe/yacfg.git
+git clone git@github.com:rh-messaging-qe/yacfg.git
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
 ./setup.py install
@@ -262,10 +262,8 @@ the configuration will be generated into
 `[output_path]/brokerA/opt/artemis/etc/`.
 
 ## Documentation
+Formatted documentation can be viewed at [rh-messaging-qe.github.io/yacfg/](https://rh-messaging-qe.github.io/yacfg/).
 
-this readme and docstrings, for now. Sorry about that.
-
-I would like to have [readthedocs.org](http://readthedocs.org) documentation.
 
 ## Contributing
 
@@ -282,7 +280,7 @@ _Alphabetically ordered_
 
 ## License
 
-Copyright 2018 Red Hat Inc.
+Copyright 2018-2020 Red Hat Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
