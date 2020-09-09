@@ -36,8 +36,8 @@ def test_true(*_):
     destination = os.path.join(destination_path, destination_name)
 
     expected_data = fake_profile_defaults_yaml()
-    expected_data = '# {} tuning file generated from profile {}{}{}'.format(
-        NAME, profile_name, os.linesep, expected_data
+    expected_data = '# {} tuning file generated from profile {}{}---{}{}'.format(
+        NAME, profile_name, os.linesep, os.linesep, expected_data
     )
 
     export_tuning_variables(profile_name, destination)

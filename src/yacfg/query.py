@@ -92,7 +92,11 @@ def list_profiles():
         # filter only yaml profiles
         tmp_files = [
             fn
-            for fn in files if fn.endswith('.yaml')
+            for fn in files if (
+                fn.endswith('.yaml')
+                or fn.endswith('.jinja2')
+                or fn.endswith('.j2')
+            )
         ]
         # add relative profile path if it is not profiles root,
         # it would add './' which is undesirable

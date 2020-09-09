@@ -1,0 +1,36 @@
+
+{% import 'artemis/2.14.0/_modules/security/jdk_gssapi/jvm_vendor.yaml.jinja2' as jvm_vendor with context %}
+
+login_config:
+  - name: {{ gssapi_sasl_login_config_scope }}
+    modules:
+    - class_name: "com.{{ jvm_vendor.short_name }}.security.auth.module.Krb5LoginModule"
+      flag: sufficient
+      properties:
+        # Common
+        - principal: {{ gssapi_broker_principal }}
+        - debug: true
+        # IBM / JDK Specific
+        - {{ jvm_vendor.gssapi_is_initiator_key }}: {{ jvm_vendor.gssapi_is_initiator_value }}
+        - {{ jvm_vendor.gssapi_usekeytab_key }}: {{ jvm_vendor.gssapi_usekeytab_value }}
+        # JDK Specific extra
+        {% if jvm_vendor.short_name == 'sun' %}
+        - {{ jvm_vendor.gssapi_keytab_key }}: {{ jvm_vendor.gssapi_keytab_value }}
+        - {{ jvm_vendor.gssapi_storekey_key }}: {{ jvm_vendor.gssapi_storekey_value }}
+        - {{ jvm_vendor.gssapi_useticketcache_key }}: {{ jvm_vendor.gssapi_useticketcache_value }}
+        {% endif %}
+
+  - name: activemq
+    modules:
+    - class_name: org.apache.activemq.artemis.spi.core.security.jaas.Krb5LoginModule
+      flag: optional
+      properties:
+        - debug: true
+
+    - class_name: org.apache.activemq.artemis.spi.core.security.jaas.PropertiesLoginModule
+      flag: sufficient
+      properties:
+      - debug: true
+      - reload: true
+      - org.apache.activemq.jaas.properties.user: "artemis-users.properties"
+      - org.apache.activemq.jaas.properties.role: "artemis-roles.properties"

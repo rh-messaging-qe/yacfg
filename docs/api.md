@@ -22,7 +22,7 @@ import yacfg
 # generating only broker.xml config using default values from profile,
 # no tuning, writing output to a target path
 yacfg.generate(
-    profile='artemis/2.5.0/default.yaml',
+    profile='artemis/2.5.0/default.yaml.jinja2',
     output_filter=['broker.xml'],
     output_path='/opt/artemis-2.5.0-i0/etc/',
 )
@@ -30,7 +30,7 @@ yacfg.generate(
 # using both files and direct values, and writing generated configs to
 # a target directory
 yacfg.generate(
-    profile='artemis/2.5.0/default.yaml',
+    profile='artemis/2.5.0/default.yaml.jinja2',
     tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',
@@ -46,7 +46,7 @@ yacfg.generate(
 
 # just get generated data for further processing, using just tuning files
 data = yacfg.generate(
-    profile='artemis/2.5.0/default.yaml',
+    profile='artemis/2.5.0/default.yaml.jinja2',
     tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',

@@ -35,7 +35,7 @@ def test_true(*_):
     yacfg.output.open.assert_called_with(file_pathname, 'w')
     # noinspection PyUnresolvedReferences
     fh = yacfg.output.open.return_value.__enter__.return_value
-    fh.write.assert_has_calls([mock.call(data), mock.call(os.linesep)])
+    fh.write.assert_has_calls([mock.call(data)])
 
 
 @mock.patch('yacfg.output.open', side_effect=IOError)
