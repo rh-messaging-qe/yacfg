@@ -1,0 +1,42 @@
+{% from '_libs/utils.jinja2' import mbool without context %}
+  address_settings:
+{% if user_address_settings is defined %}
+  {% for address_setting in user_address_settings %}
+
+  - match: '{{ address_setting.match }}'
+  {% if address_setting.dead_letter_address is defined %}
+    dead_letter_address: {{ address_setting.dead_letter_address }}
+  {% endif %}
+  {% if address_setting.expiry_address is defined %}
+    expiry_address: {{ address_setting.expiry_address }}
+  {% endif %}
+  {% if address_setting.redelivery_delay is defined %}
+    redelivery_delay: {{ address_setting.redelivery_delay }}
+  {% endif %}
+  {% if address_setting.redistribution_delay is defined %}
+    redistribution_delay: {{ address_setting.redistribution_delay }}
+  {% endif %}
+  {% if address_setting.max_size_bytes is defined %}
+    max_size_bytes: {{ address_setting.max_size_bytes }}
+  {% endif %}
+  {% if address_setting.message_counter_history_day_limit is defined %}
+    message_counter_history_day_limit: {{ address_setting.message_counter_history_day_limit }}
+  {% endif %}
+  {% if address_setting.address_full_policy is defined %}
+    address_full_policy: {{ address_setting.address_full_policy }}
+  {% endif %}
+  {% if address_setting.auto_create_queues is defined %}
+    auto_create_queues: {{ mbool(address_setting.auto_create_queues) }}
+  {% endif %}
+  {% if address_setting.auto_create_addresses  is defined %}
+    auto_create_addresses: {{ mbool(address_setting.auto_create_addresses) }}
+  {% endif %}
+  {% if address_setting.auto_create_jms_queues is defined %}
+    auto_create_jms_queues: {{ mbool(address_setting.auto_create_jms_queues) }}
+  {% endif %}
+  {% if address_setting.quto_create_jms_topics is defined %}
+    auto_create_jms_topics: {{ mbool(address_setting.auto_create_jms_topics) }}
+  {% endif %}
+
+  {% endfor %}
+{% endif %}

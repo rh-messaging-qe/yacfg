@@ -1,0 +1,47 @@
+{# Render value only if it is defined #}
+{% macro reformat(pattern, data) %}
+    {% if data is defined %}
+        {{- pattern|format(data) -}}
+    {% endif %}
+{% endmacro %}
+
+{# Convert a bool value to a lowercase representation,
+    other types passed without change
+#}
+{% macro mbool(input) -%}
+    {%- if input is sameas true -%}
+        true
+    {%- elif input is sameas false -%}
+        false
+    {%- else -%}
+        {{ input }}
+    {%- endif -%}
+{%- endmacro %}
+
+{# Same as mbool (convert bool value to lowercase representation),
+    but other values are double quoted "value".
+#}
+{% macro mbool_double_quote(input) -%}
+    {%- if input is sameas true -%}
+        true
+    {%- elif input is sameas false -%}
+        false
+    {%- else -%}
+        "{{ input }}"
+    {%- endif -%}
+{%- endmacro %}
+
+{# URL creator helper
+  accepts protocol address and port
+#}
+{%- macro url(protocol, address, port) -%}
+    {%- if protocol is defined -%}
+        {{- protocol }}://
+    {%- endif -%}
+    {%- if address is defined -%}
+        {{- address }}
+    {%- endif -%}
+    {%- if port is defined -%}
+        :{{- port }}
+    {%- endif -%}
+{%- endmacro -%}
