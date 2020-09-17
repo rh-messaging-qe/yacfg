@@ -35,8 +35,14 @@ jobs:
         run: |
           sed -i "s/VERSION =.*/VERSION = 'PR-$GITHUB_SHA::8'/g" ./src/yacfg/meta.py
           python setup.py sdist bdist_wheel
-      - name: "Upload artifacts"
+      - name: "Upload dist artifacts"
         uses: actions/upload-artifact@v2
         with:
           name: package-dist
           path: dist/
+
+      - name: "Upload docs artifacts"
+        uses: actions/upload-artifact@v2
+        with:
+          name: docs_html
+          path: docs/_build/html
