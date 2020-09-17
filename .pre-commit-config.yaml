@@ -30,3 +30,9 @@ repos:
     language: python
     additional_dependencies: [tox]
     pass_filenames: false
+  - id: profiles
+    name: profiles
+    entry: bash profile_test.sh
+    files: ^(.*profiles.*yaml(.jinja2)?)$
+    language: system
+    pass_filenames: true
