@@ -35,7 +35,7 @@ jobs:
       - name: "Build package"
         id: build
         run: |
-          sed -i "s/VERSION =.*/VERSION = '${GITHUB_REF##*/}-$GITHUB_SHA'/g" ./src/yacfg/meta.py
+          sed -i "s/VERSION =.*/VERSION = 'master-$GITHUB_SHA::8'/g" ./src/yacfg/meta.py
           python setup.py sdist bdist_wheel
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v2
