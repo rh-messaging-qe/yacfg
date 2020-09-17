@@ -1,0 +1,20 @@
+---
+name: "Published package installation"
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  install:
+    name: "Verify that package can be installed"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.8"
+      - name: "Install yacfg from PiPy repository"
+        run: "pip install yacfg"
+      - name: "Run help"
+        run: "yacfg --help"
