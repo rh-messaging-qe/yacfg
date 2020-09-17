@@ -1,4 +1,5 @@
-name: deploy-docs
+---
+name: "Deploy docs"
 
 # Only run this when the master branch changes
 on:
@@ -8,29 +9,29 @@ on:
 
 # This job installs dependencies, build the docs, and pushes it to `gh-pages`
 jobs:
-  deploy-book:
+  deploy-docs:
     runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v2
 
       # Install dependencies
-      - name: Set up Python 3.7
+      - name: "Set up Python 3.7"
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
 
-      - name: Install dependencies
+      - name: "Install dependencies"
         run: |
           pip install -r requirements.txt jupyter-book>=0.7.0b
 
-      # Build the book
-      - name: Build the docs
+      # Build the docs
+      - name: "Build the docs"
         run: |
           PYTHONPATH=`pwd` jupyter-book build docs
 
       # Push the docs' HTML to github-pages
-      - name: GitHub Pages action
+      - name: "GitHub Pages action"
         uses: peaceiris/actions-gh-pages@v3.5.9
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
