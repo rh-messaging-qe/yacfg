@@ -16,6 +16,9 @@ yamllint
 # Committing Requirements
 pre-commit
 
+# Docs Requirements
+jupyter-book
+
 # Optionals
 colorlog
 colorama
