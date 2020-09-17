@@ -6,7 +6,7 @@ on:
     types: [published]
 
 jobs:
-  install:
+  released-install:
     name: "Verify that package can be installed"
     runs-on: "ubuntu-latest"
     steps:
