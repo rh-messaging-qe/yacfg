@@ -6,12 +6,14 @@ jinja2
 
 # Testing Requirements
 pytest
+pytest-cov
 flake8
 mypy
 mock
 tox
 coverage
 yamllint
+check-manifest
 
 # Committing Requirements
 pre-commit
