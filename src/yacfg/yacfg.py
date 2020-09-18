@@ -30,8 +30,8 @@ from .query import filter_template_list, get_main_template_list
 from .templates import get_template_environment
 
 # workaround for flake8: F401 'jinja2.Template' imported but unused
-_ = Template
-_ = Environment
+_t = Template
+_e = Environment
 
 LOG = logging.getLogger(__name__)
 

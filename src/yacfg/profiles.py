@@ -40,7 +40,7 @@ def load_tuning_files(tuning_files=None):
     if tuning_files:
         for tuning_file in tuning_files:
             try:
-                tuning_values_list.append(yaml.load(open(tuning_file, 'r')))
+                tuning_values_list.append(yaml.load(stream=open(tuning_file, 'r'), Loader=yaml.SafeLoader))
             except IOError as exc:
                 raise ProfileError(
                     'Unable to open tuning file "{}" {}'.format(
@@ -49,7 +49,7 @@ def load_tuning_files(tuning_files=None):
                 )
             except yaml.YAMLError as exc:
                 raise ProfileError(
-                    'Unable to parse YAML tuning file "%s" %s'.format(
+                    'Unable to parse YAML tuning file "{}" {}'.format(
                         tuning_files, exc
                     )
                 )

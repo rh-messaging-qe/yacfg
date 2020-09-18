@@ -8,7 +8,7 @@ Furthermore, it is possible to use its API in your python code.
 
 ## Documentation
 
-Formatted documentation can be viewed at [rh-messaging-qe.github.io/YamlConfiger/index.html](https://rh-messaging-qe.github.io/YamlConfiger/index.html).
+Formatted documentation can be viewed at [rh-messaging-qe.github.io/yacfg/index.html](https://rh-messaging-qe.github.io/yacfg/index.html).
 
 ## Contributing
 
@@ -21,7 +21,7 @@ _Alphabetically ordered_
 * Dominik Lenoch <dlenoch@redhat.com>
 * Zdenek Kraus <zkraus@redhat.com>
 
-See GitHub statistics for an [up-to-date list of contributors](https://github.com/rh-messaging-qe/YamlConfiger/graphs/contributors).
+See GitHub statistics for an [up-to-date list of contributors](https://github.com/rh-messaging-qe/yacfg/graphs/contributors).
 
 ## License
 

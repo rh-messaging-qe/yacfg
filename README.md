@@ -1,6 +1,6 @@
 # yacfg - YAML Configurator
 
-This tool can generate_via_tuning_files a set of configuration files mainly needed for
+This tool can generate a set of configuration files mainly needed for
 AMQ Broker, but it is not limited to only generating files for one product.
 
 It has a user facing Command Line Tool for quick and easy command line usage.
@@ -44,7 +44,7 @@ yacfg --list-profiles
 yacfg --list-templates
 
 # perform a generation of a default profile
-yacfg --profile artemis/2.5.0/default.yaml
+yacfg --profile artemis/2.5.0/default.yaml.jinja2
 # also save result to [OUTDIR] directory
 yacfg --profile [PROFILE] --output [OUTDIR]
 ```
@@ -84,13 +84,23 @@ variables and modify that as you like.
 
 
 ```bash
-# export profile with dynamic includes
-yacfg --profile [PROFILE] --new-profile my_new_profile.yaml
-# export completely generated profile
+# export profile with dynamic includes still active jinja2 files
+yacfg --profile [PROFILE] --new-profile my_new_profile.yaml.jinja2
+# export completely generated profile without any jinja2 fields, plain yaml
 yacfg --profile [PROFILE] --new-profile-static my_new_profile.yaml
 vim my_new_profile.yaml
 yacfg --profile my_new_profile.yaml
 ```
+
+Profile is just another jinja2 file that enables customization of profile data
+ -- that is tuning. Becuase of that we recommend to keep the extension `.yaml.jinja2`
+ unless it is static profile withou any jinja2 capabilities, in that case it could
+ be named `.yaml`. That way we can run yaml lint against static profiles and verify
+ that they are correct.
+ 
+ All profiles have to be used to generate files without any tuning. That means,
+ if they are tune-able, they have to contain all default values in `_defaults` section.
+ That section is also used for tuning, so any variable in there will be exported as tuning.
 
 ## Custom templates
 
@@ -135,7 +145,7 @@ import yacfg
 # generating only broker.xml config using default values from profile,
 # no tuning, writing output to a target path
 yacfg.generate(
-    profile='artemis/2.5.0/default.yaml',
+    profile='artemis/2.5.0/default.yaml.jinja2',
     output_filter=['broker.xml'],
     output_path='/opt/artemis-2.5.0-i0/etc/',
 )
@@ -143,7 +153,7 @@ yacfg.generate(
 # using both files and direct values, and writing generated configs to
 # a target directory
 yacfg.generate(
-    profile='artemis/2.5.0/default.yaml',
+    profile='artemis/2.5.0/default.yaml.jinja2',
     tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',
@@ -159,7 +169,7 @@ yacfg.generate(
 
 # just get generated data for further processing, using just tuning files
 data = yacfg.generate(
-    profile='artemis/2.5.0/default.yaml',
+    profile='artemis/2.5.0/default.yaml.jinja2',
     tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',
@@ -206,7 +216,7 @@ Example:
 ```yaml
 
 _default:
-    profile: artemis/2.5.0/default.yaml
+    profile: artemis/2.5.0/default.yaml.jinja2
     tuning_files:
       - defaults/broker_default.yaml
 
@@ -221,14 +231,14 @@ brokerA/opt/artemis/etc:
     pass: true
 
 brokerB/opt/artemis/etc:
-    profile: artemis/2.5.0/AIOBasic.yaml
+    profile: artemis/2.5.0/AIOBasic.yaml.jinja2
     tuning_files:
       - brokerB/queues.yaml
 
 ---
 
 _default:
-    profile: amq_broker/7.2.0/default.yaml
+    profile: amq_broker/7.2.0/default.yaml.jinja2
     tuning_files:
       - defaults/amq_broker_default.yaml
 

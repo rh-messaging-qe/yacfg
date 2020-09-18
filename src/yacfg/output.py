@@ -26,6 +26,32 @@ from .profiles import load_profile_defaults, get_tuned_profile
 LOG = logging.getLogger(__name__)
 
 
+# pyyaml workaround
+# https://stackoverflow.com/questions/25108581/python-yaml-dump-bad-indentation
+# https://github.com/yaml/pyyaml/issues/234
+class MyDumper(yaml.SafeDumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super(MyDumper, self).increase_indent(flow, False)
+
+
+def yaml_dump_wrapper(data):
+    """YAML dump unified call wrapper
+
+    :param data: data passed to yaml.dump
+    :type data: dict
+    :return: dumped yaml
+    :rtype: str
+    """
+    return yaml.dump(
+        data=data,
+        Dumper=MyDumper,
+        default_flow_style=False,
+        explicit_start=True,
+        explicit_end=False,
+        width=140,
+    )
+
+
 def new_profile(profile, dest_profile):
     """Export an existing profile
 
@@ -74,7 +100,8 @@ def new_profile_rendered(profile, dest_profile, tuning_files=None,
     if '_defaults' in config_data:
         del config_data['_defaults']
 
-    export_data = yaml.dump(config_data, default_flow_style=False)
+    export_data = yaml_dump_wrapper(config_data)
+
     export_data = '# {} tuning file generated from profile {}{}{}'.format(
         NAME, profile, os.linesep, export_data
     )
@@ -121,7 +148,9 @@ def export_tuning_variables(profile_name, dest_file):
     if dest_path:
         ensure_output_path(dest_path)  # raises: OSError
 
-    export_data = yaml.dump(defaults_data, default_flow_style=False)
+    # export_data = yaml.dump_all([defaults_data], default_flow_style=False)
+    export_data = yaml_dump_wrapper(defaults_data)
+
     LOG.debug('Exported tuning data:\n%s', export_data)
     export_data = '# {} tuning file generated from profile {}{}{}'.format(
         NAME, profile_name, os.linesep, export_data
@@ -143,5 +172,5 @@ def write_output(filename, output_path, data):
     filepath = os.path.join(output_path, filename)
     with open(filepath, 'w') as fh:
         fh.write(data)
-        fh.write(os.linesep)
+        # fh.write(os.linesep)
     LOG.debug('File writen "%s"', filepath)

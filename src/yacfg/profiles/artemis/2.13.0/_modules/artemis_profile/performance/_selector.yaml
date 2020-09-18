@@ -1,7 +1,0 @@
-{% if profile == 'default' %}
-  {% include 'artemis/2.13.0/_modules/artemis_profile/default.yaml' %}
-{% elif profile == 'baseline' %}
-  {% include 'artemis/2.13.0/_modules/artemis_profile/performance_baseline.yaml' %}
-{% elif profile == 'params' %}
-  {% include 'artemis/2.13.0/_modules/artemis_profile/performance_params.yaml' %}
-{% endif %}

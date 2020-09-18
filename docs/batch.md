@@ -35,7 +35,7 @@ Example:
 ```yaml
 
 _default:
-    profile: artemis/2.5.0/default.yaml
+    profile: artemis/2.5.0/default.yaml.jinja2
     tuning_files:
       - defaults/broker_default.yaml
 
@@ -50,14 +50,14 @@ brokerA/opt/artemis/etc:
     pass: true
 
 brokerB/opt/artemis/etc:
-    profile: artemis/2.5.0/AIOBasic.yaml
+    profile: artemis/2.5.0/AIOBasic.yaml.jinja2
     tuning_files:
       - brokerB/queues.yaml
 
 ---
 
 _default:
-    profile: amq_broker/7.2.0/default.yaml
+    profile: amq_broker/7.2.0/default.yaml.jinja2
     tuning_files:
       - defaults/amq_broker_default.yaml
 
