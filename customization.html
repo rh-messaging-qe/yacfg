@@ -91,11 +91,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="#custom-profiles">
-     Custom profiles
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="#custom-templates">
      Custom templates
     </a>
@@ -205,6 +200,11 @@
    Profile tuning
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#custom-profiles">
+   Custom profiles
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -236,21 +236,29 @@ yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --tune m
 </pre></div>
 </div>
 </div>
-</div>
 <div class="section" id="custom-profiles">
-<h1>Custom profiles<a class="headerlink" href="#custom-profiles" title="Permalink to this headline">¶</a></h1>
+<h2>Custom profiles<a class="headerlink" href="#custom-profiles" title="Permalink to this headline">¶</a></h2>
 <p>Write your own, or simply export an existing profile and modify that.</p>
 <p>You can export dynamic version with includes of some modules, that would still
 work. Either you can use imports from package, or your own local files.</p>
 <p>Or you can export completely rendered profile file without any includes or
 variables and modify that as you like.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># export profile with dynamic includes</span>
-yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile my_new_profile.yaml
-<span class="c1"># export completely generated profile</span>
-yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile-static my_new_profile.yaml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># export profile with dynamic includes still active jinja2 files</span>
+yacfg --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile my_new_profile.yaml.jinja2
+<span class="c1"># export completely generated profile without any jinja2 fields, plain yaml</span>
+yacfg --profile <span class="o">[</span>PROFILE<span class="o">]</span> --new-profile-static my_new_profile.yaml
 vim my_new_profile.yaml
-yacgf --profile my_new_profile.yaml
+yacfg --profile my_new_profile.yaml
 </pre></div>
+</div>
+<p>Profile is just another jinja2 file that enables customization of profile data
+– that is tuning. Becuase of that we recommend to keep the extension <code class="docutils literal notranslate"><span class="pre">.yaml.jinja2</span></code>
+unless it is static profile withou any jinja2 capabilities, in that case it could
+be named <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>. That way we can run yaml lint against static profiles and verify
+that they are correct.</p>
+<p>All profiles have to be used to generate files without any tuning. That means,
+if they are tune-able, they have to contain all default values in <code class="docutils literal notranslate"><span class="pre">_defaults</span></code> section.
+That section is also used for tuning, so any variable in there will be exported as tuning.</p>
 </div>
 </div>
 <div class="section" id="custom-templates">

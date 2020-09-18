@@ -91,11 +91,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="customization.html#custom-profiles">
-     Custom profiles
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="customization.html#custom-templates">
      Custom templates
     </a>
@@ -217,10 +212,13 @@
                 
   <div class="section" id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<p>Configuration for YamlConfiger is specified in a <em>template</em>.
+<p>Configuration templates are specified in a <em>template</em>.
 This is a directory containing files using the Jinja 2 template syntax.</p>
 <p>To generate a configuration, specify a <em>profile</em> containing values substituted into the template.
-The profile is represented as a directory containing YAML files.</p>
+The profile is represented as a directory containing Jinja 2 or YAML files.
+Profiles are in fact data templates to enable easy cutomization for the user, and because of
+that profiles are jinja2 as well. They can be YAML if they are static.
+But in the end they become YAML files and are used as data source for templates.</p>
 <div class="section" id="user-cli-guide">
 <h2>User (CLI) guide<a class="headerlink" href="#user-cli-guide" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yacgf --help
@@ -229,7 +227,7 @@ yacgf --list-profiles
 yacgf --list-templates
 
 <span class="c1"># perform a generation of a default profile</span>
-yacgf --profile artemis/2.5.0/default.yaml
+yacgf --profile artemis/2.5.0/default.yaml.jinja2
 <span class="c1"># also save result to [OUTDIR] directory</span>
 yacgf --profile <span class="o">[</span>PROFILE<span class="o">]</span> --output <span class="o">[</span>OUTDIR<span class="o">]</span>
 </pre></div>

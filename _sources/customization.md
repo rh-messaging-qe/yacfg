@@ -21,7 +21,7 @@ yacgf --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
        --tune logging_debug.yaml --output [OUTDIR]
 ```
 
-# Custom profiles
+## Custom profiles
 
 Write your own, or simply export an existing profile and modify that.
 
@@ -33,13 +33,23 @@ variables and modify that as you like.
 
 
 ```bash
-# export profile with dynamic includes
-yacgf --profile [PROFILE] --new-profile my_new_profile.yaml
-# export completely generated profile
-yacgf --profile [PROFILE] --new-profile-static my_new_profile.yaml
+# export profile with dynamic includes still active jinja2 files
+yacfg --profile [PROFILE] --new-profile my_new_profile.yaml.jinja2
+# export completely generated profile without any jinja2 fields, plain yaml
+yacfg --profile [PROFILE] --new-profile-static my_new_profile.yaml
 vim my_new_profile.yaml
-yacgf --profile my_new_profile.yaml
+yacfg --profile my_new_profile.yaml
 ```
+
+Profile is just another jinja2 file that enables customization of profile data
+ -- that is tuning. Becuase of that we recommend to keep the extension `.yaml.jinja2`
+ unless it is static profile withou any jinja2 capabilities, in that case it could
+ be named `.yaml`. That way we can run yaml lint against static profiles and verify
+ that they are correct.
+ 
+ All profiles have to be used to generate files without any tuning. That means,
+ if they are tune-able, they have to contain all default values in `_defaults` section.
+ That section is also used for tuning, so any variable in there will be exported as tuning.
 
 # Custom templates
 

@@ -213,7 +213,7 @@ as the directly provided data.</p>
 <span class="c1"># generating only broker.xml config using default values from profile,</span>
 <span class="c1"># no tuning, writing output to a target path</span>
 <span class="n">yacfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-    <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml&#39;</span><span class="p">,</span>
+    <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml.jinja2&#39;</span><span class="p">,</span>
     <span class="n">output_filter</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;broker.xml&#39;</span><span class="p">],</span>
     <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;/opt/artemis-2.5.0-i0/etc/&#39;</span><span class="p">,</span>
 <span class="p">)</span>
@@ -221,7 +221,7 @@ as the directly provided data.</p>
 <span class="c1"># using both files and direct values, and writing generated configs to</span>
 <span class="c1"># a target directory</span>
 <span class="n">yacfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-    <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml&#39;</span><span class="p">,</span>
+    <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml.jinja2&#39;</span><span class="p">,</span>
     <span class="n">tuning_files_list</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;my_values.yaml&#39;</span><span class="p">,</span>
         <span class="s1">&#39;machine_specific.yaml&#39;</span><span class="p">,</span>
@@ -237,7 +237,7 @@ as the directly provided data.</p>
 
 <span class="c1"># just get generated data for further processing, using just tuning files</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">yacfg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-    <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml&#39;</span><span class="p">,</span>
+    <span class="n">profile</span><span class="o">=</span><span class="s1">&#39;artemis/2.5.0/default.yaml.jinja2&#39;</span><span class="p">,</span>
     <span class="n">tuning_files_list</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;my_values.yaml&#39;</span><span class="p">,</span>
         <span class="s1">&#39;machine_specific.yaml&#39;</span><span class="p">,</span>

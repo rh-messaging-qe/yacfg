@@ -91,11 +91,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="customization.html#custom-profiles">
-     Custom profiles
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="customization.html#custom-templates">
      Custom templates
     </a>
@@ -251,7 +246,7 @@ dict.update() and it will work only on first level, so it is recommended
 to use flat values for tuning only.</p>
 <p>Example:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">_default</span><span class="p">:</span>
-    <span class="nt">profile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">artemis/2.5.0/default.yaml</span>
+    <span class="nt">profile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">artemis/2.5.0/default.yaml.jinja2</span>
     <span class="nt">tuning_files</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">defaults/broker_default.yaml</span>
 
@@ -266,14 +261,14 @@ to use flat values for tuning only.</p>
     <span class="nt">pass</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 
 <span class="nt">brokerB/opt/artemis/etc</span><span class="p">:</span>
-    <span class="nt">profile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">artemis/2.5.0/AIOBasic.yaml</span>
+    <span class="nt">profile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">artemis/2.5.0/AIOBasic.yaml.jinja2</span>
     <span class="nt">tuning_files</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">brokerB/queues.yaml</span>
 
 <span class="nn">---</span>
 
 <span class="nt">_default</span><span class="p">:</span>
-    <span class="nt">profile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">amq_broker/7.2.0/default.yaml</span>
+    <span class="nt">profile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">amq_broker/7.2.0/default.yaml.jinja2</span>
     <span class="nt">tuning_files</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">defaults/amq_broker_default.yaml</span>
 
