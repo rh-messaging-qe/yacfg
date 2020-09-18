@@ -15,12 +15,19 @@
 # limitations under the License.
 
 from setuptools import setup, find_packages
+from os import path
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 
 # Version reading from yacfg/meta.py
 # according to (3b) from:
 # https://packaging.python.org/guides/single-sourcing-package-version/
 meta = {}
-with open('src/yacfg/meta.py', 'r') as meta_file:
+meta_file = path.join(this_directory, 'src/yacfg/meta.py')
+with open(meta_file, encoding='utf-8') as meta_file:
     exec(meta_file.read(), meta)
 
 setup(
@@ -52,10 +59,11 @@ setup(
     license='Apache-2.0',
     author='Zdenek Kraus',
     author_email='zkraus@redhat.com',
-    maintainer="Dominik Lenoch",
-    maintainer_email="dlenoch@redhat.com",
+    maintainer='Dominik Lenoch',
+    maintainer_email='dlenoch@redhat.com',
     description=meta.get('SHORT_DESCRIPTION'),
-    long_description=meta.get('DESCRIPTION'),
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     include_package_data=True,
     # package_data={'yacfg': ['src/yacfg/profiles/*/*', 'src/yacfg/templates/*/*'']},
     classifiers=[

@@ -47,12 +47,12 @@ login_config:
         - reload: true
         - org.apache.activemq.jaas.properties.user: "artemis-users.properties"
         - org.apache.activemq.jaas.properties.role: "artemis-roles.properties"
-        
+
     - class_name: org.apache.activemq.artemis.spi.core.security.jaas.Krb5LoginModule
       flag: required
       properties:
         - debug: true
-          
+
     - class_name: org.apache.activemq.artemis.spi.core.security.jaas.LDAPLoginModule
       flag: optional
       properties:

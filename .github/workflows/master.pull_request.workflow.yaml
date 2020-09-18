@@ -2,10 +2,9 @@
 name: "Master branch verification"
 
 on:
-  push:
+  pull_request:
     branches:
       - master
-  workflow_dispatch:
 
 jobs:
   tests:
@@ -13,7 +12,6 @@ jobs:
     runs-on: "ubuntu-latest"
     env:
       USING_COVERAGE: '3.6,3.8'
-      TESTPYPI_PUBLISH: '3.8'
 
     strategy:
       matrix:
@@ -33,21 +31,9 @@ jobs:
           python -m pip install --upgrade coverage[toml] virtualenv tox tox-gh-actions
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: tox
-      - name: "Get coverage"
-        run: |
-          set -xe
-          coverage combine
-          coverage xml
-        if: "contains(env.USING_COVERAGE, matrix.python-version)"
-      - name: "Upload coverage to Codecov"
-        if: "contains(env.USING_COVERAGE, matrix.python-version)"
-        uses: "codecov/codecov-action@v1"
-        with:
-          fail_ci_if_error: true
       - name: "Build package"
-        id: build
         run: |
-          sed -i "s/VERSION =.*/VERSION = 'master-$GITHUB_SHA::8'/g" ./src/yacfg/meta.py
+          sed -i "s/VERSION =.*/VERSION = 'PR-$GITHUB_SHA::8'/g" ./src/yacfg/meta.py
           python setup.py sdist bdist_wheel
       - name: "Upload dist artifacts"
         if: always()
@@ -55,17 +41,10 @@ jobs:
         with:
           name: package-dist
           path: dist/
+
       - name: "Upload docs artifacts"
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: docs_html
           path: docs/_build/html
-      - name: "Publish package to TestPyPI"
-        if: "contains(env.TESTPYPI_PUBLISH, matrix.python-version)"
-        uses: pypa/gh-action-pypi-publish@v1.3.1
-        with:
-          skip_existing: true
-          user: __token__
-          password: ${{ secrets.TESTPYPI_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/

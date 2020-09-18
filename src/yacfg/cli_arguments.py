@@ -18,7 +18,7 @@ import re
 from .meta import NAME, VERSION, DESCRIPTION
 
 parser = argparse.ArgumentParser(
-    prog='%s %s' % (NAME, VERSION),
+    prog='{} {}'.format(NAME, VERSION),
     description=DESCRIPTION,
     epilog='The Cake is a lie.',
 )

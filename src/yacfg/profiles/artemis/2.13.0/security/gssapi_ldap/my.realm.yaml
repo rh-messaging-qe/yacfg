@@ -1,7 +1,7 @@
 ---
 
 _defaults:
-  broker_name: artemis 
+  broker_name: artemis
   broker_home: /opt/artemis-2.13.0
   broker_instance: /opt/artemis-2.13.0-i0
   gssapi_broker_keytab_path: /path/to/my_keytabs/mybroker.keytab

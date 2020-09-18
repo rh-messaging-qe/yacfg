@@ -36,7 +36,7 @@ def test_true_defaults(*_):
     destination_path = '/profile/destination/path'
     destination = os.path.join(destination_path, destination_name)
     _, expected_data = fake_load_tuned_profile_no_defaults()
-    expected_data = '# %s tuning file generated from profile %s%s%s' % (
+    expected_data = '# {} tuning file generated from profile {}{}{}'.format(
         NAME, profile_name, os.linesep, expected_data
     )
 
@@ -59,7 +59,7 @@ def test_true_no_defaults(*_):
     destination_path = '/profile/destination/path'
     destination = os.path.join(destination_path, destination_name)
     _, expected_data = fake_load_tuned_profile_no_defaults()
-    expected_data = '# %s tuning file generated from profile %s%s%s' % (
+    expected_data = '# {} tuning file generated from profile {}{}{}'.format(
         NAME, profile_name, os.linesep, expected_data
     )
 
@@ -80,7 +80,7 @@ def test_true_no_destination(*_):
     profile_name = 'product/1.0.0/my_profile.yaml'
     destination = ''
     _, expected_data = fake_load_tuned_profile_no_defaults()
-    expected_data = '# %s tuning file generated from profile %s%s%s' % (
+    expected_data = '# {} tuning file generated from profile {}{}{}'.format(
         NAME, profile_name, os.linesep, expected_data
     )
 
