@@ -75,7 +75,7 @@ def new_profile_rendered(profile, dest_profile, tuning_files=None,
         del config_data['_defaults']
 
     export_data = yaml.dump(config_data, default_flow_style=False)
-    export_data = '# %s tuning file generated from profile %s%s%s' % (
+    export_data = '# {} tuning file generated from profile {}{}{}'.format(
         NAME, profile, os.linesep, export_data
     )
     write_output(dest_name, dest_path, export_data)
@@ -123,7 +123,7 @@ def export_tuning_variables(profile_name, dest_file):
 
     export_data = yaml.dump(defaults_data, default_flow_style=False)
     LOG.debug('Exported tuning data:\n%s', export_data)
-    export_data = '# %s tuning file generated from profile %s%s%s' % (
+    export_data = '# {} tuning file generated from profile {}{}{}'.format(
         NAME, profile_name, os.linesep, export_data
     )
     write_output(dest_name, dest_path, export_data)

@@ -8,7 +8,7 @@ _defaults:
   ssl_keystore_path: amqKeyStore.jks
   ssl_keystore_password: amqKeyStorePassword
   ssl_truststore_path: amqTrustStore.jks
-  ssl_truststore_password: amqKeyStorePassword  
+  ssl_truststore_password: amqKeyStorePassword
 
 render:
   generator_notice: True
