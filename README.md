@@ -302,3 +302,5 @@ limitations under the License.
 * [pyyaml](https://github.com/yaml/pyyaml) -- python YAML parser
 * [jq](https://stedolan.github.io/jq/) -- great tool for working with structured data (JSON)
 * [yq](https://yq.readthedocs.io/en/latest/) -- YAML variant of jq
+* [github templates examples](https://github.com/stevemao/github-issue-templates/tree/master/simple) -- Nice set of ISSUE_TEMPLATE.md and PULL_REQUESTS_TEMPLATE.md examples
+* [contributing example](https://gist.github.com/PurpleBooth/b24679402957c63ec426) -- example/template of CONTRIBUTING.md and CODE_OF_CONDUCT.md
