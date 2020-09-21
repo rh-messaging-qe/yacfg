@@ -303,4 +303,5 @@ limitations under the License.
 * [jq](https://stedolan.github.io/jq/) -- great tool for working with structured data (JSON)
 * [yq](https://yq.readthedocs.io/en/latest/) -- YAML variant of jq
 * [github templates examples](https://github.com/stevemao/github-issue-templates/tree/master/simple) -- Nice set of ISSUE_TEMPLATE.md and PULL_REQUESTS_TEMPLATE.md examples
-* [contributing example](https://gist.github.com/PurpleBooth/b24679402957c63ec426) -- example/template of CONTRIBUTING.md and CODE_OF_CONDUCT.md
+* [contributing example](https://gist.github.com/PurpleBooth/b24679402957c63ec426) -- example/template of CONTRIBUTING.md
+* [Fedora Project code-of-conduct](https://docs.fedoraproject.org/en-US/project/code-of-conduct/) -- the inspiration for CODE_OF_CONDUCT.md
