@@ -1,0 +1,7 @@
+{% if security.match is defined %}
+            <security-setting match="{{ security.match }}">
+                {% for type, roles in security.permissions.items() %}
+                <permission type="{{ type }}" roles="{{ roles|join(',') }}"/>
+                {% endfor %}
+            </security-setting>
+{% endif %}

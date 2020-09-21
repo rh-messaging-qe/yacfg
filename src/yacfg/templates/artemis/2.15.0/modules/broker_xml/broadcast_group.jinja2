@@ -1,0 +1,28 @@
+{% if broker_xml.broadcast_groups is defined %}
+    <!-- Broadcast groups configuration -->
+        <broadcast-groups>
+        {% for group in broker_xml.broadcast_groups %}
+            <broadcast-group name="{{ group.name }}">
+                {% if group.address is defined %}
+                <group-address>{{ group.address }}</group-address>
+                {% endif %}
+                {% if group.port is defined%}
+                <group-port>{{ group.port }}</group-port>
+                {% endif %}
+                {% if group.broadcast_period is defined%}
+                <broadcast-period>{{ group.broadcast_period }}</broadcast-period>
+                {% endif %}
+                {% if group.connector_ref is defined %}
+                <connector-ref>{{ group.connector_ref }}</connector-ref>
+                {% endif %}
+                {% if group.jgroups_file is defined %}
+                <jgroups-file>{{ group.jgroups_file  }}</jgroups-file>
+                {% endif %}
+                {% if group.jgroups_channel is defined %}
+                <jgroups-channel>{{ group.jgroups_channel }}</jgroups-channel>
+                {% endif %}
+            </broadcast-group>
+        {% endfor %}
+        </broadcast-groups>
+
+{% endif %}

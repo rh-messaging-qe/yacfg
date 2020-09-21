@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+{% from 'libs/utils.jinja2' import url without context %}
+{% include 'libs/headers/xml_header.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/xml.jinja2' %}
+
+<broker xmlns="http://activemq.org/schema">
+
+{% for jaas in bootstrap_xml.jaas_security %}
+   <jaas-security domain="{{ jaas.domain }}"
+    {%- if jaas.certificate_domain is defined %}
+ certificate-domain="{{ jaas.certificate_domain}}"
+    {%- endif %} />
+{%  endfor %}
+
+   <!-- artemis.URI.instance is parsed from artemis.instance by the CLI startup.
+        This is to avoid situations where you could have spaces or special characters on this URI -->
+   <server configuration="{{ bootstrap_xml.server.configuration }}"/>
+
+   <!-- The web server is only bound to localhost by default -->
+   {% set protocol = bootstrap_xml.web.bind.protocol %}
+   {% set address = bootstrap_xml.web.bind.address %}
+   {% set port = bootstrap_xml.web.bind.port %}
+   <web bind="{{- url(protocol, address, port) -}}" path="{{ bootstrap_xml.web.path }}">
+   {% for app in bootstrap_xml.web.apps %}
+       <app url="{{ app.url }}" war="{{ app.war }}"/>
+   {% endfor %}
+   </web>
+
+
+</broker>

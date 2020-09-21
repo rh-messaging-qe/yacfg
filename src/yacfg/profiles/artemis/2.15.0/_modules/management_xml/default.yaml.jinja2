@@ -1,0 +1,37 @@
+management_xml:
+  whitelist:
+  - domain: hawtio
+  default_access:
+    - method: 'list*'
+      roles:
+      - amq
+    - method: 'get*'
+      roles:
+      - amq
+    - method: 'is*'
+      roles:
+      - amq
+    - method: 'set*'
+      roles:
+      - amq
+    - method: '*'
+      roles:
+      - amq
+  role_access:
+    - domain: org.apache.activemq.artemis
+      access:
+      - method: 'list*'
+        roles:
+        - amq
+      - method: 'get*'
+        roles:
+        - amq
+      - method: 'is*'
+        roles:
+        - amq
+      - method: 'set*'
+        roles:
+        - amq
+      - method: '*'
+        roles:
+        - amq

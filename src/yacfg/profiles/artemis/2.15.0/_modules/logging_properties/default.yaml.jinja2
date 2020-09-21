@@ -1,0 +1,74 @@
+# _defaults:
+#  log_level_all: INFO
+#  log_level_root: DEBUG
+#  log_level_server: INFO
+#  log_level_journal: INFO
+#  log_level_utils: INFO
+#  log_level_jms: INFO
+#  log_level_integration: INFO
+#  log_level_jetty: WARN
+#  log_level_audit_base: ERROR
+#  log_level_audit_message: ERROR
+#  log_level_handler_console: DEBUG
+#  log_level_handler_file: DEBUG
+#  log_level_handler_audit_file: INFO
+
+logging_properties:
+  loggers:
+  - org.eclipse.jetty
+  - org.jboss.logging
+  - org.apache.activemq.artemis.core.server
+  - org.apache.activemq.artemis.utils
+  - org.apache.activemq.artemis.journal
+  - org.apache.activemq.artemis.jms.server
+  - org.apache.activemq.artemis.integration.bootstrap
+  - org.apache.activemq.audit.base
+  - org.apache.activemq.audit.message
+  logger_level: '{{ log_level_root|default(log_level_all)|default('INFO') }}'
+  logger_properties:
+  - org.apache.activemq.artemis.core.server.level: '{{ log_level_server|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.journal.level: '{{ log_level_journal|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.utils.level: '{{ log_level_utils|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.jms.level: '{{ log_level_jms|default(log_level_all)|default('INFO') }}'
+  - org.apache.activemq.artemis.integration.bootstrap.level: '{{ log_level_integration|default(log_level_all)|default('INFO') }}'
+  - org.eclipse.jetty.level: '{{ log_level_jetty|default(log_level_all)|default('WARN') }}'
+  - org.apache.activemq.audit.base.level: '{{ log_level_audit_base|default(log_level_all)|default('ERROR') }}'
+  - org.apache.activemq.audit.base.handlers: AUDIT_FILE
+  - org.apache.activemq.audit.base.useParentHandlers: false
+  - org.apache.activemq.audit.message.level: '{{ log_level_audit_message|default(log_level_all)|default('ERROR') }}'
+  - org.apache.activemq.audit.message.handlers: AUDIT_FILE
+  - org.apache.activemq.audit.message.useParentHandlers: false
+  handlers:
+  - name: CONSOLE
+    class_name: org.jboss.logmanager.handlers.ConsoleHandler
+    level: '{{ log_level_handler_console|default(log_level_all)|default('DEBUG') }}'
+    formatter: PATTERN
+    properties:
+    - autoFlush: true
+  - name: FILE
+    class_name: org.jboss.logmanager.handlers.PeriodicRotatingFileHandler
+    level: '{{ log_level_handler_file|default(log_level_all)|default('DEBUG') }}'
+    formatter: PATTERN
+    properties:
+    - suffix: .yyyy-MM-dd
+    - append: true
+    - autoFlush: true
+    - fileName: ${artemis.instance}/log/artemis.log
+  - name: AUDIT_FILE
+    class_name: org.jboss.logmanager.handlers.PeriodicRotatingFileHandler
+    level: '{{ log_level_handler_audit_file|default(log_level_all)|default('INFO') }}'
+    formatter: AUDIT_PATTERN
+    properties:
+      - suffix: .yyyy-MM-dd
+      - append: true
+      - autoFlush: true
+      - fileName: ${artemis.instance}/log/audit.log
+  formatters:
+    - name: PATTERN
+      class_name: org.jboss.logmanager.formatters.PatternFormatter
+      properties:
+      - pattern: "%d %-5p [%c] %s%E%n"
+    - name: AUDIT_PATTERN
+      class_name: org.jboss.logmanager.formatters.PatternFormatter
+      properties:
+        - pattern: "%d [AUDIT](%t) %s%E%n"
