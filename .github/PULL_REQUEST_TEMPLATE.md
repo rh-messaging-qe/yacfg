@@ -1,6 +1,6 @@
 Fixes #
 
-## Proposed Changes
+## Proposed Changes (What, How, and Why)
 
   -
   -
