@@ -32,10 +32,10 @@ jobs:
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: tox
       - name: "Get coverage"
-          run: |
-            set -xe
-            coverage xml
-          if: "contains(env.USING_COVERAGE, matrix.python-version)"
+        run: |
+          set -xe
+          coverage xml
+        if: "contains(env.USING_COVERAGE, matrix.python-version)"
       - name: "Upload coverage to Codecov"
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
         uses: "codecov/codecov-action@v1"
