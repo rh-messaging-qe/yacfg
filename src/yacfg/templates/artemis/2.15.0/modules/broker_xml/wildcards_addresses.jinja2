@@ -1,0 +1,10 @@
+{% if broker_xml.wildcard_addresses is defined %}
+    <!-- Wildcard Addresses configuration -->
+        <wildcard-addresses>
+            <routing-enabled>{{ mbool(broker_xml.wildcard_addresses.routing_enabled) }}</routing-enabled>
+            <delimiter>{{ broker_xml.wildcard_addresses.delimiter }}</delimiter>
+            <any-word>{{ broker_xml.wildcard_addresses.any_words }}</any-word>
+            <single-word>{{ broker_xml.wildcard_addresses.single_words }}</single-word>
+        </wildcard-addresses>
+
+{% endif %}

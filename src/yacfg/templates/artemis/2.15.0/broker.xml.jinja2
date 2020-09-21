@@ -1,0 +1,46 @@
+<?xml version='1.0'?>
+{% from 'libs/utils.jinja2' import mbool without context %}
+{% from 'libs/utils.jinja2' import url without context %}
+{% include 'libs/headers/xml_header.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/xml.jinja2' %}
+
+<configuration xmlns="urn:activemq"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xi="http://www.w3.org/2001/XInclude"
+               xsi:schemaLocation="urn:activemq /schema/artemis-configuration.xsd">
+
+    <core xmlns="urn:activemq:core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="urn:activemq:core ">
+
+        <name>{{ broker_xml.name }}</name>
+
+        <paging-directory>{{ broker_xml.paging_directory }}</paging-directory>
+        <bindings-directory>{{ broker_xml.bindings_directory }}</bindings-directory>
+        <large-messages-directory>{{ broker_xml.large_messages_directory }}</large-messages-directory>
+
+        {% include 'modules/broker_xml/journal.jinja2' %}
+        <disk-scan-period>{{ broker_xml.disk_scan_period }}</disk-scan-period>
+        <max-disk-usage>{{ broker_xml.max_disk_usage }}</max-disk-usage>
+        {% if broker_xml.global_max_size is defined %}
+            <global-max-size>{{ broker_xml.global_max_size }}</global-max-size>
+        {% endif %}
+
+        {% include 'modules/broker_xml/critical_analyzer.jinja2' %}
+        {% include 'modules/broker_xml/acceptors.jinja2' %}
+        {% include 'modules/broker_xml/connectors.jinja2' %}
+        {% include 'modules/broker_xml/cluster.jinja2' %}
+        {% include 'modules/broker_xml/broadcast_group.jinja2' %}
+        {% include 'modules/broker_xml/discovery_group.jinja2' %}
+        {% include 'modules/broker_xml/cluster_connections.jinja2' %}
+        {% include 'modules/broker_xml/ha_policy.jinja2' %}
+        {% include 'modules/broker_xml/store.jinja2' %}
+        {% include 'modules/broker_xml/security_settings.jinja2' %}
+        {% include 'modules/broker_xml/wildcards_addresses.jinja2' %}
+        {% include 'modules/broker_xml/address_settings.jinja2' %}
+        {% include 'modules/broker_xml/addresses.jinja2' %}
+        {% include 'modules/broker_xml/broker_plugins.jinja2' %}
+        {% include 'modules/broker_xml/grouping_handler.jinja2' %}
+        {% include 'modules/broker_xml/duplicate_cache.jinja2' %}
+    </core>
+</configuration>

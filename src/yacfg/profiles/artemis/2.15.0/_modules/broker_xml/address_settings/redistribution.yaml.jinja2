@@ -1,0 +1,25 @@
+  address_settings:
+  - match: activemq.management#
+    dead_letter_address: DLQ
+    expiry_address: ExpiryQueue
+    redelivery_delay: 0
+    max_size_bytes: -1
+    message_counter_history_day_limit: 10
+    address_full_policy: PAGE
+    auto_create_queues: true
+    auto_create_addresses: true
+    auto_create_jms_queues: true
+    auto_create_jms_topics: true
+    redistribution_delay: 0
+  - match: '#'
+    dead_letter_address: DLQ
+    expiry_address: ExpiryQueue
+    redelivery_delay: 0
+    max_size_bytes: -1
+    message_counter_history_day_limit: 10
+    address_full_policy: PAGE
+    auto_create_queues: true
+    auto_create_addresses: true
+    auto_create_jms_queues: true
+    auto_create_jms_topics: true
+    redistribution_delay: 0

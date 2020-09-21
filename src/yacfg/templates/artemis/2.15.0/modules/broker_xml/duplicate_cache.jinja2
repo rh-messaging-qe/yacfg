@@ -1,0 +1,11 @@
+{% if broker_xml.duplicate_cache is defined %}
+    {% set cache = broker_xml.duplicate_cache %}
+    <!-- Duplicate ID cache configuration -->
+    {% if cache.size is defined %}
+        <id-cache-size>{{ cache.size }}</id-cache-size>
+    {% endif %}
+    {% if cache.persist is defined %}
+        <persist-id-cache>{{ mbool(cache.persist) }}</persist-id-cache>
+    {% endif %}
+
+{% endif %}
