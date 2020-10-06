@@ -48,13 +48,6 @@ setup(
     extras_require={
         'color_log': ['colorama', 'colorlog']
     },
-    setup_requires=[
-        'pytest-runner'
-    ],
-    tests_require=[
-        'pytest',
-        'mock',
-    ],
     url='https://github.com/rh-messaging-qe/yacfg',
     license='Apache-2.0',
     author='Zdenek Kraus',
