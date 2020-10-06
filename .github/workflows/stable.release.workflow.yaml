@@ -1,12 +1,12 @@
 ---
 name: "Publish release"
 
-on:
-  push:
-    branches:
-      - stable
-    tags:
-      - 'v*'
+#on:
+#  push:
+#    branches:
+#      - stable
+#    tags:
+#      - 'v*'
 
 jobs:
   publish-release:
