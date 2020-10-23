@@ -34,7 +34,7 @@
   {% if address_setting.auto_create_jms_queues is defined %}
     auto_create_jms_queues: {{ mbool(address_setting.auto_create_jms_queues) }}
   {% endif %}
-  {% if address_setting.quto_create_jms_topics is defined %}
+  {% if address_setting.auto_create_jms_topics is defined %}
     auto_create_jms_topics: {{ mbool(address_setting.auto_create_jms_topics) }}
   {% endif %}
   {% if address_setting.auto_delete_created_queues is defined %}
