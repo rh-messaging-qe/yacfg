@@ -1,0 +1,49 @@
+{% if broker_xml.journal is defined %}
+    <!-- Journal configuration -->
+    {% if broker_xml.journal.persistence_enabled is defined %}
+        <persistence-enabled>{{ mbool(broker_xml.journal.persistence_enabled) }}</persistence-enabled>
+    {% endif %}
+    {% if broker_xml.journal.type is defined %}
+        <journal-type>{{ broker_xml.journal.type }}</journal-type>
+    {% endif %}
+    {% if broker_xml.journal.directory is defined %}
+        <journal-directory>{{ broker_xml.journal.directory }}</journal-directory>
+    {% endif %}
+    {% if broker_xml.journal.create_dir is defined %}
+        <create-journal-dir>{{ mbool(broker_xml.journal.create_dir) }}</create-journal-dir>
+    {% endif %}
+    {% if broker_xml.journal.sync_transactional is defined %}
+        <journal-sync-transactional>{{ mbool(broker_xml.journal.sync_transactional) }}</journal-sync-transactional>
+    {% endif %}
+    {% if broker_xml.journal.sync_non_transactional is defined %}
+        <journal-sync-non-transactional>{{ mbool(broker_xml.journal.sync_non_transactional) }}</journal-sync-non-transactional>
+    {% endif %}
+    {% if broker_xml.journal.datasync is defined %}
+        <journal-broker-datasync>{{ mbool(broker_xml.journal.datasync) }}</journal-broker-datasync>
+    {% endif %}
+    {% if broker_xml.journal.min_files is defined %}
+        <journal-min-files>{{ broker_xml.journal.min_files }}</journal-min-files>
+    {% endif %}
+    {% if broker_xml.journal.pool_files is defined %}
+        <journal-pool-files>{{ broker_xml.journal.pool_files }}</journal-pool-files>
+    {% endif %}
+    {% if broker_xml.journal.file_size is defined %}
+        <journal-file-size>{{ broker_xml.journal.file_size }}</journal-file-size>
+    {% endif %}
+    {% if broker_xml.journal.buffer_timeout is defined %}
+        <journal-buffer-timeout>{{ broker_xml.journal.buffer_timeout }}</journal-buffer-timeout>
+    {% endif %}
+    {% if broker_xml.journal.buffer_size is defined %}
+        <journal-buffer-size>{{ broker_xml.journal.buffer_size }}</journal-buffer-size>
+    {% endif %}
+    {% if broker_xml.journal.compact_min_files is defined %}
+        <journal-compact-min-files>{{ broker_xml.journal.compact_min_files }}</journal-compact-min-files>
+    {% endif %}
+    {% if broker_xml.journal.compact_percentage is defined %}
+        <journal-compact-percentage>{{ broker_xml.journal.compact_percentage }}</journal-compact-percentage>
+    {% endif %}
+    {% if broker_xml.journal.max_io is defined %}
+        <journal-max-io>{{ broker_xml.journal.max_io }}</journal-max-io>
+    {% endif %}
+
+{% endif %}

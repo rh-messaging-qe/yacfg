@@ -1,0 +1,8 @@
+{#  Jinja 2 template for Artemis etc/artemis-data.properties #}
+{% include 'libs/headers/properties_headers.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/properties.jinja2' %}
+
+{% for username, password in artemis_users.items() -%}
+    {{ username }} = {{ password }}
+{% endfor %}

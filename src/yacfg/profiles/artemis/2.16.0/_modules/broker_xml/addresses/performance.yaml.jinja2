@@ -1,0 +1,20 @@
+# _defaults:
+#   limit_destinations: 150
+
+
+  addresses:
+  - name: DLQ
+    anycast:
+    - name: test
+      type: queue
+  - name: ExpiryQueue
+    anycast:
+    - name: ExpiryQueue
+      type: queue
+{% for foo in range(limit_destinations|default(0)) %}
+  - name: test.performance.queue.{{ foo }}
+    anycast:
+    - name: test.performance.queue.{{ foo }}
+      type: queue_block
+      durable: true
+{% endfor %}
