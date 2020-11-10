@@ -1,0 +1,61 @@
+---
+
+_defaults:
+  broker_name: artemis
+  broker_home: /opt/artemis-2.16.0
+  broker_instance: /opt/artemis-2.16.0-i0
+  gssapi_broker_keytab_path: /path/to/my_keytabs/mybroker.keytab
+  gssapi_broker_principal: amqp/mybroker.myrealm.com
+  gssapi_sasl_login_config_scope: krb5loginconfig
+  gssapi_conf_file_path: /path/to/my_krb5.conf
+  jvm_vendor: sun
+
+render:
+  generator_notice: True
+  licenses: True
+  template: artemis/2.16.0
+
+broker_xml:
+  name: '{{ broker_name }}'
+
+{% include 'artemis/2.16.0/_modules/broker_xml/journal/default.yaml.jinja2' %}
+
+  paging_directory: data/paging
+  bindings_directory: data/bindings
+  large_messages_directory: data/large-messages
+  disk_scan_period: 5000
+  max_disk_usage: 90
+#  global_max_size: 2GB
+
+
+{% include 'artemis/2.16.0/_modules/broker_xml/critical_analyzer_default.yaml.jinja2' %}
+
+{% include 'artemis/2.16.0/_modules/broker_xml/acceptors/gssapi.yaml.jinja2' %}
+
+{% include 'artemis/2.16.0/_modules/users_roles_security/gssapi_security_settings.yaml.jinja2' %}
+
+{% include 'artemis/2.16.0/_modules/broker_xml/address_settings/default.yaml.jinja2' %}
+
+{% include 'artemis/2.16.0/_modules/broker_xml/addresses/default.yaml.jinja2' %}
+
+
+# artemis.profile
+{% include 'artemis/2.16.0/_modules/artemis_profile/gssapi.yaml.jinja2' %}
+
+# users and roles properties xml
+{% include 'artemis/2.16.0/_modules/users_roles_security/gssapi_msgqe.yaml.jinja2' %}
+
+# bootstrap.xml
+{% include 'artemis/2.16.0/_modules/bootstrap_xml/allow.yaml.jinja2' %}
+
+# jolokia-access.xml
+{% include 'artemis/2.16.0/_modules/jolokia_access/allow.yaml.jinja2' %}
+
+# logging.properties
+{% include 'artemis/2.16.0/_modules/logging_properties/default.yaml.jinja2' %}
+
+# login.config
+{% include 'artemis/2.16.0/_modules/login_config/gssapi_jaas.yaml.jinja2' %}
+
+# management.xml
+{% include 'artemis/2.16.0/_modules/management_xml/default_connector.yaml.jinja2' %}

@@ -1,0 +1,17 @@
+        {% if policy.role == 'master' %}
+            {% if policy.properties is not defined %}
+                <master/>
+            {% else %}
+                <master>
+                    {% if policy.properties.failover_on_server_shutdown is defined %}
+                    <failover-on-shutdown>{{ mbool(policy.properties.failover_on_shutdown)  }}</failover-on-shutdown>
+                    {% endif %}
+                    {% if policy.properties.wait_for_activation is defined %}
+                    <wait-for-activation>{{ mbool(policy.properties.wait_for_activation)  }}</wait-for-activation>
+                    {% endif %}
+                    {% if policy.properties.failback_delay is defined %}
+                    <failback-delay>{{ mbool(policy.properties.failback_delay) }}</failback-delay>
+                    {% endif %}
+                </master>
+            {% endif %}
+        {% endif %}
