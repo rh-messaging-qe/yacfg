@@ -14,6 +14,7 @@
 
 from __future__ import print_function
 
+import ast
 import copy
 import json
 import logging
@@ -34,6 +35,20 @@ _t = Template
 _e = Environment
 
 LOG = logging.getLogger(__name__)
+
+# To work around some unexpected conversions by yaml loader
+# for example empty string -> None and OFF -> False
+# callers of yacfg need to pass in any specific key/values
+# and call filter
+extra_properties = {}
+
+
+# the filter will override the values with ones from
+# extra_properties
+def overridevalue(value, valuekey):
+    if valuekey in extra_properties:
+        return extra_properties[valuekey]
+    return value
 
 
 def generate_core(config_data, tuned_profile=None, template=None,
@@ -85,6 +100,8 @@ def generate_core(config_data, tuned_profile=None, template=None,
 
     env = get_template_environment(template)
 
+    env.filters['overridevalue'] = overridevalue
+
     template_list = get_main_template_list(env)
     if output_filter:
         template_list = filter_template_list(template_list, output_filter)
@@ -102,7 +119,7 @@ def generate_core(config_data, tuned_profile=None, template=None,
 def generate(profile, template=None, output_path=None,
              output_filter=None, render_options=None,
              tuning_files_list=None, tuning_data_list=None,
-             write_profile_data=False):
+             write_profile_data=False, extra_properties_data=None):
     """Generate procedure using list of tuning data
 
     generate_via_tuning_files output files based on output_filter, from
@@ -134,10 +151,18 @@ def generate(profile, template=None, output_path=None,
         templating to file in a output path, output path must be
         specified
     :type write_profile_data: bool
+    :param extra_properties_data: properties that can be used to help
+        process templates with additional info
+    :type extra_properties_data: dict[str,str]
 
     :return: mapping of filename to generated data for further use
     :rtype: dict[str, str] or dict[str, unicode]
     """
+
+    if extra_properties_data is not None:
+        global extra_properties
+        extra_properties = ast.literal_eval(extra_properties_data)
+
     config_data, tuned_profile = get_tuned_profile(
         profile=profile,
         tuning_files_list=tuning_files_list,

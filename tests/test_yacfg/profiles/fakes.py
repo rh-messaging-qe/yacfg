@@ -13,6 +13,8 @@
 # limitations under the License.
 
 
+import jinja2
+
 def fake_get_tuned_profile_data(*_):
     return {'_defaults': {'default_key': 'default_value'}, 'key': 'value'}
 
@@ -41,6 +43,10 @@ def fake_load_tuned_profile_no_defaults(*_, **kwargs):
             'key: value\n'
         )
     )
+
+
+def fake_template_environment(*_):
+    return jinja2.Environment()
 
 
 def fake_load_tuned_profile_w_template(*_, **kwargs):
