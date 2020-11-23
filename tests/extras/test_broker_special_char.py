@@ -19,14 +19,11 @@ import os
 
 def test_with_special_chars(*_):
 
-    tune_file = 'tune_files/special_address_setting.yaml'
-    project_root = os.environ.get('YACFG_PROJECT_ROOT')
-    if project_root is not None:
-        tune_file = project_root + '/tests/extras/' + tune_file
+    tune_file = 'extras/tune_files/special_address_setting.yaml'
 
     profile = 'artemis/2.16.0/default_with_user_address_settings.yaml.jinja2'
     tuning_files = [tune_file]
-    extra_props = "{'#dead_letter_queue_prefix':'','#config_delete_queues':'OFF'}"
+    extra_props = {'#dead_letter_queue_prefix':'','#config_delete_queues':'OFF'}
     output = 'etc'
 
     yacfg.generate(

@@ -14,6 +14,7 @@
 
 import argparse
 import re
+import json
 
 from .meta import NAME, VERSION, DESCRIPTION
 
@@ -53,7 +54,8 @@ group_main.add_argument(
 group_main.add_argument(
     '--extra-properties',
     help='Extra properties (key-value pairs) that can be used by specific templates'
-         ' Example: {x:y,a:b}'
+         ' Example: "{x:y,a:b}"',
+    type=json.loads
 )
 
 group_main.add_argument(
