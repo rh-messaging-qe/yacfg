@@ -15,14 +15,14 @@ repos:
   - id: end-of-file-fixer
 - repo: local
   hooks:
-  - id: pytest
-    name: pytest tests/
-    entry: pytest --color=yes tests/ -ra -q
-    files: ^(.*py)$
-    language: python
-    additional_dependencies: [pytest, mock, jinja2, pyyaml]
-    python_version: python3
-    pass_filenames: false
+#  - id: pytest
+#    name: pytest tests/
+#    entry: pytest --color=yes tests/ -ra -q
+#    files: ^(.*py)$
+#    language: python
+#    additional_dependencies: [pytest, pytest-cov, mock, jinja2, pyyaml]
+#    python_version: python3
+#    pass_filenames: false
   - id: tox
     name: tox
     entry: tox
