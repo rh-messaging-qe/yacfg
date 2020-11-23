@@ -159,7 +159,8 @@ def main():
             render_options=render_options,
             tuning_files_list=options.tune,
             tuning_data_list=options.opt,
-            write_profile_data=options.save_effective_profile
+            write_profile_data=options.save_effective_profile,
+            extra_properties_data=options.extra_properties
         )
     except TemplateError as exc:
         error(exc)

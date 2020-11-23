@@ -51,6 +51,12 @@ group_main.add_argument(
 )
 
 group_main.add_argument(
+    '--extra-properties',
+    help='Extra properties (key-value pairs) that can be used by specific templates'
+         ' Example: {x:y,a:b}'
+)
+
+group_main.add_argument(
     '--opt',
     metavar='KEY=VALUE',
     help=(
