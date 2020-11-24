@@ -97,7 +97,7 @@ Profile is just another jinja2 file that enables customization of profile data
  unless it is static profile withou any jinja2 capabilities, in that case it could
  be named `.yaml`. That way we can run yaml lint against static profiles and verify
  that they are correct.
- 
+
  All profiles have to be used to generate files without any tuning. That means,
  if they are tune-able, they have to contain all default values in `_defaults` section.
  That section is also used for tuning, so any variable in there will be exported as tuning.
