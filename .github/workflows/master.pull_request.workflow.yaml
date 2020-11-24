@@ -11,7 +11,9 @@ jobs:
     name: "Python ${{ matrix.python-version }}"
     runs-on: "ubuntu-latest"
     env:
-      USING_COVERAGE: '3.6,3.8'
+      USING_COVERAGE: '3.8'
+      USING_DOCS: '3.7'
+      USING_DIST: '3.9'
 
     strategy:
       matrix:
@@ -43,18 +45,19 @@ jobs:
         with:
           fail_ci_if_error: true
       - name: "Build package"
+        if: "contains(env.USING_DIST, matrix.python-version)"
         run: |
           set -xe
           python setup.py sdist bdist_wheel
       - name: "Upload dist artifacts"
-        if: always()
+        if: "contains(env.USING_DIST, matrix.python-version)"
         uses: actions/upload-artifact@v2
         with:
           name: package-dist
           path: dist/
 
       - name: "Upload docs artifacts"
-        if: always()
+        if: "contains(env.USING_DOCS, matrix.python-version)"
         uses: actions/upload-artifact@v2
         with:
           name: docs_html
