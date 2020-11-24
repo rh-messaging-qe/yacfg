@@ -36,24 +36,10 @@ _e = Environment
 
 LOG = logging.getLogger(__name__)
 
-# To work around some unexpected conversions by yaml loader
-# for example empty string -> None and OFF -> False
-# callers of yacfg need to pass in any specific key/values
-# and call filter
-extra_properties = {}
-
-
-# the filter will override the values with ones from
-# extra_properties
-def overridevalue(value, valuekey):
-    if valuekey in extra_properties:
-        return extra_properties[valuekey]
-    return value
-
 
 def generate_core(config_data, tuned_profile=None, template=None,
                   output_path=None, output_filter=None, render_options=None,
-                  write_profile_data=False):
+                  write_profile_data=False, extra_properties_data=None):
     """Core of the generator, gets complete dataset with selected
     template in config data or explicitly selected via template
     parameter at minimum, and generates outputs, if requested writes
@@ -81,6 +67,9 @@ def generate_core(config_data, tuned_profile=None, template=None,
         templating to file in a output path, output path must be
         specified
     :type write_profile_data: bool
+    :param extra_properties_data: pass in any specific key/values
+        and call filter, the filter will override the values
+    :type extra_properties_data: dict[str, str]
 
     :return: mapping of filename to generated data for further use
     :rtype: dict[str, str] or dict[str, unicode]
@@ -100,7 +89,24 @@ def generate_core(config_data, tuned_profile=None, template=None,
 
     env = get_template_environment(template)
 
-    env.filters['overridevalue'] = overridevalue
+    def override_value(value, value_key):
+        """
+        To work around some unexpected conversions by yaml loader
+        for example empty string -> None and OFF -> False
+        callers of yacfg need to pass in any specific key/values
+        and call filter, the filter will override the values
+
+        :param value:
+        :type value: str
+        :param value_key:
+        :type value_key: str
+        :return: str
+        """
+        if value_key in extra_properties_data:
+            return extra_properties_data[value_key]
+        return value
+
+    env.filters['overridevalue'] = override_value
 
     template_list = get_main_template_list(env)
     if output_filter:
@@ -159,10 +165,6 @@ def generate(profile, template=None, output_path=None,
     :rtype: dict[str, str] or dict[str, unicode]
     """
 
-    if extra_properties_data is not None:
-        global extra_properties
-        extra_properties = ast.literal_eval(extra_properties_data)
-
     config_data, tuned_profile = get_tuned_profile(
         profile=profile,
         tuning_files_list=tuning_files_list,
@@ -177,6 +179,7 @@ def generate(profile, template=None, output_path=None,
         output_filter=output_filter,
         render_options=render_options,
         write_profile_data=write_profile_data,
+        extra_properties_data=extra_properties_data
     )
 
 

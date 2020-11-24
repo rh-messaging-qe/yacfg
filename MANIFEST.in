@@ -7,3 +7,4 @@ recursive-include docs *.md
 recursive-include docs *.rst
 recursive-include docs *.yml
 exclude profile_test.sh
+prune docs/_build
