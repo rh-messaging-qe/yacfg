@@ -102,7 +102,7 @@ def generate_core(config_data, tuned_profile=None, template=None,
         :type value_key: str
         :return: str
         """
-        if value_key in extra_properties_data:
+        if extra_properties_data is not None and value_key in extra_properties_data:
             return extra_properties_data[value_key]
         return value
 
