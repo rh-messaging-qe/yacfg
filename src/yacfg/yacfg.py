@@ -106,7 +106,20 @@ def generate_core(config_data, tuned_profile=None, template=None,
             return extra_properties_data[value_key]
         return value
 
-    env.filters['overridevalue'] = override_value
+    def empty_filter(value, value_key):
+        """
+        Simply pass the value
+
+        :param value:
+        :type value: str
+        :param value_key:
+        :type value_key: str
+        :return: str
+        """
+        return value
+
+    # Pass empty filter for performance if an extra_properties_data not defined (no more conditions)
+    env.filters['overridevalue'] = override_value if extra_properties_data else empty_filter
 
     template_list = get_main_template_list(env)
     if output_filter:
