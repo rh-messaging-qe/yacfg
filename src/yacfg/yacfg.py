@@ -102,7 +102,7 @@ def generate_core(config_data, tuned_profile=None, template=None,
         :type value_key: str
         :return: str
         """
-        if extra_properties_data is not None and value_key in extra_properties_data:
+        if value_key in extra_properties_data:
             return extra_properties_data[value_key]
         return value
 
@@ -147,7 +147,7 @@ def generate_core(config_data, tuned_profile=None, template=None,
 
     # Pass empty filter for performance if an extra_properties_data not defined (no more conditions)
     env.filters['overridevalue'] = override_value if extra_properties_data else empty_filter
-    env.filters['overridevalue_listmapkeys'] = override_value_list_map_keys
+    env.filters['overridevalue_listmapkeys'] = override_value_list_map_keys if extra_properties_data else empty_filter
 
     template_list = get_main_template_list(env)
     if output_filter:
