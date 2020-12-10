@@ -1,0 +1,62 @@
+{% from '_libs/utils.jinja2' import mbool without context %}
+
+ac_logging_properties:
+    {% if log_level_root is defined %}
+  logger_level: '{{ log_level_root }}'
+    {% endif %}
+    {% if log_handlers_root is defined %}
+  logger_handlers: '{{ log_handlers_root }}'
+    {% endif %}
+{% if logging is defined %}
+  {% if logging.loggers is defined %}
+  loggers:
+    {% for logger in logging.loggers %}
+  - {{ logger.name }}
+    {% endfor %}
+
+  logger_properties:
+    {% for logger in logging.loggers %}
+      {% if logger.level is defined %}
+  - {{ logger.name }}.level: '{{ logger.level }}'
+      {% endif %}
+      {% if logger.handlers is defined %}
+  - {{ logger.name }}.handlers: '{{ logger.handlers }}'
+      {% endif %}
+      {% if logger.useParentHandlers is defined %}
+  - {{ logger.name }}.useParentHandlers: '{{ mbool(logger.useParentHandlers) }}'
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if logging.handlers is defined %}
+  handlers:
+    {% for handler in logging.handlers %}
+  - name: '{{ handler.name }}'
+      {% if handler.className is defined %}
+    class_name: '{{ handler.className }}'
+      {% endif %}
+      {% if handler.properties is defined %}
+    properties:
+        {% for prop in handler.properties %}
+    - {{ prop.key }}: '{{ prop.value }}'
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if logging.formatters is defined %}
+  formatters:
+    {% for formatter in logging.formatters %}
+  - name: '{{ formatter.name }}'
+      {% if formatter.className is defined %}
+    class_name: '{{ formatter.className }}'
+      {% endif %}
+      {% if formatter.properties is defined %}
+    properties:
+        {% for prop in formatter.properties %}
+    - {{ prop.key }}: '{{ prop.value }}'
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endif %}

@@ -1,0 +1,26 @@
+
+loggers=org.apache.activemq.jms
+
+logger.level=OFF
+logger.handlers=CONSOLE,FILE
+
+logger.org.apache.activemq.jms.level=OFF
+logger.org.apache.activemq.jms.handlers=FakeHandler
+logger.org.apache.activemq.jms.useParentHandlers=true
+
+handler.YES.properties=level,formatter,ON,fileSize
+handler.YES.level=TRACE
+handler.YES.formatter=OFF
+handler.YES.ON=DEBUG
+handler.YES.fileSize=20m
+
+handler.FakeHandler2=org.logger.fake2.FakeHandler
+
+
+formatter.OFF=org.logger.fake.FakeFormatter
+formatter.OFF.properties=pattern,style
+formatter.OFF.pattern=%d %-5p [%c] %s%E%n
+formatter.OFF.style=normal
+
+formatter.OTHERFORMATTER=org.logger.fake.OtherFormatter
+

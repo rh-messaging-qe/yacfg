@@ -3,6 +3,7 @@
 
 {% include 'libs/licenses/apache-2.0/properties.jinja2' %}
 
+{% if logging_properties is defined %}
 # Additional logger names to configure (root logger is always configured)
 # Root logger option
 loggers={{ logging_properties.loggers|join(',') }}
@@ -47,3 +48,4 @@ formatter.{{ formatter.name }}.properties=
     {% endfor %}
 
 {% endfor %}
+{% endif %}

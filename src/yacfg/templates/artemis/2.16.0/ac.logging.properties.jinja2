@@ -1,0 +1,55 @@
+{% from 'libs/utils.jinja2' import mbool without context %}
+
+{% if ac_logging_properties.loggers is defined %}
+loggers={{ ac_logging_properties.loggers|join(',') }}
+{% endif %}
+
+{% if ac_logging_properties.logger_level is defined %}
+logger.level={{ ac_logging_properties.logger_level|overridevalue('ac_log_level_root') }}
+{% endif -%}
+
+{% if ac_logging_properties.logger_handlers is defined %}
+logger.handlers={{ ac_logging_properties.logger_handlers|overridevalue('ac_log_handlers_root') }}
+{% endif %}
+
+{% for option in ac_logging_properties.logger_properties -%}
+    {%- for key, value in option.items() -%}
+        logger.{{ key }}={{ value|overridevalue(value) }}
+    {% endfor %}
+{% endfor %}
+
+{% if ac_logging_properties.handlers is defined %}
+{% for handler in ac_logging_properties.handlers %}
+{% if handler.class_name is defined %}
+handler.{{ handler.name|overridevalue(handler.name) }}={{ handler.class_name }}
+{% endif %}
+{% if handler.properties is defined %}
+handler.{{ handler.name|overridevalue(handler.name) }}.properties=
+    {{- handler.properties|overridevalue_listmapkeys()|map('list')|sum(start=[])|join(',') }}
+    {% for property in  handler.properties -%}
+        {%- for key, value in property.items() -%}
+            handler.{{ handler.name|overridevalue(handler.name) }}.{{ key|overridevalue(key) }}={{ value|overridevalue(value) }}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+{% endfor -%}
+{% endif %}
+
+{% if ac_logging_properties.formatters is defined %}
+{% for formatter in ac_logging_properties.formatters %}
+{% if formatter.class_name is defined %}
+formatter.{{ formatter.name|overridevalue(formatter.name) }}={{ formatter.class_name }}
+{% endif %}
+{% if formatter.properties is defined %}
+formatter.{{ formatter.name|overridevalue(formatter.name) }}.properties=
+    {{- formatter.properties|overridevalue_listmapkeys()|map('list')|sum(start=[])|join(',') }}
+    {% for property in  formatter.properties -%}
+        {%- for key, value in property.items() -%}
+            formatter.{{ formatter.name|overridevalue(formatter.name) }}.{{ key|overridevalue(key) }}={{ value|overridevalue(value) }}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endif %}

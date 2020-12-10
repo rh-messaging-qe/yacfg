@@ -1,0 +1,50 @@
+# yacfg tuning file generated from profile artemis/2.16.0/default_with_user_logging.yaml.jinja2
+---
+broker_home: /opt/artemis-2.16.0
+broker_instance: /opt/artemis-2.16.0-i0
+broker_name: amq
+
+log_level_root: OFF
+log_handlers_root: CONSOLE,FILE
+
+logging:
+  loggers:
+  - name: org.apache.activemq.jms
+    level: uniid
+    handlers: FakeHandler
+    useParentHandlers: true
+  handlers:
+  - name: uniid4
+    properties:
+    - key: level
+      value: TRACE
+    - key: formatter
+      value: uniid1
+    - key: uniid2
+      value: DEBUG
+    - key: fileSize
+      value: 20m
+  - name: FakeHandler2
+    className: org.logger.fake2.FakeHandler
+  formatters:
+  - name: uniid3
+    className: org.logger.fake.FakeFormatter
+    properties:
+    - key: pattern
+      value: '%d %-5p [%c] %s%E%n'
+    - key: style
+      value: normal
+  - name: OTHERFORMATTER
+    className: org.logger.fake.OtherFormatter
+user_address_settings:
+  - address_full_policy: PAGE
+    auto_create_addresses: true
+    auto_create_jms_queues: true
+    auto_create_jms_topics: true
+    auto_create_queues: true
+    dead_letter_address: DLQ
+    expiry_address: ExpiryQueue
+    match: '#'
+    max_size_bytes: -1
+    message_counter_history_day_limit: 17
+    redelivery_delay: 0
