@@ -18,5 +18,5 @@ log_level_utils: INFO
 user_address_settings:
   - address_full_policy: PAGE
     match: '#'
-    dead_letter_queue_prefix:
-    config_delete_queues: OFF
+    dead_letter_queue_prefix: uuid1
+    config_delete_queues: uuid2
