@@ -14,16 +14,15 @@
 
 import yacfg
 import shutil
-import os
 
 
 def test_with_special_chars(*_):
-
+    print("testing 1")
     tune_file = 'extras/tune_files/special_address_setting.yaml'
 
     profile = 'artemis/2.16.0/default_with_user_address_settings.yaml.jinja2'
     tuning_files = [tune_file]
-    extra_props = {'#dead_letter_queue_prefix':'','#config_delete_queues':'OFF'}
+    extra_props = {'uuid1':'','uuid2':'OFF'}
     output = 'etc'
 
     yacfg.generate(
@@ -52,3 +51,4 @@ def test_with_special_chars(*_):
     finally:
         file1.close()
         shutil.rmtree(output)
+
