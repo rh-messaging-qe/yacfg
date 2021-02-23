@@ -1,0 +1,9 @@
+  journal:
+    persistence_enabled: true
+    type: '{{ journal_type|default('ASYNCIO') }}'
+    directory: data/journal
+    min_files: 2
+    pool_files: 10
+    file_size: 10M
+    buffer_timeout: 20000
+    max_io: 4096

@@ -1,0 +1,11 @@
+{% if broker_xml.ha_policy is defined %}
+    <!-- HA Policy configuration -->
+        <ha-policy>
+        {% for policy in broker_xml.ha_policy %}
+            {% include 'modules/broker_xml/ha_policy/replication.jinja2' %}
+            {% include 'modules/broker_xml/ha_policy/shared_store.jinja2' %}
+            {% include 'modules/broker_xml/ha_policy/live_only.jinja2' %}
+        {% endfor %}
+        </ha-policy>
+
+{% endif %}

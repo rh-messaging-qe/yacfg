@@ -1,0 +1,17 @@
+{% if broker_xml.grouping_handler is defined %}
+    <!-- Clustered Message grouping -->
+{% for handler in broker_xml.grouping_handler %}
+        <grouping-handler name="{{ handler.name }}">
+            {% if handler.type is defined %}
+            <type>{{ handler.type }}</type>
+            {% endif %}
+            {% if handler.address is defined %}
+            <address>{{ handler.address }}</address>
+            {% endif %}
+            {% if handler.timeout is defined %}
+            <timeout>{{ handler.timeout }}</timeout>
+            {% endif %}
+        </grouping-handler>
+{% endfor %}
+
+{% endif %}

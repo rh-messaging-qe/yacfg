@@ -1,0 +1,23 @@
+#_defaults:
+#  jdbc_connection_url
+#  jdbc_driver_class_name
+#  jdbc_masked_username
+#  jdbc_masked_password
+#  db_jdbc_url
+
+# persistence
+  store:
+    - type: jdbc
+      properties:
+        jdbc_connection_url: {{ jdbc_connection_url|default('jdbc:derby:data/derby/database-store;create=true') }}
+        jdbc_connection_url_short: {{ db_jdbc_url | default('None') }}
+        jdbc_masked_username: {{ db_username_masked | default('None') }}
+        jdbc_masked_password: {{ db_password_masked | default('None') }}
+        binding_table_name: BINDINGS_TABLE
+        message_table_name: MESSAGE_TABLE
+        page_store_table_name: PG_TBL
+        large_message_table_name: LARGE_MESSAGES_TABLE
+        jdbc_driver_class_name: {{ jdbc_driver_class_name|default('org.apache.derby.jdbc.EmbeddedDriver') }}
+        jdbc_network_timeout: 20000
+        jdbc_lock_renew_period: 2000
+        jdbc_lock_expiration: 20000

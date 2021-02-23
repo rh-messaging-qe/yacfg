@@ -1,0 +1,32 @@
+{% if broker_xml.cluster_connections is defined %}
+    <!-- Cluster Connections configuration -->
+        <cluster-connections>
+        {% for connection in broker_xml.cluster_connections %}
+            <cluster-connection name="{{ connection.name }}">
+                {% if connection.connector_ref is defined %}
+                <connector-ref>{{ connection.connector_ref }}</connector-ref>
+                {% endif %}
+                {% if connection.message_load_balancing is defined %}
+                <message-load-balancing>{{ connection.message_load_balancing }}</message-load-balancing>
+                {% endif %}
+                {% if connection.max_hops is defined %}
+                <max-hops>{{ connection.max_hops }}</max-hops>
+                {% endif %}
+                {% if connection.discovery_group_ref is defined %}
+                <discovery-group-ref discovery-group-name="{{ connection.discovery_group_ref }}"/>
+                {% endif %}
+                {% if connection.use_duplicate_detection is defined %}
+                <use-duplicate-detection>{{ mbool(connection.use_duplicate_detection) }}</use-duplicate-detection>
+                {% endif %}
+                {% if connection.static_connectors is defined %}
+                <static-connectors>
+                    {% for connector in connection.static_connectors %}
+                    <connector-ref>{{ connector }}</connector-ref>
+                    {% endfor %}
+                </static-connectors>
+                {% endif %}
+            </cluster-connection>
+        {% endfor %}
+        </cluster-connections>
+
+{% endif %}
