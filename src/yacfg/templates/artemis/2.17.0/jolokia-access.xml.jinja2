@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+{% include 'libs/headers/xml_header.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/xml.jinja2' %}
+
+<restrict>
+    <cors>
+        {% for origin in jolokia_access.allow_origins %}
+        <allow-origin>{{ origin }}</allow-origin>
+        {% endfor %}
+        {% if jolokia_access.strict_checking %}
+
+        <!-- Check for the proper origin on the server side, too -->
+        <strict-checking/>
+        {% else %}
+
+        <!-- Strict checking disabled. Not checking server side origin -->
+        {% endif %}
+    </cors>
+</restrict>

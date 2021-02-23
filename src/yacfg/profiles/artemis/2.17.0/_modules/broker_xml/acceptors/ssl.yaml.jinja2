@@ -1,0 +1,75 @@
+  acceptors:
+  - name: artemis
+    protocol: tcp
+    address: 0.0.0.0
+    port: 61617
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE
+    - useEpoll: true
+    - amqpCredits: 1000
+    - amqpLowCredits: 300
+    - sslEnabled: true
+    - keyStorePath: {{ ssl_keystore_path }}
+    - keyStorePassword: {{ ssl_keystore_password }}
+    - trustStorePath: {{ ssl_truststore_path }}
+    - trustStorePassword: {{ ssl_truststore_password }}
+  - name: amqp
+    protocol: tcp
+    address: 0.0.0.0
+    port: 5673
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: AMQP
+    - useEpoll: true
+    - amqpCredits: 1000
+    - amqpLowCredits: 300
+    - sslEnabled: true
+    - keyStorePath: {{ ssl_keystore_path }}
+    - keyStorePassword: {{ ssl_keystore_password }}
+    - trustStorePath: {{ ssl_truststore_path }}
+    - trustStorePassword: {{ ssl_truststore_password }}
+  - name: stomp
+    protocol: tcp
+    address: 0.0.0.0
+    port: 61614
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: STOMP
+    - useEpoll: true
+    - sslEnabled: true
+    - keyStorePath: {{ ssl_keystore_path }}
+    - keyStorePassword: {{ ssl_keystore_password }}
+    - trustStorePath: {{ ssl_truststore_path }}
+    - trustStorePassword: {{ ssl_truststore_password }}
+  - name: hornetq
+    protocol: tcp
+    address: 0.0.0.0
+    port: 5446
+    properties:
+    - anycastPrefix: jms.queue.
+    - multicastPrefix: jms.topic.
+    - protocols: HORNETQ,STOMP
+    - useEpoll: true
+    - sslEnabled: true
+    - keyStorePath: {{ ssl_keystore_path }}
+    - keyStorePassword: {{ ssl_keystore_password }}
+    - trustStorePath: {{ ssl_truststore_path }}
+    - trustStorePassword: {{ ssl_truststore_password }}
+  - name: mqtt
+    protocol: tcp
+    address: 0.0.0.0
+    port: 1884
+    properties:
+    - tcpSendBufferSize: 1048576
+    - tcpReceiveBufferSize: 1048576
+    - protocols: MQTT
+    - useEpoll: true
+    - sslEnabled: true
+    - keyStorePath: {{ ssl_keystore_path }}
+    - keyStorePassword: {{ ssl_keystore_password }}
+    - trustStorePath: {{ ssl_truststore_path }}
+    - trustStorePassword: {{ ssl_truststore_password }}

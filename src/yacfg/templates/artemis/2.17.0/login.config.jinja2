@@ -1,0 +1,23 @@
+{% from 'libs/utils.jinja2' import mbool_double_quote without context %}
+{% include 'libs/headers/config_header.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/config.jinja2' %}
+
+{% for group in login_config %}
+{{ group.name }} {
+{% for module in group.modules %}
+    {{ module.class_name }} {{ module.flag }}
+    {% for option in module.properties %}
+        {% for key, value in option.items() %}
+        {{ key }}={{ mbool_double_quote(value) }}
+        {%- endfor -%}
+        {%- if loop.last %};{% endif %}
+
+    {% endfor %}
+    {% if not loop.last %}
+
+    {% endif %}
+{% endfor %}
+};
+
+{% endfor %}

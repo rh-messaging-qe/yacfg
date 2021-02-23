@@ -1,0 +1,19 @@
+{% if broker_xml.broker_plugins is defined %}
+    <!-- Broker plugins configuration -->
+        <broker-plugins>
+            {% for plugin in broker_xml.broker_plugins %}
+                {% if plugin.properties is defined %}
+            <broker-plugin class-name="{{ plugin.class }}">
+                {% for property in plugin.properties %}
+                    {% for key, value in property.items() %}
+                <property key="{{ key }}" value="{{ mbool(value) }}"/>
+                    {% endfor %}
+                {% endfor %}
+            </broker-plugin>
+                {% else %}
+            <broker-plugin class-name="{{ plugin.class }}" />
+                {% endif %}
+            {% endfor %}
+        </broker-plugins>
+
+{% endif %}

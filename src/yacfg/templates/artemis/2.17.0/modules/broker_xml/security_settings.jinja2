@@ -1,0 +1,10 @@
+{% if broker_xml.security_settings is defined %}
+    <!-- Security Settings configuration -->
+        <security-settings>
+            {% for security in broker_xml.security_settings %}
+                {% include 'modules/broker_xml/security_settings/security_setting.jinja2' %}
+                {% include 'modules/broker_xml/security_settings/security_setting_plugin.jinja2' %}
+            {% endfor %}
+        </security-settings>
+
+{% endif %}
