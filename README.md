@@ -8,29 +8,20 @@ Furthermore, it is possible to use its API in your python code.
 
 ## Getting started
 
-* python 3.5+ or python2.7
-* current requirements from setup.py (runtime requirements only)
-* python virtualenv recommended (install via system package manager
-or `pip install --user virtualenv`)
-
-for contributors:
-* requirements from requirements.txt (there are Dev and QA requirements as well)
+* Python 3.5+
+* Python Poetry
 
 ### From git
 
 ```bash
 git clone git@github.com:rh-messaging-qe/yacfg.git
-python -m virtualenv -p python3 venv3
-source venv3/bin/activate
-./setup.py install
+poetry install
 yacfg --help
 ```
 
 ### From PyPI
 
 ```bash
-python -m virtualenv -p python3 venv3
-source venv3/bin/activate
 pip install yacfg
 yacfg --help
 ```
@@ -283,14 +274,15 @@ If you find a bug or room for improvement, submit either a ticket or PR.
 
 _Alphabetically ordered_
 
+* Dominik Lenoch <dlenoch@redhat.com> (maintainer)
 * Michal Tóth <mtoth@redhat.com>
 * Otavio Piske <opiske@redhat.com>
 * Sean Davey <sdavey@redhat.com>
-* Zdenek Kraus <zkraus@redhat.com> (maintainer)
+* Zdenek Kraus <zkraus@redhat.com> (author)
 
 ## License
 
-Copyright 2018-2020 Red Hat Inc.
+Copyright 2018-2021 Red Hat Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
