@@ -18,19 +18,22 @@ jobs:
       - uses: actions/checkout@v2
 
       # Install dependencies
-      - name: "Set up Python 3.7"
+      - name: "Set up Python 3.9"
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: 3.9
+
+      - name: "Set up Poetry"
+        uses: "abatilo/actions-poetry@v2.0.0"
 
       - name: "Install dependencies"
         run: |
-          pip install -r requirements.txt jupyter-book>=0.7.0b
+          poetry install
 
       # Build the docs
       - name: "Build the docs"
         run: |
-          PYTHONPATH=`pwd` jupyter-book build docs
+          poetry jupyter-book build docs
 
       # Push the docs' HTML to github-pages
       - name: "GitHub Pages action"
