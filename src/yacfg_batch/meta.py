@@ -14,7 +14,6 @@
 import yacfg.meta
 
 NAME = 'yacfg-batch'
-VERSION = yacfg.meta.VERSION
 SHORT_DESCRIPTION = 'Template based configuration generator'
 DESCRIPTION = (
     'Batch configuration generator supporting generation of multiple services'

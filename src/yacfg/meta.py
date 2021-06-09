@@ -13,7 +13,6 @@
 # limitations under the License.
 
 NAME = 'yacfg'
-VERSION = '0.8.3'
 SHORT_DESCRIPTION = 'Template based configuration generator'
 DESCRIPTION = (
     'Template based configuration files generator based on jinja2 and yaml'

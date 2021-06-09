@@ -22,7 +22,7 @@ from .config_data import RenderOptions
 from .yacfg import generate
 from .cli_arguments import parser, boolize, parse_key_value_list
 from .exceptions import TemplateError, ProfileError, GenerationError
-from .meta import VERSION, NAME
+from .meta import NAME
 from .output import (
     new_profile, new_profile_rendered,
     new_template, export_tuning_variables
@@ -30,6 +30,7 @@ from .output import (
 from .query import list_templates, list_profiles
 
 from . import logger_settings
+from . import __version__
 
 logger_settings.config_console_logger()
 
@@ -70,7 +71,7 @@ def main():
     do_not_generate = False
 
     if options.version:
-        print(VERSION)
+        print(__version__)
         return
 
     if options.list_templates:
