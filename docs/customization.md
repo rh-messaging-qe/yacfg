@@ -11,13 +11,13 @@ Simply export tuning values from profile you want to tune and change those you
 need to change. Then supply the custom tuning file(s) when generating the profile.
 
 ```bash
-yacgf --profile [PROFILE] --export-tuning my_values.yaml
+yacfg --profile [PROFILE] --export-tuning my_values.yaml
 vim my_values.yaml
-yacgf --profile [PROFILE] --tune my_values.yaml
+yacfg --profile [PROFILE] --tune my_values.yaml
 
 # multiple tuning files can be overlaid
 # they are updated in sequence, only values present are overwritten
-yacgf --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
+yacfg --profile [PROFILE] --tune my_values.yaml --tune machine_specific.yaml \
        --tune logging_debug.yaml --output [OUTDIR]
 ```
 
@@ -64,8 +64,8 @@ Just remember for a template set to be identified the directory must contain
 a file named '_template' and then main templates ending with '.jinja2'.
 
 ```bash
-yacgf --template [TEMPLATE] --new-template my_new_template
+yacfg --template [TEMPLATE] --new-template my_new_template
 vim my_new_template/[MAIN_TEMPLATES].jinja2
-yacgf --template my_new_template --profile [PROFILE]
+yacfg --template my_new_template --profile [PROFILE]
 
 ```

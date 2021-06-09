@@ -1,5 +1,5 @@
 Public API
 ==========
 
-.. automodule:: yacgf
+.. automodule:: yacfg
     :members: generate
