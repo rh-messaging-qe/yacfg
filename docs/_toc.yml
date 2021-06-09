@@ -1,4 +1,6 @@
-- file: index
+format: jb-article
+root: index
+sections:
 - file: install
 - file: usage
   sections:
