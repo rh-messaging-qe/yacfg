@@ -31,8 +31,8 @@ with open(meta_file, encoding='utf-8') as meta_file:
     exec(meta_file.read(), meta)
 
 setup(
-    name=meta.get('NAME'),
-    version=meta.get('VERSION'),
+    name="yacfg",
+    version='0.9.0',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     entry_points={
@@ -42,11 +42,11 @@ setup(
         ],
     },
     install_requires=[
-        'jinja2',
-        'pyyaml',
+        'jinja2==2.11.3',
+        'pyyaml==20.4.0',
     ],
     extras_require={
-        'color_log': ['colorama', 'colorlog']
+        'color_log': ['colorlog>=5.0.1,<6.0.0', 'colorama>=0.4.4,<0.5.0']
     },
     url='https://github.com/rh-messaging-qe/yacfg',
     license='Apache-2.0',
@@ -54,11 +54,10 @@ setup(
     author_email='zkraus@redhat.com',
     maintainer='Dominik Lenoch',
     maintainer_email='dlenoch@redhat.com',
-    description=meta.get('SHORT_DESCRIPTION'),
+    description=meta.get('SHORT _DESCRIPTION'),
     long_description=long_description,
     long_description_content_type='text/markdown',
     include_package_data=True,
-    # package_data={'yacfg': ['src/yacfg/profiles/*/*', 'src/yacfg/templates/*/*'']},
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
@@ -68,8 +67,8 @@ setup(
         'Operating System :: POSIX',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: MacOS',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Software Development :: Code Generators',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Software Development :: Testing',

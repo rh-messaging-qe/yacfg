@@ -1,26 +1,5 @@
-# yacfg requirements for easy installation of all development and testing dependencies
-
-# Runtime Requirements
-pyyaml
-jinja2
-
-# Testing Requirements
-pytest
-pytest-cov
-flake8
-mypy
-mock
-tox
-coverage
-yamllint
-check-manifest
-
-# Committing Requirements
-pre-commit
-
-# Docs Requirements
-jupyter-book
-
-# Optionals
-colorlog
-colorama
+colorama==0.4.4; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
+jinja2==2.11.3; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
+markupsafe==2.0.1; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
+pyaml==20.4.0
+pyyaml==5.4.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0"
