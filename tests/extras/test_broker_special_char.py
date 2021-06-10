@@ -12,17 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import yacfg
+import os
 import shutil
+
+import yacfg
 
 
 def test_with_special_chars(*_):
     print("testing 1")
-    tune_file = 'extras/tune_files/special_address_setting.yaml'
+    dir_path = os.path.dirname(__file__)
+    tune_file = f'{dir_path}/tune_files/special_address_setting.yaml'
 
     profile = 'artemis/2.16.0/default_with_user_address_settings.yaml.jinja2'
     tuning_files = [tune_file]
-    extra_props = {'uuid1':'','uuid2':'OFF'}
+    extra_props = {'uuid1': '', 'uuid2': 'OFF'}
     output = 'etc'
 
     yacfg.generate(
@@ -51,4 +54,3 @@ def test_with_special_chars(*_):
     finally:
         file1.close()
         shutil.rmtree(output)
-
