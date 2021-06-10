@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # prepare test independent temporary path
 PID=$$
@@ -17,7 +18,7 @@ PROCESS_LIMIT=$(nproc)
 PROCESS_LIMIT=${PROCESS_LIMIT:=8}
 
 if (( $# > 0 )); then
-  profiles="$@"
+  profiles="$*"
 else
   profiles="$(yacfg --list-profiles)"
 fi
@@ -154,13 +155,13 @@ done
 #done
 
 echo "--- Results:"
-echo "Generation    : ${list_ecode_generate[@]}"
-echo "Export dynamic: ${list_ecode_export[@]}"
-echo "Export static : ${list_ecode_export_static[@]}"
-echo "Y-lint static : ${list_yamllint_static[@]}"
-echo "Export tuning : ${list_ecode_export_tuning[@]}"
-echo "Y-lint tuning : ${list_yamllint_tuning[@]}"
-echo "Tune Profile  : ${list_ecode_tune[@]}"
+echo "Generation    : ${list_ecode_generate[*]}"
+echo "Export dynamic: ${list_ecode_export[*]}"
+echo "Export static : ${list_ecode_export_static[*]}"
+echo "Y-lint static : ${list_yamllint_static[*]}"
+echo "Export tuning : ${list_ecode_export_tuning[*]}"
+echo "Y-lint tuning : ${list_yamllint_tuning[*]}"
+echo "Tune Profile  : ${list_ecode_tune[*]}"
 
 # echo "Profiles: ${list_profiles[@]}"
 
