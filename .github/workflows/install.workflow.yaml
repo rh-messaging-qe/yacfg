@@ -9,16 +9,19 @@ on:
 jobs:
   install:
     strategy:
+      fail-fast: false
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+        python-version: ["3.8", "3.9"]
     name: "Verify that package can be installed"
     runs-on: "${{ matrix.os }}"
     steps:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
         with:
-          python-version: "3.8"
+          python-version: "${{ matrix.python-version }}"
+      - uses: "abatilo/actions-poetry@v2.0.0"
       - name: "Install yacfg"
-        run: "python setup.py install"
+        run: "poetry install"
       - name: "Run help"
         run: "yacfg --help"

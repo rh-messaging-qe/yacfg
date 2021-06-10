@@ -18,9 +18,10 @@ import logging
 import sys
 
 from yacfg import logger_settings
-from yacfg.meta import VERSION, NAME
+from yacfg.meta import NAME
 from .yacfg_batch import generate
 from .cli_arguments import parser
+from . import __version__
 
 logger_settings.config_console_logger()
 
@@ -46,7 +47,7 @@ def main():
         root_logger.setLevel(logging.DEBUG)
 
     if options.version:
-        print(VERSION)
+        print(__version__)
         return
 
     if not options.input:

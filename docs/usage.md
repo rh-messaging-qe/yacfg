@@ -12,13 +12,13 @@ that profiles are jinja2 as well. They can be YAML if they are static.
 ## User (CLI) guide
 
 ```bash
-yacgf --help
+yacfg --help
 
-yacgf --list-profiles
-yacgf --list-templates
+yacfg --list-profiles
+yacfg --list-templates
 
 # perform a generation of a default profile
-yacgf --profile artemis/2.5.0/default.yaml.jinja2
+yacfg --profile artemis/2.5.0/default.yaml.jinja2
 # also save result to [OUTDIR] directory
-yacgf --profile [PROFILE] --output [OUTDIR]
+yacfg --profile [PROFILE] --output [OUTDIR]
 ```

@@ -17,20 +17,21 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.6", "3.7", "3.8", "3.9", "pypy3"]
+        python-version: ["3.8", "3.9", "pypy3"]
 
     steps:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
         with:
           python-version: "${{ matrix.python-version }}"
+      - uses: "abatilo/actions-poetry@v2.0.0"
       - name: "Install dependencies"
         run: |
           set -xe
           python -VV
           python -m site
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade coverage[toml] virtualenv tox tox-gh-actions
+          python -m pip install --upgrade coverage[toml] tox tox-gh-actions
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: tox
       - name: "Get coverage"
@@ -47,7 +48,7 @@ jobs:
         if: "contains(env.USING_DIST, matrix.python-version)"
         run: |
           set -xe
-          python setup.py sdist bdist_wheel
+          poetry build
       - name: "Upload dist artifacts"
         if: "contains(env.USING_DIST, matrix.python-version)"
         uses: actions/upload-artifact@v2

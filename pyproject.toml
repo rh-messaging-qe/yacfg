@@ -1,0 +1,94 @@
+# Copyright 2018 Red Hat Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+[tool.poetry]
+name = "yacfg"
+version = "0.9.0"
+description = """
+Template based configuration files generator based on jinja2
+and yaml mainly focused on Apache ActiveMQ Artemis and related projects
+"""
+authors = ["Zdenek Kraus <zkraus@redhat.com>", "Dominik Lenoch <dlenoch@redhat.com>"]
+maintainers = ["Dominik Lenoch <dlenoch@redhat.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/rh-messaging-qe/yacfg"
+documentation = "https://rh-messaging-qe.github.io/yacfg/"
+repository = "https://github.com/rh-messaging-qe/yacfg.git"
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'Intended Audience :: System Administrators',
+    'License :: OSI Approved :: Apache Software License',
+    'Operating System :: POSIX',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: MacOS',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Topic :: Software Development :: Code Generators',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: Software Development :: Testing',
+    'Topic :: System :: Installation/Setup',
+    'Topic :: System :: Systems Administration',
+    'Topic :: Text Processing',
+    'Topic :: Utilities'
+]
+packages = [
+    { include = "yacfg", from = "src" },
+    { include = "yacfg_batch", from = "src" },
+
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/rh-messaging-qe/yacfg/issues"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+jinja2 = "2.11.3" # TODO: Fix issues with 3.x.x (https://github.com/rh-messaging-qe/yacfg/issues/41)
+pyaml = "20.4.0"
+colorlog = { version = "^5.0.1", optional = true }
+colorama = { version = "^0.4.4", optional = true }
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+pytest-cov = "^2.12.1"
+flake8 = "^3.9.2"
+mypy = "^0.901"
+mock = "^4.0.3"
+tox = "^3.23.1"
+coverage = "^5.5"
+yamllint = "^1.26.1"
+pre-commit = "^2.13.0"
+jupyter-book = "^0.11.1"
+types-Jinja2 = "^0.1.3"
+types-PyYAML = "^0.1.5"
+
+[tool.poetry.extras]
+color_log = ["colorama", "colorlog"]
+
+[tool.poetry.scripts]
+yacfg = 'yacfg.yacfg_cli:main'
+yacfg-batch = 'yacfg_batch.yacfg_batch_cli:main'
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -vv --cov=yacfg --cov=yacfg_batch --cov-report=xml"
+testpaths = [
+    "tests"
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -15,7 +15,7 @@ git clone https://github.com/rh-messaging-qe/yacfg.git
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
 ./setup.py install
-yacgf --help
+yacfg --help
 ```
 
 ## From PyPI
@@ -23,6 +23,6 @@ yacgf --help
 ```bash
 python -m virtualenv -p python3 venv3
 source venv3/bin/activate
-pip install yacgf
-yacgf --help
+pip install yacfg
+yacfg --help
 ```

@@ -16,10 +16,11 @@ import argparse
 import re
 import json
 
-from .meta import NAME, VERSION, DESCRIPTION
+from .meta import NAME, DESCRIPTION
+from . import __version__
 
 parser = argparse.ArgumentParser(
-    prog='{} {}'.format(NAME, VERSION),
+    prog='{} {}'.format(NAME, __version__),
     description=DESCRIPTION,
     epilog='The Cake is a lie.',
 )
