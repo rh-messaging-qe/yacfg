@@ -8,11 +8,12 @@ on:
 
 jobs:
   tests:
+
     name: "Python ${{ matrix.python-version }}"
     runs-on: "ubuntu-latest"
     env:
-      USING_COVERAGE: '3.8'
-      USING_DOCS: '3.7'
+      USING_COVERAGE: '3.9'
+      USING_DOCS: '3.9'
       USING_DIST: '3.9'
 
     strategy:
@@ -20,35 +21,43 @@ jobs:
         python-version: ["3.8", "3.9", "pypy3"]
 
     steps:
+
       - uses: "actions/checkout@v2"
+
       - uses: "actions/setup-python@v2.2.2"
         with:
           python-version: "${{ matrix.python-version }}"
+
       - uses: "abatilo/actions-poetry@v2.1.2"
+
       - name: "Install dependencies"
         run: |
           set -xe
           python -VV
           python -m site
-          python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade coverage[toml] tox tox-gh-actions
+          python -m pip install --upgrade tox tox-gh-actions
+
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: tox
+
       - name: "Get coverage"
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
         run: |
           set -xe
           tox -e coverage-report
+
       - name: "Upload coverage to Codecov"
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
         uses: "codecov/codecov-action@v1"
         with:
           fail_ci_if_error: true
+
       - name: "Build package"
         if: "contains(env.USING_DIST, matrix.python-version)"
         run: |
           set -xe
           poetry build
+
       - name: "Upload dist artifacts"
         if: "contains(env.USING_DIST, matrix.python-version)"
         uses: actions/upload-artifact@v2
