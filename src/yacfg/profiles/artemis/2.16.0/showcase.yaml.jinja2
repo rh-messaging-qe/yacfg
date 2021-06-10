@@ -9,7 +9,7 @@ _defaults:
 render:
   generator_notice: True
   licenses: True
-  template: artemis/2.6.0
+  template: artemis/2.16.0
 
 broker_xml:
   name: amq
@@ -422,11 +422,11 @@ broker_xml:
     timeout: 5000
 
 artemis_profile:
-  home: /home/jamq/opt/apache-artemis-2.6.0
-  instance: /home/jamq/opt/artemis-2.6.0-i0
-  data_dir: /home/jamq/opt/artemis-2.6.0-i0/data
-  instance_uri: file:/home/jamq/opt/apache-artemis-2.6.0/../artemis-2.6.0-i0/
-  instance_etc_uri: file:/home/jamq/opt/apache-artemis-2.6.0/../artemis-2.6.0-i0/etc/
+  home: /home/jamq/opt/apache-artemis-2.16.0
+  instance: /home/jamq/opt/artemis-2.16.0-i0
+  data_dir: /home/jamq/opt/artemis-2.16.0-i0/data
+  instance_uri: file:/home/jamq/opt/apache-artemis-2.16.0/../artemis-2.16.0-i0/
+  instance_etc_uri: file:/home/jamq/opt/apache-artemis-2.16.0/../artemis-2.16.0-i0/etc/
   cluster_properties:
     - -Dactivemq.remoting.default.port=61617
     - -Dactivemq.remoting.amqp.port=5673
@@ -480,7 +480,7 @@ bootstrap_xml:
     - domain: activemq
       certificate_domain: dualcert
   server:
-    configuration: file:/home/jamq/opt/apache-artemis-2.6.0/../artemis-2.6.0-i0/etc//broker.xml
+    configuration: file:/home/jamq/opt/apache-artemis-2.16.0/../artemis-2.16.0-i0/etc//broker.xml
   web:
     bind: http://0.0.0.0:8161
     path: web
