@@ -8,7 +8,7 @@ on:
 
 jobs:
   Tests:
-    name: "Tests | ${{ runner.os }} | Python ${{ matrix.python-version }}"
+    name: "Tests | ${{ matrix.os }} | Python ${{ matrix.python-version }}"
     env:
       USING_COVERAGE: '3.9'
       USING_DOCS: '3.9'
