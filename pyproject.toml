@@ -65,7 +65,7 @@ colorama = { version = "^0.4.4", optional = true }
 pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
 flake8 = "^3.9.2"
-mypy = "^0.901"
+mypy = "^0.902"
 mock = "^4.0.3"
 tox = "^3.23.1"
 coverage = "^5.5"
