@@ -1,5 +1,5 @@
 ---
-name: "Published package installation"
+name: "Published package verification"
 
 on:
   release:
@@ -7,14 +7,25 @@ on:
 
 jobs:
   released-install:
-    name: "Verify that package can be installed"
+    name: "Verify that released package can be installed"
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2.2.2"
         with:
           python-version: "3.9"
+
       - name: "Install yacfg from PiPy repository"
         run: "pip install yacfg"
-      - name: "Run help"
+
+      - name: "Run yacfg help"
         run: "yacfg --help"
+
+      - name: "Run yacfg list templates"
+        run: "yacfg --list-templates"
+
+      - name: "Run yacfg list templates"
+        run: "yacfg --list-profiles"
+
+      - name: "Run yacfg_batch help"
+        run: "yacfg_batch --help"

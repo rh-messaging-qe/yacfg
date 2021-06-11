@@ -1,0 +1,165 @@
+---
+name: "Main branch verification"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Tests:
+    name: "Python ${{ matrix.python-version }}"
+
+    env:
+      USING_COVERAGE: '3.9'
+      USING_DOCS: '3.9'
+      USING_DIST: '3.9'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["Ubuntu", "Windows", "macos"]
+        python-version: ["3.8", "3.9", "pypy3"]
+      runs-on: "${{ matrix.os }}-latest"
+    steps:
+
+      - uses: "actions/checkout@v2"
+
+      - name: "Set up Python ${{ matrix.python-version }}"
+        uses: "actions/setup-python@v2.2.2"
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - uses: "abatilo/actions-poetry@v2.1.2"
+
+      - name: "Install dependencies"
+        run: |
+          set -xe
+          python -VV
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade coverage[toml] virtualenv tox tox-gh-actions
+
+      - name: "Configure poetry"
+        run: poetry config virtualenvs.in-project true
+
+      - name: "Set up cache"
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: "Ensure cache is healthy"
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: timeout 10s poetry run pip --version || rm -rf .venv
+
+      - name: "Run tox targets for ${{ matrix.python-version }}"
+        run: tox
+
+#      - name: "Get coverage"
+#        if: "contains(env.USING_COVERAGE, matrix.python-version)"
+#        run: |
+#          set -xe
+#          tox -e coverage-report
+#
+#      - name: "Upload coverage to Codecov"
+#        if: "contains(env.USING_COVERAGE, matrix.python-version)"
+#        uses: "codecov/codecov-action@v1"
+#        with:
+#          fail_ci_if_error: true
+
+      - name: "Upload docs artifacts"
+        uses: actions/upload-artifact@v2
+        with:
+          name: docs_html-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}
+          path: docs/_build/html
+#
+#      - name: "Upload coverage artifacts"
+#        if: "contains(env.USING_DOCS, matrix.python-version)"
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: coverage
+#          path: .coverage-reports
+#
+#      - name: "Publish package to TestPyPI"
+#        if: "contains(env.TESTPYPI_PUBLISH, matrix.python-version)"
+#        uses: pypa/gh-action-pypi-publish@v1.3.1
+#        with:
+#          skip_existing: true
+#          user: __token__
+#          password: ${{ secrets.TESTPYPI_TOKEN }}
+#          repository_url: https://test.pypi.org/legacy/
+
+  Build:
+    needs: Tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["Ubuntu"]
+        python-version: ["3.9"]
+    runs-on: "${{ matrix.os }}-latest"
+
+    steps:
+      - uses: "actions/checkout@v2"
+
+      - name: "Set up Python ${{ matrix.python-version }}"
+        uses: "actions/setup-python@v2.2.2"
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - name: "Install poetry"
+        uses: "abatilo/actions-poetry@v2.1.2"
+
+      - name: "Configure poetry"
+        run: poetry config virtualenvs.in-project true
+
+      - name: "Set up cache"
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: "Ensure cache is healthy"
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: timeout 10s poetry run pip --version || rm -rf .venv
+
+      - name: "Build package"
+        if: "contains(env.USING_DIST, matrix.python-version)"
+        id: build
+        run: |
+          poetry build
+
+      - name: "Upload dist artifacts"
+        uses: actions/upload-artifact@v2
+        with:
+          name: package-dist-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}
+          path: dist/
+
+      - name: "Run help"
+        run: "poetry run yacfg --help"
+
+  Publish:
+    needs: Build
+    runs-on: Ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@master
+        with:
+          name: docs_html-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}
+          path: pages
+#
+#      - uses: actions/download-artifact@master
+#        with:
+#          name: coverage
+#          path: pages/coverage
+
+      # Push the docs' HTML to github-pages
+      - name: "GitHub Pages action"
+        uses: peaceiris/actions-gh-pages@v3.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: pages/
