@@ -8,7 +8,7 @@ on:
 
 jobs:
   Tests:
-    name: "Python ${{ matrix.python-version }}"
+    name: "Tests | ${{ runner.os }} | Python ${{ matrix.python-version }}"
 
     env:
       USING_COVERAGE: '3.9'
@@ -61,7 +61,7 @@ jobs:
 #        run: |
 #          set -xe
 #          tox -e coverage-report
-#
+
 #      - name: "Upload coverage to Codecov"
 #        if: "contains(env.USING_COVERAGE, matrix.python-version)"
 #        uses: "codecov/codecov-action@v1"

@@ -1,11 +1,12 @@
+---
 format: jb-article
 root: index
 sections:
-- file: install
-- file: usage
-  sections:
-  - file: customization
-  - file: batch
-- file: api
-  sections:
-  - file: public
+  - file: install
+  - file: usage
+    sections:
+      - file: customization
+      - file: batch
+  - file: api
+    sections:
+      - file: public
