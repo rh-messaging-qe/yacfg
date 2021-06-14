@@ -54,7 +54,7 @@ setup(
     author_email='zkraus@redhat.com',
     maintainer='Dominik Lenoch',
     maintainer_email='dlenoch@redhat.com',
-    description=meta.get('SHORT _DESCRIPTION'),
+    description= "Template based configuration files generator based on jinja2 and yaml.",
     long_description=long_description,
     long_description_content_type='text/markdown',
     include_package_data=True,
