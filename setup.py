@@ -31,7 +31,7 @@ with open(meta_file, encoding='utf-8') as meta_file:
 
 setup(
     name="yacfg",
-    version='0.9.0',
+    version='0.9.1',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     entry_points={
