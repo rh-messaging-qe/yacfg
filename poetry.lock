@@ -1108,17 +1108,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
-name = "pyaml"
-version = "20.4.0"
-description = "PyYAML-based module to produce pretty and readable YAML-serialized data"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-PyYAML = "*"
-
-[[package]]
 name = "pybtex"
 version = "0.24.0"
 description = "A BibTeX-compatible bibliography processor in Python"
@@ -1705,7 +1694,7 @@ test = ["pytest"]
 
 [[package]]
 name = "types-jinja2"
-version = "0.1.3"
+version = "2.11.2"
 description = "Typing stubs for Jinja2"
 category = "dev"
 optional = false
@@ -1845,7 +1834,7 @@ color_log = ["colorama", "colorlog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "65471fbbec204cb20370c97d10f1a46c4b3fe3eb7d24e278dad950b3bf3ade39"
+content-hash = "fe4f884dab589bf7fe4cbb2d3b220f4bc414524957ec85190561fed56049a619"
 
 [metadata.files]
 alabaster = [
@@ -2354,10 +2343,6 @@ py = [
     {file = "py-1.10.0-py2.py3-none-any.whl", hash = "sha256:3b80836aa6d1feeaa108e046da6423ab8f6ceda6468545ae8d02d9d58d18818a"},
     {file = "py-1.10.0.tar.gz", hash = "sha256:21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3"},
 ]
-pyaml = [
-    {file = "pyaml-20.4.0-py2.py3-none-any.whl", hash = "sha256:67081749a82b72c45e5f7f812ee3a14a03b3f5c25ff36ec3b290514f8c4c4b99"},
-    {file = "pyaml-20.4.0.tar.gz", hash = "sha256:29a5c2a68660a799103d6949167bd6c7953d031449d08802386372de1db6ad71"},
-]
 pybtex = [
     {file = "pybtex-0.24.0-py2.py3-none-any.whl", hash = "sha256:e1e0c8c69998452fea90e9179aa2a98ab103f3eed894405b7264e517cc2fcc0f"},
     {file = "pybtex-0.24.0.tar.gz", hash = "sha256:818eae35b61733e5c007c3fcd2cfb75ed1bc8b4173c1f70b56cc4c0802d34755"},
@@ -2681,7 +2666,8 @@ traitlets = [
     {file = "traitlets-5.0.5.tar.gz", hash = "sha256:178f4ce988f69189f7e523337a3e11d91c786ded9360174a3d9ca83e79bc5396"},
 ]
 types-jinja2 = [
-    {file = "types_Jinja2-0.1.3-py2.py3-none-any.whl", hash = "sha256:604faa911fd008395c8f0c88b9965b952f00b13613b73d2ff80de19d0fa18cb7"},
+    {file = "types-Jinja2-2.11.2.tar.gz", hash = "sha256:5b53d2b8bc6dd6dfbc0ae3e33e346fbe343cbeba1ed528858749e2a2ffe0e143"},
+    {file = "types_Jinja2-2.11.2-py2.py3-none-any.whl", hash = "sha256:d27e112a8add449407de235f4533239149056327c8bddc6b0d6bf80cd7280c16"},
 ]
 types-markupsafe = [
     {file = "types_MarkupSafe-0.1.5-py2.py3-none-any.whl", hash = "sha256:8dd4e176a409f24e744c652ea2999096a4cb3445793d83bb38d640b26b6b97dc"},
