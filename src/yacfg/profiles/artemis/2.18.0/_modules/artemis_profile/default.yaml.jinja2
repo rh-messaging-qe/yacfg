@@ -1,0 +1,22 @@
+# _defaults:
+#   broker_home: /opt/artemis-2.18.0
+#   broker_instance: /opt/artemis-2.18.0-i0/
+
+artemis_profile:
+  home: '{{ broker_home }}'
+  instance: '{{ broker_instance }}'
+  data_dir: '{{ broker_instance }}/data'
+  instance_uri: 'file:{{ broker_instance }}'
+  instance_etc_uri: 'file:{{ broker_instance }}/etc/'
+  java_args:
+    - -XX:+PrintClassHistogram
+    - -XX:+UseG1GC
+    - -Xms512M
+    - -Xmx2G
+    - -Xloggc:gc.log
+    - -XX:+HeapDumpOnOutOfMemoryError
+    - -Dhawtio.realm=activemq
+    - -Dhawtio.offline="true"
+    - -Dhawtio.role=amq
+    - -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal
+    - -Djolokia.policyLocation=${ARTEMIS_INSTANCE_ETC_URI}jolokia-access.xml

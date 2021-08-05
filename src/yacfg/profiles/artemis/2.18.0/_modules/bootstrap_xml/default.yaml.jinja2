@@ -1,0 +1,21 @@
+# _defaults:
+#   broker_instance: /opt/artemis-2.18.0-i0/
+
+bootstrap_xml:
+  jaas_security:
+    - domain: activemq
+  server:
+    configuration: 'file:{% if ":" in broker_instance %}/{% endif %}{{ broker_instance }}/etc/broker.xml'
+  web:
+    bind:
+      protocol: http
+      address: localhost
+      port: 8161
+    path: web
+    apps:
+    - url: activemq-branding
+      war: activemq-branding.war
+    - url: artemis-plugin
+      war: artemis-plugin.war
+    - url: console
+      war: console.war

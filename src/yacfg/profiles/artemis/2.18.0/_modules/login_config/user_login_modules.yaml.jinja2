@@ -1,0 +1,18 @@
+{% from '_libs/utils.jinja2' import mbool_double_quote without context %}
+{% if login_config is defined -%}
+login_config:
+{% for domain in login_config %}
+  - name: {{ domain.name }}
+    modules:
+{% for module in domain.modules %}
+      - class_name: {{ module.class_name }}
+        flag: {{ module.flag }}
+        properties:
+{% for option in module.properties -%}
+{% for key, value in option.items() %}
+          - {{ key }}: {{ mbool_double_quote(value) }}
+  {% endfor -%}
+  {% endfor %}
+  {% endfor %}
+  {% endfor %}
+{% endif %}

@@ -1,0 +1,30 @@
+# _defaults:
+#   broker_home: /opt/artemis-2.18.0
+#   broker_instance: /opt/artemis-2.18.0-i0/
+#   hostname: localhost
+#   java_xms: 4G
+#   java_xms: 4G
+
+artemis_profile:
+  home: '{{ broker_home }}'
+  instance: '{{ broker_instance }}'
+  data_dir: '{{ broker_instance }}/data'
+  instance_uri: 'file:{{ broker_instance }}'
+  instance_etc_uri: 'file:{{ broker_instance }}/etc/'
+  java_args:
+  - -XX:+PrintClassHistogram
+  - -XX:+UseG1GC
+  - -XX:+AggressiveOpts
+  - -Xms{{ java_xms|default('4G') }}
+  - -Xmx{{ java_xmx|default('4G') }}
+  - -Dhawtio.realm=activemq
+  - -Dhawtio.offline="true"
+  - -Dhawtio.role=amq
+  - -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal
+  - -Djolokia.policyLocation=${ARTEMIS_INSTANCE_ETC_URI}jolokia-access.xml
+  java_args_run:
+  - -Dcom.sun.management.jmxremote=true
+  - -Dcom.sun.management.jmxremote.port=1099
+  - -Djava.rmi.server.hostname={{ hostname|default('localhost') }}
+  - -Dcom.sun.management.jmxremote.rmi.port=1098
+  - -Dcom.sun.management.jmxremote.authenticate=false

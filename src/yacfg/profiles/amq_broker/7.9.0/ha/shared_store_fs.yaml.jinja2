@@ -1,0 +1,79 @@
+---
+
+_defaults:
+  broker_name: amq
+  broker_home: /opt/amq-broker-7.7.0
+  broker_instance: /opt/amq-broker-7.7.0-i0
+  cluster_multicast_address: 233.7.7.9
+  cluster_multicast_port: 9876
+  cluster_connector_address: 0.0.0.0
+  log_level_all: INFO
+  cluster_load_balancing: ON_DEMAND
+  ha_role: master
+
+  # TODO NFS/GFS2 data here
+  fs_paging_directory: data/paging
+  fs_bindings_directory: data/bindings
+  fs_large_messages_directory: data/large-messages
+  fs_disk_scan_period: 5000
+  fs_max_disk_usage: 90
+
+render:
+  generator_notice: True
+  licenses: True
+  template: artemis/2.18.0
+
+broker_xml:
+  name: '{{ broker_name }}'
+
+{% include 'artemis/2.18.0/_modules/broker_xml/journal/default.yaml.jinja2' %}
+
+  paging_directory: '{{ fs_paging_directory | default('data/paging') }}'
+  bindings_directory: '{{ fs_bindings_directory | default('data/bindings') }}'
+  large_messages_directory: '{{ fs_large_messages_directory | default('data/large-messages') }}'
+  disk_scan_period: '{{ fs_disk_scan_period | default('5000') }}'
+  max_disk_usage: '{{ fs_max_disk_usage | default('90') }}'
+
+{% include 'artemis/2.18.0/_modules/broker_xml/critical_analyzer_default.yaml.jinja2' %}
+
+{% include 'artemis/2.18.0/_modules/broker_xml/acceptors/default.yaml.jinja2' %}
+
+{% include 'artemis/2.18.0/_modules/users_roles_security/admin_broker_security_settings.yaml.jinja2' %}
+
+{% include 'artemis/2.18.0/_modules/broker_xml/address_settings/default.yaml.jinja2' %}
+
+{% include 'artemis/2.18.0/_modules/broker_xml/addresses/default.yaml.jinja2' %}
+
+# broker.xml/cluster
+{% include 'artemis/2.18.0/_modules/broker_xml/cluster/basic_cluster.yaml.jinja2' %}
+
+# broker.xml/ha
+{% if ha_role == 'master' %}
+{% include 'artemis/2.18.0/_modules/broker_xml/ha_policy/shared_store/master.yaml.jinja2' %}
+{% elif ha_role == 'slave' %}
+{% include 'artemis/2.18.0/_modules/broker_xml/ha_policy/shared_store/slave.yaml.jinja2' %}
+{% endif %}
+
+# broker.xml/store
+{% include 'artemis/2.18.0/_modules/broker_xml/ha_policy/shared_store/shared_store.yaml.jinja2' %}
+
+# artemis.profile
+{% include 'artemis/2.18.0/_modules/artemis_profile/default.yaml.jinja2' %}
+
+# users and roles properties xml
+{% include 'artemis/2.18.0/_modules/users_roles_security/admin.yaml.jinja2' %}
+
+# bootstrap.xml
+{% include 'amq_broker/7.7.0/_modules/bootstrap_xml/allow.yaml.jinja2' %}
+
+# jolokia-access.xml
+{% include 'artemis/2.18.0/_modules/jolokia_access/allow.yaml.jinja2' %}
+
+# logging.properties
+{% include 'artemis/2.18.0/_modules/logging_properties/default.yaml.jinja2' %}
+
+# login.config
+{% include 'artemis/2.18.0/_modules/login_config/jaas_required.yaml.jinja2' %}
+
+# management.xml
+{% include 'artemis/2.18.0/_modules/management_xml/default_connector.yaml.jinja2' %}

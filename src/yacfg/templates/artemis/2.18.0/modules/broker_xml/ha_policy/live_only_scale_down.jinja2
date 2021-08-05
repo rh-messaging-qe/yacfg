@@ -1,0 +1,13 @@
+{% if policy.role == 'scale-down' %}
+                <scale-down>
+                {% if policy.group_name is defined %}
+                    <group-name>{{ policy.group_name }}</group-name>
+                {% endif %}
+                {% if policy.discovery_group is defined %}
+                    <discovery-group-ref>{{ policy.discovery_group }}</discovery-group-ref>
+                {% endif %}
+                {% for connector in policy.connectors %}
+                    <connector-ref>{{ connector }}</connector-ref>
+                {% endfor %}
+                </scale-down>
+{% endif %}

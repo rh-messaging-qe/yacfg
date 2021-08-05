@@ -1,0 +1,91 @@
+{% from '_libs/utils.jinja2' import mbool without context %}
+{% if user_management_xml is defined %}
+management_xml:
+{% if user_management_xml.connector is defined %}
+  connector:
+{% if user_management_xml.connector.host is defined %}
+    host: "{{ user_management_xml.connector.host }}"
+{% endif %}
+{% if user_management_xml.connector.port is defined %}
+    port: "{{ user_management_xml.connector.port }}"
+{% endif %}
+{% if user_management_xml.connector.rmi_registry_port is defined %}
+    rmi_registry_port: "{{ user_management_xml.connector.rmi_registry_port }}"
+{% endif %}
+{% if user_management_xml.connector.jmx_realm is defined %}
+    jmx_realm: "{{ user_management_xml.connector.jmx_realm }}"
+{% endif %}
+{% if user_management_xml.connector.object_name is defined %}
+    object_name: "{{ user_management_xml.connector.object_name }}"
+{% endif %}
+{% if user_management_xml.connector.authenticator_type is defined %}
+    authenticator_type: "{{ user_management_xml.connector.authenticator_type }}"
+{% endif %}
+{% if user_management_xml.connector.secured is defined %}
+    secured: {{ mbool(user_management_xml.connector.secured) }}
+{% endif %}
+{% if user_management_xml.connector.key_store_provider is defined %}
+    key_store_provider: "{{ user_management_xml.connector.key_store_provider }}"
+{% endif %}
+{% if user_management_xml.connector.key_store_type is defined %}
+    key_store_type: "{{ user_management_xml.connector.key_store_type }}"
+{% endif %}
+{% if user_management_xml.connector.key_store_path is defined %}
+    key_store_path: "{{ user_management_xml.connector.key_store_path }}"
+{% endif %}
+{% if user_management_xml.connector.key_store_password is defined %}
+    key_store_password: "{{ user_management_xml.connector.key_store_password }}"
+{% endif %}
+{% if user_management_xml.connector.trust_store_provider is defined %}
+    trust_store_provider: "{{ user_management_xml.connector.trust_store_provider }}"
+{% endif %}
+{% if user_management_xml.connector.trust_store_type is defined %}
+    trust_store_type: "{{ user_management_xml.connector.trust_store_type }}"
+{% endif %}
+{% if user_management_xml.connector.trust_store_path is defined %}
+    trust_store_path: "{{ user_management_xml.connector.trust_store_path }}"
+{% endif %}
+{% if user_management_xml.connector.trust_store_password is defined %}
+    trust_store_password: "{{ user_management_xml.connector.trust_store_password }}"
+{% endif %}
+{% if user_management_xml.connector.password_codec is defined %}
+    password_codec: "{{ user_management_xml.connector.password_codec }}"
+{% endif %}
+{% endif %}
+{% if user_management_xml.whitelist is defined %}
+  whitelist:
+{% for entry in user_management_xml.whitelist %}
+  - domain: "{{ entry.domain }}"
+{% if entry.key is defined %}
+    key: "{{ entry.key }}"
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if user_management_xml.default_access is defined %}
+  default_access:
+{% for access in user_management_xml.default_access %}
+    - method: "{{ access.method }}"
+      roles:
+{% for role in access.roles %}
+      - "{{ role }}"
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% if user_management_xml.role_access is defined %}
+  role_access:
+{% for match in user_management_xml.role_access %}
+    - domain: "{{ match.domain }}"
+{% if match.key is defined %}
+      key: "{{ match.key }}"
+{% endif %}
+      access:
+{% for entry in match.access %}
+      - method: "{{ entry.method }}"
+        roles:
+{% for role in entry.roles %}
+        - "{{ role }}"
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% endif %}

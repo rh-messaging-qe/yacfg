@@ -1,0 +1,205 @@
+{% if broker_xml.address_settings is defined %}
+    <!-- Address Settings configuration -->
+        <address-settings>
+            {% for address_setting in broker_xml.address_settings %}
+            <address-setting match="{{ address_setting.match|overridevalue(address_setting.match) }}">
+                {% if address_setting.dead_letter_address is defined %}
+                <dead-letter-address>{{ address_setting.dead_letter_address|overridevalue(address_setting.dead_letter_address) }}</dead-letter-address>
+                {% endif %}
+                {% if address_setting.expiry_address is defined %}
+                <expiry-address>{{ address_setting.expiry_address|overridevalue(address_setting.expiry_address) }}</expiry-address>
+                {% endif %}
+                {% if address_setting.redelivery_delay is defined %}
+                <redelivery-delay>{{ address_setting.redelivery_delay }}</redelivery-delay>
+                {% endif %}
+                {% if address_setting.redistribution_delay is defined %}
+                <redistribution-delay>{{ address_setting.redistribution_delay }}</redistribution-delay>
+                {% endif %}
+                {% if address_setting.max_size_bytes is defined %}
+                <max-size-bytes>{{ address_setting.max_size_bytes|overridevalue(address_setting.max_size_bytes) }}</max-size-bytes>
+                {% endif %}
+                {% if address_setting.message_counter_history_day_limit is defined %}
+                <message-counter-history-day-limit>{{ address_setting.message_counter_history_day_limit }}</message-counter-history-day-limit>
+                {% endif %}
+                {% if address_setting.address_full_policy is defined %}
+                <address-full-policy>{{ address_setting.address_full_policy|overridevalue(address_setting.address_full_policy) }}</address-full-policy>
+                {% endif %}
+                {% if address_setting.auto_create_queues is defined %}
+                <auto-create-queues>{{ mbool(address_setting.auto_create_queues) }}</auto-create-queues>
+                {% endif %}
+                {% if address_setting.auto_create_addresses  is defined %}
+                <auto-create-addresses>{{ mbool(address_setting.auto_create_addresses) }}</auto-create-addresses>
+                {% endif %}
+                {% if address_setting.auto_create_jms_queues is defined %}
+                <auto-create-jms-queues>{{ mbool(address_setting.auto_create_jms_queues) }}</auto-create-jms-queues>
+                {% endif %}
+                {% if address_setting.auto_create_jms_topics is defined %}
+                <auto-create-jms-topics>{{ mbool(address_setting.auto_create_jms_topics) }}</auto-create-jms-topics>
+                {% endif %}
+                {% if address_setting.auto_delete_created_queues is defined %}
+                <auto-delete-created-queues>{{ mbool(address_setting.auto_delete_created_queues) }}</auto-delete-created-queues>
+                {% endif %}
+                {% if address_setting.max_size_bytes_reject_threshold is defined %}
+                <max-size-bytes-reject-threshold>{{ address_setting.max_size_bytes_reject_threshold }}</max-size-bytes-reject-threshold>
+                {% endif %}
+                {% if address_setting.default_address_routing_type is defined %}
+                <default-address-routing-type>{{ address_setting.default_address_routing_type|overridevalue(address_setting.default_address_routing_type) }}</default-address-routing-type>
+                {% endif %}
+                {% if address_setting.config_delete_addresses is defined %}
+                <config-delete-addresses>{{ address_setting.config_delete_addresses|overridevalue(address_setting.config_delete_addresses) }}</config-delete-addresses>
+                {% endif %}
+                {% if address_setting.default_non_destructive is defined %}
+                <default-non-destructive>{{ mbool(address_setting.default_non_destructive) }}</default-non-destructive>
+                {% endif %}
+                {% if address_setting.default_consumer_window_size is defined %}
+                <default-consumer-window-size>{{ address_setting.default_consumer_window_size }}</default-consumer-window-size>
+                {% endif %}
+                {% if address_setting.expiry_delay is defined %}
+                <expiry-delay>{{ address_setting.expiry_delay }}</expiry-delay>
+                {% endif %}
+                {% if address_setting.auto_create_dead_letter_resources is defined %}
+                <auto-create-dead-letter-resources>{{ mbool(address_setting.auto_create_dead_letter_resources) }}</auto-create-dead-letter-resources>
+                {% endif %}
+                {% if address_setting.last_value_queue is defined %}
+                <last-value-queue>{{ mbool(address_setting.last_value_queue) }}</last-value-queue>
+                {% endif %}
+                {% if address_setting.default_consumers_before_dispatch is defined %}
+                <default-consumers-before-dispatch>{{ address_setting.default_consumers_before_dispatch }}</default-consumers-before-dispatch>
+                {% endif %}
+                {% if address_setting.page_max_cache_size is defined %}
+                <page-max-cache-size>{{ address_setting.page_max_cache_size }}</page-max-cache-size>
+                {% endif %}
+                {% if address_setting.send_to_dla_on_no_route is defined %}
+                <send-to-dla-on-no-route>{{ mbool(address_setting.send_to_dla_on_no_route) }}</send-to-dla-on-no-route>
+                {% endif %}
+                {% if address_setting.default_last_value_key is defined %}
+                <default-last-value-key>{{ address_setting.default_last_value_key|overridevalue(address_setting.default_last_value_key) }}</default-last-value-key>
+                {% endif %}
+                {% if address_setting.slow_consumer_policy is defined %}
+                <slow-consumer-policy>{{ address_setting.slow_consumer_policy|overridevalue(address_setting.slow_consumer_policy) }}</slow-consumer-policy>
+                {% endif %}
+                {% if address_setting.auto_delete_jms_topics is defined %}
+                <auto-delete-jms-topics>{{ mbool(address_setting.auto_delete_jms_topics) }}</auto-delete-jms-topics>
+                {% endif %}
+                {% if address_setting.default_group_first_key is defined %}
+                <default-group-first-key>{{ address_setting.default_group_first_key|overridevalue(address_setting.default_group_first_key) }}</default-group-first-key>
+                {% endif %}
+                {% if address_setting.enable_metrics is defined %}
+                <enable-metrics>{{ mbool(address_setting.enable_metrics) }}</enable-metrics>
+                {% endif %}
+                {% if address_setting.min_expiry_delay is defined %}
+                <min-expiry-delay>{{ address_setting.min_expiry_delay }}</min-expiry-delay>
+                {% endif %}
+                {% if address_setting.dead_letter_queue_suffix is defined %}
+                <dead-letter-queue-suffix>{{ address_setting.dead_letter_queue_suffix|overridevalue(address_setting.dead_letter_queue_suffix) }}</dead-letter-queue-suffix>
+                {% endif %}
+                {% if address_setting.default_group_buckets is defined %}
+                <default-group-buckets>{{ address_setting.default_group_buckets }}</default-group-buckets>
+                {% endif %}
+                {% if address_setting.auto_create_expiry_resources is defined %}
+                <auto-create-expiry-resources>{{ mbool(address_setting.auto_create_expiry_resources) }}</auto-create-expiry-resources>
+                {% endif %}
+                {% if address_setting.retroactive_message_count is defined %}
+                <retroactive-message-count>{{ address_setting.retroactive_message_count }}</retroactive-message-count>
+                {% endif %}
+                {% if address_setting.dead_letter_queue_prefix is defined %}
+                <dead-letter-queue-prefix>{{ address_setting.dead_letter_queue_prefix|overridevalue(address_setting.dead_letter_queue_prefix) }}</dead-letter-queue-prefix>
+                {% endif %}
+                {% if address_setting.default_ring_size is defined %}
+                <default-ring-size>{{ address_setting.default_ring_size }}</default-ring-size>
+                {% endif %}
+                {% if address_setting.default_max_consumers is defined %}
+                <default-max-consumers>{{ address_setting.default_max_consumers }}</default-max-consumers>
+                {% endif %}
+                {% if address_setting.max_delivery_attempts is defined %}
+                <max-delivery-attempts>{{ address_setting.max_delivery_attempts }}</max-delivery-attempts>
+                {% endif %}
+                {% if address_setting.default_delay_before_dispatch is defined %}
+                <default-delay-before-dispatch>{{ address_setting.default_delay_before_dispatch }}</default-delay-before-dispatch>
+                {% endif %}
+                {% if address_setting.default_last_value_queue is defined %}
+                <default-last-value-queue>{{ mbool(address_setting.default_last_value_queue) }}</default-last-value-queue>
+                {% endif %}
+                {% if address_setting.max_expiry_delay is defined %}
+                <max-expiry-delay>{{ address_setting.max_expiry_delay }}</max-expiry-delay>
+                {% endif %}
+                {% if address_setting.redelivery_collision_avoidance_factor is defined %}
+                <redelivery-collision-avoidance-factor>{{ address_setting.redelivery_collision_avoidance_factor }}</redelivery-collision-avoidance-factor>
+                {% endif %}
+                {% if address_setting.auto_delete_addresses_delay is defined %}
+                <auto-delete-addresses-delay>{{ address_setting.auto_delete_addresses_delay }}</auto-delete-addresses-delay>
+                {% endif %}
+                {% if address_setting.auto_delete_addresses is defined %}
+                <auto-delete-addresses>{{ mbool(address_setting.auto_delete_addresses) }}</auto-delete-addresses>
+                {% endif %}
+                {% if address_setting.auto_delete_queues_delay is defined %}
+                <auto-delete-queues-delay>{{ address_setting.auto_delete_queues_delay }}</auto-delete-queues-delay>
+                {% endif %}
+                {% if address_setting.default_group_rebalance is defined %}
+                <default-group-rebalance>{{ mbool(address_setting.default_group_rebalance) }}</default-group-rebalance>
+                {% endif %}
+                {% if address_setting.default_group_rebalance_pause_dispatch is defined %}
+                <default-group-rebalance-pause-dispatch>{{ mbool(address_setting.default_group_rebalance_pause_dispatch) }}</default-group-rebalance-pause-dispatch>
+                {% endif %}
+                {% if address_setting.redelivery_delay_multiplier is defined %}
+                <redelivery-delay-multiplier>{{ address_setting.redelivery_delay_multiplier }}</redelivery-delay-multiplier>
+                {% endif %}
+                {% if address_setting.auto_delete_jms_queues is defined %}
+                <auto-delete-jms-queues>{{ mbool(address_setting.auto_delete_jms_queues) }}</auto-delete-jms-queues>
+                {% endif %}
+                {% if address_setting.max_redelivery_delay is defined %}
+                <max-redelivery-delay>{{ address_setting.max_redelivery_delay }}</max-redelivery-delay>
+                {% endif %}
+                {% if address_setting.default_queue_routing_type is defined %}
+                <default-queue-routing-type>{{ address_setting.default_queue_routing_type|overridevalue(address_setting.default_queue_routing_type) }}</default-queue-routing-type>
+                {% endif %}
+                {% if address_setting.slow_consumer_check_period is defined %}
+                <slow-consumer-check-period>{{ address_setting.slow_consumer_check_period }}</slow-consumer-check-period>
+                {% endif %}
+                {% if address_setting.slow_consumer_threshold is defined %}
+                <slow-consumer-threshold>{{ address_setting.slow_consumer_threshold }}</slow-consumer-threshold>
+                {% endif %}
+                {% if address_setting.config_delete_queues is defined %}
+                <config-delete-queues>{{ address_setting.config_delete_queues|overridevalue(address_setting.config_delete_queues) }}</config-delete-queues>
+                {% endif %}
+                {% if address_setting.management_browse_page_size is defined %}
+                <management-browse-page-size>{{ address_setting.management_browse_page_size }}</management-browse-page-size>
+                {% endif %}
+                {% if address_setting.auto_delete_queues is defined %}
+                <auto-delete-queues>{{ mbool(address_setting.auto_delete_queues) }}</auto-delete-queues>
+                {% endif %}
+                {% if address_setting.expiry_queue_suffix is defined %}
+                <expiry-queue-suffix>{{ address_setting.expiry_queue_suffix|overridevalue(address_setting.expiry_queue_suffix) }}</expiry-queue-suffix>
+                {% endif %}
+                {% if address_setting.auto_delete_queues_message_count is defined %}
+                <auto-delete-queues-message-count>{{ address_setting.auto_delete_queues_message_count }}</auto-delete-queues-message-count>
+                {% endif %}
+                {% if address_setting.expiry_queue_prefix is defined %}
+                <expiry-queue-prefix>{{ address_setting.expiry_queue_prefix|overridevalue(address_setting.expiry_queue_prefix) }}</expiry-queue-prefix>
+                {% endif %}
+                {% if address_setting.default_purge_on_no_consumers is defined %}
+                <default-purge-on-no-consumers>{{ mbool(address_setting.default_purge_on_no_consumers) }}</default-purge-on-no-consumers>
+                {% endif %}
+                {% if address_setting.default_exclusive_queue is defined %}
+                <default-exclusive-queue>{{ mbool(address_setting.default_exclusive_queue) }}</default-exclusive-queue>
+                {% endif %}
+                {% if address_setting.page_size_bytes is defined %}
+                <page-size-bytes>{{ address_setting.page_size_bytes|overridevalue(address_setting.page_size_bytes) }}</page-size-bytes>
+                {% endif %}
+                {% if address_setting.slow_consumer_threshold_measurement_unit is defined %}
+                <slow-consumer-threshold-measurement-unit>{{ address_setting.slow_consumer_threshold_measurement_unit }}</slow-consumer-threshold-measurement-unit>
+                {% endif %}
+                {% if address_setting.management_message_attribute_size_limit is defined %}
+                <management-message-attribute-size-limit>{{ address_setting.management_message_attribute_size_limit }}</management-message-attribute-size-limit>
+                {% endif %}
+                {% if address_setting.enable_ingress_timestamp is defined %}
+                <enable-ingress-timestamp>{{ address_setting.enable_ingress_timestamp }}</enable-ingress-timestamp>
+                {% endif %}
+            </address-setting>
+                {% if not loop.last %}
+
+                {% endif %}
+            {% endfor %}
+        </address-settings>
+
+{% endif %}

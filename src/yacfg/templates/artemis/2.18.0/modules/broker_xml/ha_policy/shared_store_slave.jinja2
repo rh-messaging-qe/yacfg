@@ -1,0 +1,20 @@
+        {% if policy.role == 'slave' %}
+            {% if policy.properties is not defined %}
+                <slave/>
+            {% else %}
+                <slave>
+                    {% if policy.properties.failover_on_server_shutdown is defined %}
+                    <failover-on-shutdown>{{ mbool(policy.properties.failover_on_shutdown)  }}</failover-on-shutdown>
+                    {% endif %}
+                    {% if policy.properties.allow_failback is defined %}
+                    <allow-failback>{{ mbool(policy.properties.allow_failback) }}</allow-failback>
+                    {% endif %}
+                    {% if policy.properties.failback_delay is defined %}
+                    <failback-delay>{{ mbool(policy.properties.failback_delay) }}</failback-delay>
+                    {% endif %}
+                    {% if policy.properties.restart_backup is defined %}
+                    <restart-backup>{{ mbool(policy.properties.restart_backup) }}</restart-backup>
+                    {% endif %}
+                </slave>
+            {% endif %}
+        {% endif %}
