@@ -1,4 +1,4 @@
-{% if broker_xml.security_settings is defined %}
+{% if broker_xml.security_settings is defined or broker_xml.security_settings_plugins is defined %}
     <!-- Security Settings configuration -->
         <security-settings>
             {% for security in broker_xml.security_settings %}
