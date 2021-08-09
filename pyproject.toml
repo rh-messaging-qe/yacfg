@@ -14,7 +14,7 @@
 
 [tool.poetry]
 name = "yacfg"
-version = "0.9.1"
+version = "0.9.2"
 description = "Template based configuration files generator based on jinja2 and yaml."
 authors = ["Zdenek Kraus <zkraus@redhat.com>", "Dominik Lenoch <dlenoch@redhat.com>"]
 maintainers = ["Dominik Lenoch <dlenoch@redhat.com>"]
