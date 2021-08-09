@@ -1,0 +1,13 @@
+{% if user_security_settings is defined %}
+  security_settings:
+  {% for security_setting in user_security_settings %}
+  - match: '{{ security_setting.match }}'
+    permissions:
+    {% for type, roles in security_setting.permissions.items() %}
+        {{ type }}:
+    {% for role in roles %}
+        - {{ role }}
+    {% endfor %}
+    {% endfor %}
+  {% endfor %}
+{% endif %}

@@ -1,0 +1,9 @@
+{% if broker_xml.security_settings is defined %}
+{% for security_setting in broker_xml.security_settings %}
+            <security-setting match="{{ security_setting.match }}">
+      {% for type, roles in security_setting.permissions.items() %}
+                <permission type="{{ type }}" roles="{{ roles|join(',') }}"/>
+      {% endfor %}
+            </security-setting>
+{% endfor %}
+{% endif %}

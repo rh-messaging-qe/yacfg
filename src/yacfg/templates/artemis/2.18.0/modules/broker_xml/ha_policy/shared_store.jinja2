@@ -1,0 +1,10 @@
+{% if policy.policy == 'shared-store' %}
+            {% if policy.role is not defined %}
+            <shared-store/>
+            {% else %}
+            <shared-store>
+                {% include 'modules/broker_xml/ha_policy/shared_store_master.jinja2' %}
+                {% include 'modules/broker_xml/ha_policy/shared_store_slave.jinja2' %}
+            </shared-store>
+            {% endif %}
+{% endif %}

@@ -1,0 +1,38 @@
+{% if policy.properties.slave is defined %}
+    {% if policy.properties.slave.properties is not defined %}
+                    <slave/>
+    {% else %}
+                    <slave>
+                        {% if policy.properties.slave.properties.cluster_name is defined %}
+                        <cluster-name>{{ policy.properties.slave.properties.cluster_name  }}</cluster-name>
+                        {% endif %}
+                        {% if policy.properties.slave.properties.group_name is defined %}
+                        <group-name>{{ policy.properties.slave.properties.group_name  }}</group-name>
+                        {% endif %}
+                        {% if policy.properties.slave.properties.max_saved_replicated_journals_size is defined %}
+                        <max-saved-replicated-journals-size>{{ policy.properties.slave.properties.max_saved_replicated_journals_size  }}</max-saved-replicated-journals-size>
+                        {% endif %}
+                        {% if policy.properties.slave.properties.allow_failback is defined %}
+                        <allow-failback>{{ mbool(policy.properties.slave.properties.allow_failback) }}</allow-failback>
+                        {% endif %}
+                        {% if policy.properties.slave.properties.initial_replication_sync_timeout is defined %}
+                        <initial-replication-sync-timeout>{{ policy.properties.slave.properties.initial_replication_sync_timeout  }}</initial-replication-sync-timeout>
+                        {% endif %}
+                        {% if policy.properties.slave.properties.scale_down is defined %}
+                        <scale-down>
+                            {% if policy.properties.slave.properties.scale_down.group_name is defined%}
+                            <group-name>{{ policy.properties.slave.properties.scale_down.group_name  }}</group-name>
+                            {% endif %}
+                            {% if policy.properties.slave.properties.scale_down.discovery_group is defined %}
+                            <discovery-group-ref>{{ policy.properties.slave.properties.scale_down.discovery_group  }}</discovery-group-ref>
+                            {% endif %}
+                            {% if policy.properties.slave.properties.scale_down.connectors is defined %}
+                                {% for connector in policy.properties.slave.properties.scale_down.connectors %}
+                            <connector-ref>{{ connector }}</connector-ref>
+                                {% endfor %}
+                            {% endif %}
+                        </scale-down>
+                        {% endif %}
+                    </slave>
+    {% endif %}
+{% endif %}

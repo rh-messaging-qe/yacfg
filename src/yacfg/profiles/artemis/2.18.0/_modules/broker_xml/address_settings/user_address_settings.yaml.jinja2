@@ -1,0 +1,201 @@
+{% from '_libs/utils.jinja2' import mbool without context %}
+  address_settings:
+{% if user_address_settings is defined %}
+  {% for address_setting in user_address_settings %}
+
+  - match: '{{ address_setting.match }}'
+  {% if address_setting.dead_letter_address is defined %}
+    dead_letter_address: {{ address_setting.dead_letter_address }}
+  {% endif %}
+  {% if address_setting.expiry_address is defined %}
+    expiry_address: {{ address_setting.expiry_address }}
+  {% endif %}
+  {% if address_setting.redelivery_delay is defined %}
+    redelivery_delay: {{ address_setting.redelivery_delay }}
+  {% endif %}
+  {% if address_setting.redistribution_delay is defined %}
+    redistribution_delay: {{ address_setting.redistribution_delay }}
+  {% endif %}
+  {% if address_setting.max_size_bytes is defined %}
+    max_size_bytes: {{ address_setting.max_size_bytes }}
+  {% endif %}
+  {% if address_setting.message_counter_history_day_limit is defined %}
+    message_counter_history_day_limit: {{ address_setting.message_counter_history_day_limit }}
+  {% endif %}
+  {% if address_setting.address_full_policy is defined %}
+    address_full_policy: {{ address_setting.address_full_policy }}
+  {% endif %}
+  {% if address_setting.auto_create_queues is defined %}
+    auto_create_queues: {{ mbool(address_setting.auto_create_queues) }}
+  {% endif %}
+  {% if address_setting.auto_create_addresses  is defined %}
+    auto_create_addresses: {{ mbool(address_setting.auto_create_addresses) }}
+  {% endif %}
+  {% if address_setting.auto_create_jms_queues is defined %}
+    auto_create_jms_queues: {{ mbool(address_setting.auto_create_jms_queues) }}
+  {% endif %}
+  {% if address_setting.auto_create_jms_topics is defined %}
+    auto_create_jms_topics: {{ mbool(address_setting.auto_create_jms_topics) }}
+  {% endif %}
+  {% if address_setting.auto_delete_created_queues is defined %}
+    auto_delete_created_queues: {{ address_setting.auto_delete_created_queues }}
+  {% endif %}
+  {% if address_setting.max_size_bytes_reject_threshold is defined %}
+    max_size_bytes_reject_threshold: {{ address_setting.max_size_bytes_reject_threshold }}
+  {% endif %}
+  {% if address_setting.default_address_routing_type is defined %}
+    default_address_routing_type: {{ address_setting.default_address_routing_type }}
+  {% endif %}
+  {% if address_setting.config_delete_addresses is defined %}
+    config_delete_addresses: {{ address_setting.config_delete_addresses }}
+  {% endif %}
+  {% if address_setting.default_non_destructive is defined %}
+    default_non_destructive: {{ address_setting.default_non_destructive }}
+  {% endif %}
+  {% if address_setting.default_consumer_window_size is defined %}
+    default_consumer_window_size: {{ address_setting.default_consumer_window_size }}
+  {% endif %}
+  {% if address_setting.expiry_delay is defined %}
+    expiry_delay: {{ address_setting.expiry_delay }}
+  {% endif %}
+  {% if address_setting.auto_create_dead_letter_resources is defined %}
+    auto_create_dead_letter_resources: {{ address_setting.auto_create_dead_letter_resources }}
+  {% endif %}
+  {% if address_setting.last_value_queue is defined %}
+    last_value_queue: {{ address_setting.last_value_queue }}
+  {% endif %}
+  {% if address_setting.default_consumers_before_dispatch is defined %}
+    default_consumers_before_dispatch: {{ address_setting.default_consumers_before_dispatch }}
+  {% endif %}
+  {% if address_setting.page_max_cache_size is defined %}
+    page_max_cache_size: {{ address_setting.page_max_cache_size }}
+  {% endif %}
+  {% if address_setting.send_to_dla_on_no_route is defined %}
+    send_to_dla_on_no_route: {{ address_setting.send_to_dla_on_no_route }}
+  {% endif %}
+  {% if address_setting.default_last_value_key is defined %}
+    default_last_value_key: {{ address_setting.default_last_value_key }}
+  {% endif %}
+  {% if address_setting.slow_consumer_policy is defined %}
+    slow_consumer_policy: {{ address_setting.slow_consumer_policy }}
+  {% endif %}
+  {% if address_setting.auto_delete_jms_topics is defined %}
+    auto_delete_jms_topics: {{ address_setting.auto_delete_jms_topics }}
+  {% endif %}
+  {% if address_setting.default_group_first_key is defined %}
+    default_group_first_key: {{ address_setting.default_group_first_key }}
+  {% endif %}
+  {% if address_setting.enable_metrics is defined %}
+    enable_metrics: {{ address_setting.enable_metrics }}
+  {% endif %}
+  {% if address_setting.min_expiry_delay is defined %}
+    min_expiry_delay: {{ address_setting.min_expiry_delay }}
+  {% endif %}
+  {% if address_setting.dead_letter_queue_suffix is defined %}
+    dead_letter_queue_suffix: {{ address_setting.dead_letter_queue_suffix }}
+  {% endif %}
+  {% if address_setting.default_group_buckets is defined %}
+    default_group_buckets: {{ address_setting.default_group_buckets }}
+  {% endif %}
+  {% if address_setting.auto_create_expiry_resources is defined %}
+    auto_create_expiry_resources: {{ address_setting.auto_create_expiry_resources }}
+  {% endif %}
+  {% if address_setting.retroactive_message_count is defined %}
+    retroactive_message_count: {{ address_setting.retroactive_message_count }}
+  {% endif %}
+  {% if address_setting.dead_letter_queue_prefix is defined %}
+    dead_letter_queue_prefix: {{ address_setting.dead_letter_queue_prefix }}
+  {% endif %}
+  {% if address_setting.default_ring_size is defined %}
+    default_ring_size: {{ address_setting.default_ring_size }}
+  {% endif %}
+  {% if address_setting.default_max_consumers is defined %}
+    default_max_consumers: {{ address_setting.default_max_consumers }}
+  {% endif %}
+  {% if address_setting.max_delivery_attempts is defined %}
+    max_delivery_attempts: {{ address_setting.max_delivery_attempts }}
+  {% endif %}
+  {% if address_setting.default_delay_before_dispatch is defined %}
+    default_delay_before_dispatch: {{ address_setting.default_delay_before_dispatch }}
+  {% endif %}
+  {% if address_setting.default_last_value_queue is defined %}
+    default_last_value_queue: {{ address_setting.default_last_value_queue }}
+  {% endif %}
+  {% if address_setting.max_expiry_delay is defined %}
+    max_expiry_delay: {{ address_setting.max_expiry_delay }}
+  {% endif %}
+  {% if address_setting.redelivery_collision_avoidance_factor is defined %}
+    redelivery_collision_avoidance_factor: {{ address_setting.redelivery_collision_avoidance_factor }}
+  {% endif %}
+  {% if address_setting.auto_delete_addresses_delay is defined %}
+    auto_delete_addresses_delay: {{ address_setting.auto_delete_addresses_delay }}
+  {% endif %}
+  {% if address_setting.auto_delete_addresses is defined %}
+    auto_delete_addresses: {{ address_setting.auto_delete_addresses }}
+  {% endif %}
+  {% if address_setting.auto_delete_queues_delay is defined %}
+    auto_delete_queues_delay: {{ address_setting.auto_delete_queues_delay }}
+  {% endif %}
+  {% if address_setting.default_group_rebalance is defined %}
+    default_group_rebalance: {{ address_setting.default_group_rebalance }}
+  {% endif %}
+  {% if address_setting.default_group_rebalance_pause_dispatch is defined %}
+    default_group_rebalance_pause_dispatch: {{ address_setting.default_group_rebalance_pause_dispatch }}
+  {% endif %}
+  {% if address_setting.redelivery_delay_multiplier is defined %}
+    redelivery_delay_multiplier: {{ address_setting.redelivery_delay_multiplier }}
+  {% endif %}
+  {% if address_setting.auto_delete_jms_queues is defined %}
+    auto_delete_jms_queues: {{ address_setting.auto_delete_jms_queues }}
+  {% endif %}
+  {% if address_setting.max_redelivery_delay is defined %}
+    max_redelivery_delay: {{ address_setting.max_redelivery_delay }}
+  {% endif %}
+  {% if address_setting.default_queue_routing_type is defined %}
+    default_queue_routing_type: {{ address_setting.default_queue_routing_type }}
+  {% endif %}
+  {% if address_setting.slow_consumer_check_period is defined %}
+    slow_consumer_check_period: {{ address_setting.slow_consumer_check_period }}
+  {% endif %}
+  {% if address_setting.slow_consumer_threshold is defined %}
+    slow_consumer_threshold: {{ address_setting.slow_consumer_threshold }}
+  {% endif %}
+  {% if address_setting.config_delete_queues is defined %}
+    config_delete_queues: {{ address_setting.config_delete_queues }}
+  {% endif %}
+  {% if address_setting.management_browse_page_size is defined %}
+    management_browse_page_size: {{ address_setting.management_browse_page_size }}
+  {% endif %}
+  {% if address_setting.auto_delete_queues is defined %}
+    auto_delete_queues: {{ address_setting.auto_delete_queues }}
+  {% endif %}
+  {% if address_setting.expiry_queue_suffix is defined %}
+    expiry_queue_suffix: {{ address_setting.expiry_queue_suffix }}
+  {% endif %}
+  {% if address_setting.auto_delete_queues_message_count is defined %}
+    auto_delete_queues_message_count: {{ address_setting.auto_delete_queues_message_count }}
+  {% endif %}
+  {% if address_setting.expiry_queue_prefix is defined %}
+    expiry_queue_prefix: {{ address_setting.expiry_queue_prefix }}
+  {% endif %}
+  {% if address_setting.default_purge_on_no_consumers is defined %}
+    default_purge_on_no_consumers: {{ address_setting.default_purge_on_no_consumers }}
+  {% endif %}
+  {% if address_setting.default_exclusive_queue is defined %}
+    default_exclusive_queue: {{ address_setting.default_exclusive_queue }}
+  {% endif %}
+  {% if address_setting.page_size_bytes is defined %}
+    page_size_bytes: {{ address_setting.page_size_bytes }}
+  {% endif %}
+  {% if address_setting.slow_consumer_threshold_measurement_unit is defined %}
+    slow_consumer_threshold_measurement_unit: {{ address_setting.slow_consumer_threshold_measurement_unit }}
+  {% endif %}
+  {% if address_setting.management_message_attribute_size_limit is defined %}
+    management_message_attribute_size_limit: {{ address_setting.management_message_attribute_size_limit }}
+  {% endif %}
+  {% if address_setting.enable_ingress_timestamp is defined %}
+    enable_ingress_timestamp: {{ address_setting.enable_ingress_timestamp }}
+  {% endif %}
+
+  {% endfor %}
+{% endif %}

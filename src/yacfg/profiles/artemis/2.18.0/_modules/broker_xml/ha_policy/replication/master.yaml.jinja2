@@ -1,0 +1,19 @@
+#  _defaults:
+#    ha_group_name: my-artemis-ha-group
+#    ha_vote_on_replication_failure: true
+#    ha_check_for_live_server: true
+
+  ha_policy:
+  - policy: replication
+    role: master
+    properties:
+      group_name: {{ ha_group_name | default('my-artemis-ha-group') }}
+      vote_on_replication_failure: {{ ha_vote_on_replication_failure | default('true') }}
+      check_for_live_server: {{ ha_check_for_live_server | default('true') }}
+# Implicit default values
+#      cluster_name: <name>
+#      scale_down: TODO
+#      initial_replication_sync_timeout: 30000
+#      quorum_size: -1
+#      vote_retries: 12
+#      vote_retry_wait: 5000

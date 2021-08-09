@@ -1,0 +1,16 @@
+{% if user_artemis_roles is defined %}
+artemis_roles:
+{% for role, users in user_artemis_roles.items() %}
+  {{ role }}:
+  {% for user in users %}
+  - {{ user }}
+  {% endfor %}
+{% endfor %}
+{% endif %}
+
+{% if user_artemis_users is defined %}
+artemis_users:
+{% for username, password in user_artemis_users.items() %}
+  {{ username }}: {{ password }}
+{% endfor %}
+{% endif %}

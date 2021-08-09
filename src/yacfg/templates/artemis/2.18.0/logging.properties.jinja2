@@ -1,0 +1,49 @@
+{% from 'libs/utils.jinja2' import mbool without context %}
+{% include 'libs/headers/properties_headers.jinja2' %}
+
+{% include 'libs/licenses/apache-2.0/properties.jinja2' %}
+
+# Additional logger names to configure (root logger is always configured)
+# Root logger option
+loggers={{ logging_properties.loggers|join(',') }}
+
+# Root logger level
+logger.level={{ logging_properties.logger_level }}
+
+# ActiveMQ Artemis logger levels
+{% for option in logging_properties.logger_properties -%}
+    {%- for key, value in option.items() -%}
+        logger.{{ key }}={{ value }}
+    {% endfor %}
+{% endfor %}
+
+# Root logger handlers
+logger.handlers={{ logging_properties.handlers|map(attribute='name')|join(',') }}
+
+{% for handler in logging_properties.handlers %}
+# {{ handler.name }} handler configuration
+handler.{{ handler.name }}={{ handler.class_name }}
+handler.{{ handler.name }}.level={{ handler.level }}
+handler.{{ handler.name }}.properties=
+    {{- handler.properties|map('list')|sum(start=[])|join(',') }}
+    {% for property in  handler.properties -%}
+        {%- for key, value in property.items() -%}
+            handler.{{ handler.name }}.{{ key }}={{ mbool(value) }}
+        {% endfor %}
+    {% endfor %}
+handler.{{ handler.name }}.formatter={{ handler.formatter }}
+
+{% endfor -%}
+
+{% for formatter in logging_properties.formatters %}
+# {{ formatter.name }} pattern configuration
+formatter.{{ formatter.name }}={{ formatter.class_name }}
+formatter.{{ formatter.name }}.properties=
+    {{- formatter.properties|map('list')|sum(start=[])|join(',') }}
+    {% for property in  formatter.properties -%}
+        {%- for key, value in property.items() -%}
+            formatter.{{ formatter.name }}.{{ key }}={{ mbool(value) }}
+        {% endfor %}
+    {% endfor %}
+
+{% endfor %}
