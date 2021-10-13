@@ -1,9 +1,11 @@
-{% if security.class_name is defined %}
-            <security-setting-plugin class-name="{{ security.class_name }}">
-                {% for property in security.properties %}
+{% if broker_xml.security_settings_plugins is defined %}
+  {% for plugin in broker_xml.security_settings_plugins %}
+            <security-setting-plugin class-name="{{ plugin.class_name }}">
+                {% for property in plugin.properties %}
                 {% for key, value in property.items() %}
                 <setting name="{{ key }}" value="{{ value }}"/>
                 {% endfor %}
                 {% endfor %}
             </security-setting-plugin>
+  {% endfor %}
 {% endif %}
