@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: "${{ matrix.python-version }}"
 
-      - uses: "abatilo/actions-poetry@v2.1.2"
+      - uses: "abatilo/actions-poetry@v2.1.4"
 
       - name: "Install dependencies"
         run: |
