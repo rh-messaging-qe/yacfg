@@ -14,10 +14,12 @@
 
 import os
 import shutil
+import pytest
 
 import yacfg
 
 
+@pytest.mark.skip(reason="Artemis profiles were removed, test needs to be replaced/fixed.")
 def test_with_special_chars(*_):
     print("testing 1")
     dir_path = os.path.dirname(__file__)
