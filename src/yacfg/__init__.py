@@ -12,8 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import importlib.metadata
+try:
+    from importlib import metadata
+except ImportError:
+    import importlib_metadata as metadata
 
-__version__ = importlib.metadata.version('yacfg')
+try:
+    __version__ = metadata.version('yacfg')
+except metadata.PackageNotFoundError:
+    __version__ = 'devel'
 
 from .yacfg import generate  # noqa: F401
