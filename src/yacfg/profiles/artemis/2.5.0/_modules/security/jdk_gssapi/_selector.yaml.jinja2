@@ -1,5 +1,0 @@
-{% if jvm_vendor_ibm is sameas true %}
-  {% include 'artemis/2.5.0/_modules/security/jdk_gssapi/ibm_jdk_gssapi.yaml.jinja2' %}
-{% else %}
-  {% include 'artemis/2.5.0/_modules/security/jdk_gssapi/default_jdk_gssapi.yaml.jinja2' %}
-{% endif %}
