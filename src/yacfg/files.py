@@ -42,8 +42,18 @@ def get_profiles_path():
     :return: path to packaged profiles directory
     :rtype: str
     """
-    module_path = get_module_path()
-    profiles_path = os.path.join(module_path, PROFILES)
+
+    env_profiles = os.getenv('YACFG_PROFILES')  # TODO: Add test for YACFG_PROFILES environment variable
+
+    if env_profiles:
+        profiles_path = os.path.join(env_profiles)
+        LOG.debug('Using user defined $YACFG_PROFILES profiles path "%s"', profiles_path)
+
+    else:
+        module_path = get_module_path()
+        profiles_path = os.path.join(module_path, PROFILES)
+        LOG.debug('Using module profiles path "%s"', profiles_path)
+
     return profiles_path
 
 
@@ -53,8 +63,18 @@ def get_templates_path():
     :return: path packaged templates directory
     :rtype: str
     """
-    module_path = get_module_path()
-    templates_path = os.path.join(module_path, TEMPLATES)
+
+    env_templates = os.getenv('YACFG_TEMPLATES')  # TODO: Add test for YACFG_TEMPLATES environment variable
+
+    if env_templates:
+        templates_path = os.path.join(env_templates)
+        LOG.debug('Using user defined $YACFG_TEMPLATES template path "%s"', templates_path)
+
+    else:
+        module_path = get_module_path()
+        templates_path = os.path.join(module_path, TEMPLATES)
+        LOG.debug('Using module templates path "%s"', templates_path)
+
     return templates_path
 
 
