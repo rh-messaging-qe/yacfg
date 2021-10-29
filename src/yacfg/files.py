@@ -69,30 +69,37 @@ def select_profile_file(profile_name):
     :return: selected path to profile and profile name
     :rtype: tuple[str, str]
     """
+
+    # Default /module/path/profiles path
     profiles_path = get_profiles_path()
-    selected_template_path = profiles_path
-    selected_template_name = profile_name
+    selected_profile_path = profiles_path
+    selected_profile_name = profile_name
 
+    # user path omitting 'profiles' dir
     user_extra_path = os.path.join(PROFILES, profile_name)
-    if os.path.isfile(user_extra_path):  # user path omitting 'profile' dir
+
+    if os.path.isfile(user_extra_path):
+        LOG.debug('User ./profile/ omitting profile "%s"', profile_name)
         profile_tmp_name = os.path.abspath(user_extra_path)
-        selected_template_path = os.path.dirname(profile_tmp_name)
-        selected_template_name = os.path.basename(profile_tmp_name)
-        LOG.debug('Using user defined template path "%s"', profile_tmp_name)
+        selected_profile_path = os.path.dirname(profile_tmp_name)
+        selected_profile_name = os.path.basename(profile_tmp_name)
 
-    if os.path.isfile(profile_name):  # user direct path
+    # user direct path
+    if os.path.isfile(profile_name):
+        LOG.debug('User direct profile "%s"', profile_name)
         profile_tmp_name = os.path.abspath(profile_name)
-        selected_template_path = os.path.dirname(profile_tmp_name)
-        selected_template_name = os.path.basename(profile_tmp_name)
-        LOG.debug('Using user defined template path "%s"', profile_tmp_name)
+        selected_profile_path = os.path.dirname(profile_tmp_name)
+        selected_profile_name = os.path.basename(profile_tmp_name)
 
-    complete_path = os.path.join(selected_template_path,
-                                 selected_template_name)
+    complete_path = os.path.join(selected_profile_path, selected_profile_name)
+
     if not os.path.isfile(complete_path):
         raise ProfileError(
             'Unable to find a requested profile "%s"' % profile_name
         )
-    return selected_template_name, selected_template_path
+
+    LOG.debug('Selected profile: "%s"', complete_path)
+    return selected_profile_name, selected_profile_path
 
 
 def select_template_dir(template_name):
