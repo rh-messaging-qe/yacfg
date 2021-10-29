@@ -113,12 +113,19 @@ def select_template_dir(template_name):
     :return: selected path to template dir
     :rtype: str
     """
+
+    # Default /module/path/templates path
     templates_path = get_templates_path()
     selected_template_path = os.path.join(templates_path, template_name)
+
+    # user path omitting 'templates' dir
     user_extra_path = os.path.join(TEMPLATES, template_name)
+
     if os.path.isdir(user_extra_path):
         selected_template_path = user_extra_path
         LOG.debug('Using user defined template path "%s"', template_name)
+
+    # user direct path
     if os.path.isdir(template_name):
         selected_template_path = template_name
         LOG.debug('Using user defined template path "%s"', template_name)
@@ -133,6 +140,7 @@ def select_template_dir(template_name):
             'Selected template "%s" does not contain'
             ' "_template" file, so it is not considered a template'
         )
+
     LOG.debug('Selected template: %s', selected_template_path)
     return selected_template_path
 
