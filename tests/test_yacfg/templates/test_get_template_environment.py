@@ -23,10 +23,8 @@ from ..files.fakes import fake_select_template_dir
 from ..files.fakes import fake_templates_path
 
 
-@mock.patch('yacfg.templates.get_templates_path',
-            side_effect=fake_templates_path)
-@mock.patch('yacfg.templates.select_template_dir',
-            side_effect=fake_select_template_dir)
+@mock.patch('yacfg.templates.get_templates_path', side_effect=fake_templates_path)
+@mock.patch('yacfg.templates.select_template_dir', side_effect=fake_select_template_dir)
 @mock.patch('yacfg.templates.FileSystemLoader', mock.Mock())
 @mock.patch('yacfg.templates.Environment', mock.Mock())
 def test_true(*_):
@@ -49,12 +47,9 @@ def test_true(*_):
     ])
 
 
-@mock.patch('yacfg.templates.get_templates_path',
-            side_effect=fake_templates_path)
-@mock.patch('yacfg.templates.select_template_dir',
-            side_effect=fake_select_template_dir)
-@mock.patch('yacfg.templates.FileSystemLoader',
-            side_effect=jinja2.TemplateError)
+@mock.patch('yacfg.templates.get_templates_path', side_effect=fake_templates_path)
+@mock.patch('yacfg.templates.select_template_dir', side_effect=fake_select_template_dir)
+@mock.patch('yacfg.templates.FileSystemLoader', side_effect=jinja2.TemplateError)
 @mock.patch('yacfg.templates.Environment', mock.Mock())
 def test_jinja_loader_exception(*_):
     template_name = 'template/1.0.0'
@@ -67,10 +62,8 @@ def test_jinja_loader_exception(*_):
         get_template_environment(template_name)
 
 
-@mock.patch('yacfg.templates.get_templates_path',
-            side_effect=fake_templates_path)
-@mock.patch('yacfg.templates.select_template_dir',
-            side_effect=fake_select_template_dir)
+@mock.patch('yacfg.templates.get_templates_path', side_effect=fake_templates_path)
+@mock.patch('yacfg.templates.select_template_dir', side_effect=fake_select_template_dir)
 @mock.patch('yacfg.templates.FileSystemLoader', mock.Mock())
 @mock.patch('yacfg.templates.Environment', side_effect=jinja2.TemplateError)
 def test_jinja_environment_exception(*_):

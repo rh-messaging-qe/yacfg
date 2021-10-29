@@ -14,17 +14,19 @@
 
 import os
 
+from yacfg.meta import PROFILES, TEMPLATES
+
 
 def fake_module_path():
     return '/module/path'
 
 
-def fake_profile_path():
-    return os.path.join(fake_module_path(), 'profiles')
+def fake_profiles_path():
+    return os.path.join(fake_module_path(), PROFILES)
 
 
 def fake_templates_path():
-    return os.path.join(fake_module_path(), 'templates')
+    return os.path.join(fake_module_path(), TEMPLATES)
 
 
 def fake_os_abspath(path):
@@ -32,7 +34,7 @@ def fake_os_abspath(path):
 
 
 def fake_select_profile_file(name):
-    return name, fake_profile_path()
+    return name, fake_profiles_path()
 
 
 def fake_select_template_dir(name):

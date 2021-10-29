@@ -30,7 +30,8 @@ def test_packaged_true(*_):
     """Packaged template selection"""
     template_name = 'product/1.0.0'
     expected_dir = os.path.join(fake_templates_path(), template_name)
-    assert yacfg.files.select_template_dir(template_name) == expected_dir
+    selected_template_path = yacfg.files.select_template_dir(template_name)
+    assert selected_template_path == expected_dir
 
 
 @mock.patch('yacfg.files.get_templates_path', side_effect=fake_templates_path)
@@ -39,7 +40,8 @@ def test_packaged_true(*_):
 def test_user_true(*_):
     """User specified template selection"""
     template_name = 'custom/user_product/1.0.0'
-    assert yacfg.files.select_template_dir(template_name) == template_name
+    selected_template_path = yacfg.files.select_template_dir(template_name)
+    assert selected_template_path == template_name
 
 
 @mock.patch('yacfg.files.get_templates_path', side_effect=fake_templates_path)
@@ -49,7 +51,8 @@ def test_user_basedir_true(*_):
     """User specified template selection"""
     template_name = 'user_product/1.0.0'
     expected_name = os.path.join(meta.TEMPLATES, template_name)
-    assert yacfg.files.select_template_dir(template_name) == expected_name
+    selected_template_path = yacfg.files.select_template_dir(template_name)
+    assert selected_template_path == expected_name
 
 
 @mock.patch('yacfg.files.get_templates_path', side_effect=fake_templates_path)
@@ -59,7 +62,8 @@ def test_user_both_true(*_):
     """User specified template selection"""
     template_name = 'user_product/1.0.0'
     expected_name = template_name
-    assert yacfg.files.select_template_dir(template_name) == expected_name
+    selected_template_path = yacfg.files.select_template_dir(template_name)
+    assert selected_template_path == expected_name
 
 
 @mock.patch('yacfg.files.get_templates_path', side_effect=fake_templates_path)
@@ -69,7 +73,8 @@ def test_not_directory(*_):
     """Template set not a directory"""
     template_name = 'user_product/1.0.0'
     with pytest.raises(TemplateError):
-        assert yacfg.files.select_template_dir(template_name) == template_name
+        selected_template_path = yacfg.files.select_template_dir(template_name)
+        assert selected_template_path == template_name
 
 
 @mock.patch('yacfg.files.get_templates_path', side_effect=fake_templates_path)
@@ -79,7 +84,8 @@ def test_packaged_missing_template_marker(*_):
     """Packaged Template set not a directory"""
     template_name = 'user_product/1.0.0'
     with pytest.raises(TemplateError):
-        assert yacfg.files.select_template_dir(template_name) == template_name
+        selected_template_path = yacfg.files.select_template_dir(template_name)
+        assert selected_template_path == template_name
 
 
 @mock.patch('yacfg.files.get_templates_path', side_effect=fake_templates_path)
@@ -89,4 +95,5 @@ def test_user_missing_template_marker(*_):
     """User specified Template set not a directory"""
     template_name = 'user_product/1.0.0'
     with pytest.raises(TemplateError):
-        assert yacfg.files.select_template_dir(template_name) == template_name
+        selected_template_path = yacfg.files.select_template_dir(template_name)
+        assert selected_template_path == template_name
