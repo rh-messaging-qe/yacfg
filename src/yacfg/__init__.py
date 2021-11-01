@@ -15,7 +15,7 @@
 try:
     from importlib import metadata
 except ImportError:
-    import importlib_metadata as metadata
+    import importlib_metadata as metadata  # type: ignore
 
 try:
     __version__ = metadata.version('yacfg')
