@@ -17,7 +17,7 @@ import os
 import mock
 
 from yacfg.query import list_templates
-from ..files.fakes import fake_module_path, fake_templates_path
+from ..files.fakes import fake_templates_path
 
 
 def fake_walk_templates_basic(*_):
