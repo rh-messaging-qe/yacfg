@@ -18,14 +18,14 @@ import pytest
 import yacfg.profiles
 from yacfg.exceptions import TemplateError
 from yacfg.profiles import get_profile_template
-from ..files.fakes import fake_select_profile_file, fake_profile_path
+from ..files.fakes import fake_select_profile_file, fake_profiles_path
 
 
 @mock.patch('yacfg.profiles.select_profile_file',
             side_effect=fake_select_profile_file)
 @mock.patch('os.path.isdir', side_effect=(True,))
 @mock.patch('yacfg.profiles.get_profiles_path',
-            side_effect=fake_profile_path)
+            side_effect=fake_profiles_path)
 @mock.patch('yacfg.profiles.FileSystemLoader', mock.Mock())
 @mock.patch('yacfg.profiles.Environment', mock.Mock())
 def test_true(*_):
@@ -46,7 +46,7 @@ def test_true(*_):
     # noinspection PyUnresolvedReferences
     yacfg.profiles.FileSystemLoader.assert_called_with([
         expected_selected_path,
-        fake_profile_path()
+        fake_profiles_path()
     ])
     fake_env.get_template.assert_called_with(expected_selected_name)
 
@@ -55,7 +55,7 @@ def test_true(*_):
             side_effect=fake_select_profile_file)
 @mock.patch('os.path.isdir', side_effect=(False,))
 @mock.patch('yacfg.profiles.get_profiles_path',
-            side_effect=fake_profile_path)
+            side_effect=fake_profiles_path)
 @mock.patch('yacfg.profiles.FileSystemLoader', mock.Mock())
 @mock.patch('yacfg.profiles.Environment', mock.Mock())
 def test_bad_profile_exception(*_):

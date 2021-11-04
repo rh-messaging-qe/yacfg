@@ -22,7 +22,7 @@ from yacfg.output import new_profile
 import yacfg.output
 from ..files.fakes import (
     fake_select_profile_file,
-    fake_profile_path
+    fake_profiles_path
 )
 
 
@@ -34,7 +34,7 @@ def test_true(*_):
     """Creating new profile true path"""
     profile_name = 'existing_profile.yaml'
     destination = '/output/directory/my_new_profile.yaml'
-    expected_source_file = os.path.join(fake_profile_path(), profile_name)
+    expected_source_file = os.path.join(fake_profiles_path(), profile_name)
     expected_target_file = destination
     expected_target_dir = os.path.dirname(destination)
 
@@ -54,7 +54,7 @@ def test_true_no_destination(*_):
     """Creating new profile true path"""
     profile_name = 'existing_profile.yaml'
     destination = 'my_new_profile.yaml'
-    expected_source_file = os.path.join(fake_profile_path(), profile_name)
+    expected_source_file = os.path.join(fake_profiles_path(), profile_name)
     expected_target_file = destination
 
     new_profile(profile_name, destination)

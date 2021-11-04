@@ -15,6 +15,7 @@
 
 import jinja2
 
+
 def fake_get_tuned_profile_data(*_):
     return {'_defaults': {'default_key': 'default_value'}, 'key': 'value'}
 

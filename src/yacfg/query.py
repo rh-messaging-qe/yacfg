@@ -17,8 +17,7 @@ import os
 import posixpath
 import re
 
-from .files import get_module_path
-from .meta import TEMPLATES, PROFILES
+from .files import get_templates_path, get_profiles_path
 
 LOG = logging.getLogger(__name__)
 
@@ -53,12 +52,13 @@ def list_templates():
     :return: list of templates paths from package
     :rtype: list[str]
     """
-    module_path = get_module_path()
 
-    templates_path = os.path.join(module_path, TEMPLATES)
+    templates_path = get_templates_path()
+    LOG.debug('Templates path for query: %s', templates_path)
+
     result = []
 
-    for root, subdirs, files in os.walk(templates_path):
+    for root, dirs, files in os.walk(templates_path):
         for fn in files:
             if fn == '_template':
                 prefix_path = os.path.relpath(root, templates_path)
@@ -79,15 +79,18 @@ def list_profiles():
     :return: list of profile from package
     :rtype: list[str]
     """
-    module_path = get_module_path()
-    profiles_path = os.path.join(module_path, PROFILES)
+
+    profiles_path = get_profiles_path()
+    LOG.debug('Profiles path for query: %s', profiles_path)
 
     result = []
-    for root, _, files in os.walk(profiles_path):
+
+    for root, dirs, files in os.walk(profiles_path):
         prefix_path = os.path.relpath(root, profiles_path)
         # skip over underscored paths
         path_levels = prefix_path.split(os.path.sep)
         if any([x.startswith('_') for x in path_levels]):
+            LOG.debug('Skipping underscored: %s', path_levels)
             continue
         # filter only yaml profiles
         tmp_files = [
@@ -98,6 +101,7 @@ def list_profiles():
                 or fn.endswith('.j2')
             )
         ]
+
         # add relative profile path if it is not profiles root,
         # it would add './' which is undesirable
         if prefix_path != '.':

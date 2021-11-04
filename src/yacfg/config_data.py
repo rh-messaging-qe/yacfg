@@ -17,6 +17,7 @@ import time
 from collections import namedtuple
 
 from .meta import NAME
+from . import __version__
 
 
 def add_template_metadata(config_data):
@@ -29,6 +30,7 @@ def add_template_metadata(config_data):
 
     config_data['metadata'] = {
         'tool_name': NAME,
+        'tool_version': __version__,
         'datetime': {
             'datetime': now.strftime('%Y-%m-%d %H:%M'),
             'year': now.strftime('%Y'),

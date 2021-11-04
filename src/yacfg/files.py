@@ -42,8 +42,18 @@ def get_profiles_path():
     :return: path to packaged profiles directory
     :rtype: str
     """
-    module_path = get_module_path()
-    profiles_path = os.path.join(module_path, PROFILES)
+
+    env_profiles = os.getenv('YACFG_PROFILES')  # TODO: Add test for YACFG_PROFILES environment variable
+
+    if env_profiles:
+        profiles_path = os.path.join(env_profiles)
+        LOG.debug('Using user defined $YACFG_PROFILES profiles path "%s"', profiles_path)
+
+    else:
+        module_path = get_module_path()
+        profiles_path = os.path.join(module_path, PROFILES)
+        LOG.debug('Using module profiles path "%s"', profiles_path)
+
     return profiles_path
 
 
@@ -53,8 +63,18 @@ def get_templates_path():
     :return: path packaged templates directory
     :rtype: str
     """
-    module_path = get_module_path()
-    templates_path = os.path.join(module_path, TEMPLATES)
+
+    env_templates = os.getenv('YACFG_TEMPLATES')  # TODO: Add test for YACFG_TEMPLATES environment variable
+
+    if env_templates:
+        templates_path = os.path.join(env_templates)
+        LOG.debug('Using user defined $YACFG_TEMPLATES template path "%s"', templates_path)
+
+    else:
+        module_path = get_module_path()
+        templates_path = os.path.join(module_path, TEMPLATES)
+        LOG.debug('Using module templates path "%s"', templates_path)
+
     return templates_path
 
 
@@ -69,30 +89,37 @@ def select_profile_file(profile_name):
     :return: selected path to profile and profile name
     :rtype: tuple[str, str]
     """
+
+    # Default /module/path/profiles path
     profiles_path = get_profiles_path()
-    selected_template_path = profiles_path
-    selected_template_name = profile_name
+    selected_profile_path = profiles_path
+    selected_profile_name = profile_name
 
+    # user path omitting 'profiles' dir
     user_extra_path = os.path.join(PROFILES, profile_name)
-    if os.path.isfile(user_extra_path):  # user path omitting 'profile' dir
+
+    if os.path.isfile(user_extra_path):
+        LOG.debug('User ./profile/ omitting profile "%s"', profile_name)
         profile_tmp_name = os.path.abspath(user_extra_path)
-        selected_template_path = os.path.dirname(profile_tmp_name)
-        selected_template_name = os.path.basename(profile_tmp_name)
-        LOG.debug('Using user defined template path "%s"', profile_tmp_name)
+        selected_profile_path = os.path.dirname(profile_tmp_name)
+        selected_profile_name = os.path.basename(profile_tmp_name)
 
-    if os.path.isfile(profile_name):  # user direct path
+    # user direct path
+    if os.path.isfile(profile_name):
+        LOG.debug('User direct profile "%s"', profile_name)
         profile_tmp_name = os.path.abspath(profile_name)
-        selected_template_path = os.path.dirname(profile_tmp_name)
-        selected_template_name = os.path.basename(profile_tmp_name)
-        LOG.debug('Using user defined template path "%s"', profile_tmp_name)
+        selected_profile_path = os.path.dirname(profile_tmp_name)
+        selected_profile_name = os.path.basename(profile_tmp_name)
 
-    complete_path = os.path.join(selected_template_path,
-                                 selected_template_name)
+    complete_path = os.path.join(selected_profile_path, selected_profile_name)
+
     if not os.path.isfile(complete_path):
         raise ProfileError(
             'Unable to find a requested profile "%s"' % profile_name
         )
-    return selected_template_name, selected_template_path
+
+    LOG.debug('Selected profile: "%s"', complete_path)
+    return selected_profile_name, selected_profile_path
 
 
 def select_template_dir(template_name):
@@ -106,12 +133,19 @@ def select_template_dir(template_name):
     :return: selected path to template dir
     :rtype: str
     """
+
+    # Default /module/path/templates path
     templates_path = get_templates_path()
     selected_template_path = os.path.join(templates_path, template_name)
+
+    # user path omitting 'templates' dir
     user_extra_path = os.path.join(TEMPLATES, template_name)
+
     if os.path.isdir(user_extra_path):
         selected_template_path = user_extra_path
         LOG.debug('Using user defined template path "%s"', template_name)
+
+    # user direct path
     if os.path.isdir(template_name):
         selected_template_path = template_name
         LOG.debug('Using user defined template path "%s"', template_name)
@@ -126,6 +160,7 @@ def select_template_dir(template_name):
             'Selected template "%s" does not contain'
             ' "_template" file, so it is not considered a template'
         )
+
     LOG.debug('Selected template: %s', selected_template_path)
     return selected_template_path
 
