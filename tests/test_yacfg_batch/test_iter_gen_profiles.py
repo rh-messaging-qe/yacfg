@@ -37,7 +37,7 @@ def test_true(*_):
     # noinspection PyUnresolvedReferences
     yacfg_batch.yacfg_batch.open.assert_called()
     # noinspection PyUnresolvedReferences
-    yaml.load_all.assert_called_with(file_desc)
+    yaml.load_all.assert_called_with(file_desc, yaml.SafeLoader)
 
 
 @mock.patch(

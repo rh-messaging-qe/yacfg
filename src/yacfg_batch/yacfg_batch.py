@@ -54,7 +54,7 @@ def iter_gen_profiles(filename):
     profile_data_list = None
 
     try:
-        profile_data_list = yaml.load_all(open(filename, "r"))
+        profile_data_list = yaml.load_all(open(filename, "r"), yaml.SafeLoader)
     except IOError as exc:
         raise YacfgBatchException(
             'Unable to open gen profile "{}" {}'.format(filename, exc)
