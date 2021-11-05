@@ -18,43 +18,31 @@ from yacfg_batch.yacfg_batch import GenerateData
 def fake_iter_gen_profiles_one(filename):
     del filename
     yield {
-        '_default': {
-            'tuning_files': ['a', 'b']
-        },
-        '_common': {
-            'profile': 'Profile Name'
-        }
+        "_default": {"tuning_files": ["a", "b"]},
+        "_common": {"profile": "Profile Name"},
     }
 
 
 def fake_iter_gen_profiles_two(filename):
     del filename
     yield {
-        '_default': {
-            'tuning_files': ['a', 'b']
-        },
-        '_common': {
-            'profile': 'Profile Name'
-        }
+        "_default": {"tuning_files": ["a", "b"]},
+        "_common": {"profile": "Profile Name"},
     }
     yield {
-        '_default': {
-            'tuning_files': ['c', 'd']
-        },
-        '_common': {
-            'profile': 'Profile Name 2'
-        }
+        "_default": {"tuning_files": ["c", "d"]},
+        "_common": {"profile": "Profile Name 2"},
     }
 
 
 fake_default_one = GenerateData()
-fake_default_one.tuning_files = ['a', 'b']
+fake_default_one.tuning_files = ["a", "b"]
 
 fake_common_one = GenerateData()
-fake_common_one.profile_name = 'Profile Name'
+fake_common_one.profile_name = "Profile Name"
 
 fake_default_two = GenerateData()
-fake_default_two.tuning_files = ['c', 'd']
+fake_default_two.tuning_files = ["c", "d"]
 
 fake_common_two = GenerateData()
-fake_common_two.profile_name = 'Profile Name 2'
+fake_common_two.profile_name = "Profile Name 2"

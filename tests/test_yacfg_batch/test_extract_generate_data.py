@@ -12,10 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from yacfg_batch.yacfg_batch import (
-    extract_generate_data,
-    GenerateData
-)
+from yacfg_batch.yacfg_batch import extract_generate_data, GenerateData
 
 
 def test_empty(*_):
@@ -29,53 +26,45 @@ def test_empty(*_):
 
 
 def test_default(*_):
-    profile_file_data = {
-        '_default': {
-            'profile': 'Profile Name'
-        }
-    }
+    profile_file_data = {"_default": {"profile": "Profile Name"}}
 
     result = extract_generate_data(profile_file_data)
 
     expected = GenerateData()
-    expected.profile_name = 'Profile Name'
+    expected.profile_name = "Profile Name"
 
     assert expected == result
 
 
 def test_section(*_):
-    profile_file_data = {
-        '_section': {
-            'profile': 'Profile Name'
-        }
-    }
+    profile_file_data = {"_section": {"profile": "Profile Name"}}
 
-    result = extract_generate_data(profile_file_data, '_section')
+    result = extract_generate_data(profile_file_data, "_section")
 
     expected = GenerateData()
-    expected.profile_name = 'Profile Name'
+    expected.profile_name = "Profile Name"
 
     assert expected == result
 
 
 def test_data(*_):
     profile_file_data = {
-        '_default': {
-            'profile': 'Profile Name',
-            'template': 'Template Name',
-            'tuning_files': ['Tuning Files'],
-            'tuning': {
-                'a': 1,
-            }
+        "_default": {
+            "profile": "Profile Name",
+            "template": "Template Name",
+            "tuning_files": ["Tuning Files"],
+            "tuning": {
+                "a": 1,
+            },
         }
     }
 
     result = extract_generate_data(profile_file_data)
 
     expected = GenerateData()
-    expected.profile_name = 'Profile Name'
-    expected.template_name = 'Template Name'
-    expected.tuning_files = ['Tuning Files']
-    expected.tuning_data = {'a': 1}
+    expected.profile_name = "Profile Name"
+    expected.template_name = "Template Name"
+    expected.tuning_files = ["Tuning Files"]
+    expected.tuning_data = {"a": 1}
 
     assert expected == result

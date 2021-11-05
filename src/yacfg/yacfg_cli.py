@@ -24,8 +24,10 @@ from .cli_arguments import parser, boolize, parse_key_value_list
 from .exceptions import TemplateError, ProfileError, GenerationError
 from .meta import NAME
 from .output import (
-    new_profile, new_profile_rendered,
-    new_template, export_tuning_variables
+    new_profile,
+    new_profile_rendered,
+    new_template,
+    export_tuning_variables,
 )
 from .query import list_templates, list_profiles
 
@@ -66,7 +68,7 @@ def main():
         except ValueError as exc:
             error(exc, 2)
 
-    LOG.debug('Direct Tuning options %s', options.opt)
+    LOG.debug("Direct Tuning options %s", options.opt)
 
     do_not_generate = False
 
@@ -75,12 +77,12 @@ def main():
         return
 
     if options.list_templates:
-        LOG.info('Available Templates:')
+        LOG.info("Available Templates:")
         print(os.linesep.join(list_templates()))
         return
 
     if options.list_profiles:
-        LOG.info('Available Profiles:')
+        LOG.info("Available Profiles:")
         print(os.linesep.join(list_profiles()))
         return
 
@@ -89,7 +91,7 @@ def main():
     if options.new_profile or options.new_profile_static:
         do_not_generate = True
         if not options.profile:
-            error('Missing parameters profile', 0)
+            error("Missing parameters profile", 0)
             error_do_not_generate = True
         else:
             try:
@@ -109,7 +111,7 @@ def main():
     if options.export_tuning:
         do_not_generate = True
         if not options.profile:
-            error('Missing parameters profile', 0)
+            error("Missing parameters profile", 0)
             error_do_not_generate = True
         else:
             try:
@@ -121,7 +123,7 @@ def main():
     if options.new_template:
         do_not_generate = True
         if not options.template:
-            error('Missing parameter template, cannot export', 0)
+            error("Missing parameter template, cannot export", 0)
             error_do_not_generate = True
         else:
             try:
@@ -131,19 +133,19 @@ def main():
                 error_do_not_generate = True
 
     if error_do_not_generate:
-        error('Cannot continue due to existing above problems', 2)
+        error("Cannot continue due to existing above problems", 2)
 
     # Generator barrier for actions that prevents generation
     if do_not_generate:
         sys.exit(0)
 
     if not options.profile:
-        error('Missing parameters profile', 0)
+        error("Missing parameters profile", 0)
         error_do_not_generate = True
 
     if error_do_not_generate:
         # parser.print_help()
-        error('Cannot continue due to existing above problems', 2)
+        error("Cannot continue due to existing above problems", 2)
 
     # Tune up render options
     render_options = RenderOptions(
@@ -161,7 +163,7 @@ def main():
             tuning_files_list=options.tune,
             tuning_data_list=options.opt,
             write_profile_data=options.save_effective_profile,
-            extra_properties_data=options.extra_properties
+            extra_properties_data=options.extra_properties,
         )
     except TemplateError as exc:
         error(exc)
@@ -171,5 +173,5 @@ def main():
         error(exc, 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

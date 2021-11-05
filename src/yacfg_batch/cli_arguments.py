@@ -16,52 +16,49 @@ import argparse
 
 from .meta import NAME, DESCRIPTION
 from . import __version__
+
 parser = argparse.ArgumentParser(
-    prog='{} {}'.format(NAME, __version__),
+    prog="{} {}".format(NAME, __version__),
     description=DESCRIPTION,
-    epilog='The Cake is a lie.',
+    epilog="The Cake is a lie.",
 )
 
-group_main = parser.add_argument_group(title='Main options')
+group_main = parser.add_argument_group(title="Main options")
 
 group_main.add_argument(
-    '-i', '--input',
-    help='Input files to configuration profile set',
+    "-i",
+    "--input",
+    help="Input files to configuration profile set",
     default=[],
-    action='append'
+    action="append",
 )
 
-group_main.add_argument(
-    '-o', '--output',
-    help='Output path to generated files to'
-)
+group_main.add_argument("-o", "--output", help="Output path to generated files to")
 
 # Group Logging
-group_logging = parser.add_argument_group(title='Logging options')
+group_logging = parser.add_argument_group(title="Logging options")
 
 group_logging.add_argument(
-    '-q', '--quiet',
-    help='Keep output to minimum, only requested data (listing) or errors',
-    action='store_true'
+    "-q",
+    "--quiet",
+    help="Keep output to minimum, only requested data (listing) or errors",
+    action="store_true",
 )
 
 group_logging.add_argument(
-    '-v', '--verbose',
-    help='Print generation status and user relevant info',
-    action='store_true'
+    "-v",
+    "--verbose",
+    help="Print generation status and user relevant info",
+    action="store_true",
 )
 
 group_logging.add_argument(
-    '-d', '--debug',
-    help='Print debugging details',
-    action='store_true'
+    "-d", "--debug", help="Print debugging details", action="store_true"
 )
 
 # Group Misc
-group_misc = parser.add_argument_group(title='Miscellaneous')
+group_misc = parser.add_argument_group(title="Miscellaneous")
 
 group_misc.add_argument(
-    '--version',
-    help='Display version information',
-    action='store_true'
+    "--version", help="Display version information", action="store_true"
 )

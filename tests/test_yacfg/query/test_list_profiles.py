@@ -23,52 +23,24 @@ from ..files.fakes import fake_profiles_path, fake_module_path
 def fake_os_walk_profiles_basic(*_):
     prefix_path = fake_profiles_path()
     return [
-        (
-            os.path.join(prefix_path, ''),
-            ['a', 'b', 'x', '_not'],
-            ['profile.yaml']
-        ),
-        (
-            os.path.join(prefix_path, 'a'),
-            ['b'],
-            ['profile.yaml', 'something.txt']
-        ),
-        (
-            os.path.join(prefix_path, 'a', 'b'),
-            [],
-            ['profile.yaml']
-        ),
-        (
-            os.path.join(prefix_path, 'b'),
-            [],
-            ['my_profile.yaml']
-        ),
-        (
-            os.path.join(prefix_path, 'x'),
-            ['_not'],
-            ['something.txt']
-        ),
-        (
-            os.path.join(prefix_path, 'x', '_not'),
-            [],
-            ['not_a_profile.yaml']
-        ),
-        (
-            os.path.join(prefix_path, '_not'),
-            [],
-            ['also_not_a_profile.yaml']
-        ),
+        (os.path.join(prefix_path, ""), ["a", "b", "x", "_not"], ["profile.yaml"]),
+        (os.path.join(prefix_path, "a"), ["b"], ["profile.yaml", "something.txt"]),
+        (os.path.join(prefix_path, "a", "b"), [], ["profile.yaml"]),
+        (os.path.join(prefix_path, "b"), [], ["my_profile.yaml"]),
+        (os.path.join(prefix_path, "x"), ["_not"], ["something.txt"]),
+        (os.path.join(prefix_path, "x", "_not"), [], ["not_a_profile.yaml"]),
+        (os.path.join(prefix_path, "_not"), [], ["also_not_a_profile.yaml"]),
     ]
 
 
-@mock.patch('yacfg.query.get_profiles_path', side_effect=fake_profiles_path)
-@mock.patch('os.walk', side_effect=fake_os_walk_profiles_basic)
+@mock.patch("yacfg.query.get_profiles_path", side_effect=fake_profiles_path)
+@mock.patch("os.walk", side_effect=fake_os_walk_profiles_basic)
 def test_basic(*_):
     expected = [
-        'profile.yaml',
-        'a/profile.yaml',
-        'a/b/profile.yaml',
-        'b/my_profile.yaml',
+        "profile.yaml",
+        "a/profile.yaml",
+        "a/b/profile.yaml",
+        "b/my_profile.yaml",
     ]
     result = list_profiles()
     assert result == expected
@@ -77,34 +49,22 @@ def test_basic(*_):
 def fake_os_walk_not_a_profile(*_):
     prefix_path = fake_profiles_path()
     return [
-        (
-            os.path.join(prefix_path, 'x'),
-            ['_not'],
-            ['something.txt']
-        ),
-        (
-            os.path.join(prefix_path, 'x', '_not'),
-            [],
-            ['not_a_profile.yaml']
-        ),
-        (
-            os.path.join(prefix_path, '_not'),
-            [],
-            ['also_not_a_profile.yaml']
-        ),
+        (os.path.join(prefix_path, "x"), ["_not"], ["something.txt"]),
+        (os.path.join(prefix_path, "x", "_not"), [], ["not_a_profile.yaml"]),
+        (os.path.join(prefix_path, "_not"), [], ["also_not_a_profile.yaml"]),
     ]
 
 
-@mock.patch('yacfg.query.get_profiles_path', side_effect=fake_module_path)
-@mock.patch('os.walk', side_effect=fake_os_walk_not_a_profile)
+@mock.patch("yacfg.query.get_profiles_path", side_effect=fake_module_path)
+@mock.patch("os.walk", side_effect=fake_os_walk_not_a_profile)
 def test_not_a_profile(*_):
     expected = []
     result = list_profiles()
     assert result == expected
 
 
-@mock.patch('yacfg.query.get_profiles_path', side_effect=fake_module_path)
-@mock.patch('os.walk', side_effect=((),))
+@mock.patch("yacfg.query.get_profiles_path", side_effect=fake_module_path)
+@mock.patch("os.walk", side_effect=((),))
 def test_empty(*_):
     expected = []
     result = list_profiles()

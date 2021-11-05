@@ -40,28 +40,25 @@ def load_tuning_files(tuning_files=None):
     if tuning_files:
         for tuning_file in tuning_files:
             try:
-                tuning_values_list.append(yaml.load(stream=open(tuning_file, 'r'), Loader=yaml.SafeLoader))
+                tuning_values_list.append(
+                    yaml.load(stream=open(tuning_file, "r"), Loader=yaml.SafeLoader)
+                )
             except IOError as exc:
                 raise ProfileError(
-                    'Unable to open tuning file "{}" {}'.format(
-                        tuning_file, exc
-                    )
+                    'Unable to open tuning file "{}" {}'.format(tuning_file, exc)
                 )
             except yaml.YAMLError as exc:
                 raise ProfileError(
-                    'Unable to parse YAML tuning file "{}" {}'.format(
-                        tuning_files, exc
-                    )
+                    'Unable to parse YAML tuning file "{}" {}'.format(tuning_files, exc)
                 )
-            LOG.debug('Tuning file {} loaded', tuning_file)
+            LOG.debug("Tuning file {} loaded", tuning_file)
     else:
-        LOG.debug('No tuning files requested.')
+        LOG.debug("No tuning files requested.")
 
     return tuning_values_list
 
 
-def load_tuning(profile_defaults=None, tuning_files_list=None,
-                tuning_data_list=None):
+def load_tuning(profile_defaults=None, tuning_files_list=None, tuning_data_list=None):
     """Load and apply all tuning, from profile defaults, from tuning
     files, and then directly provided tuning data. If provided.
     All data is applied in order.
@@ -113,17 +110,13 @@ def get_tuned_profile(profile, tuning_files_list=None, tuning_data_list=None):
     )
 
     tuning_profile = get_profile_template(profile)
-    tuning_data['profile_path'] = tuning_profile.name
+    tuning_data["profile_path"] = tuning_profile.name
     tuned_profile = tuning_profile.render(tuning_data)
 
     try:
         config_data = yaml.load(stream=tuned_profile, Loader=yaml.SafeLoader)
     except yaml.YAMLError as exc:
-        raise ProfileError(
-            'Unable to parse tuned profile "{}" {}'.format(
-                profile, exc
-            )
-        )
+        raise ProfileError('Unable to parse tuned profile "{}" {}'.format(profile, exc))
 
     return config_data, tuned_profile
 
@@ -144,8 +137,8 @@ def load_profile_defaults(profile):
     scratch_profile = get_profile_template(profile)
     scratch_profile = scratch_profile.render()
     tmp_data = yaml.load(stream=scratch_profile, Loader=yaml.SafeLoader)
-    tuning_data = tmp_data.get('_defaults', {})
-    LOG.debug('Tuning data: %s', tuning_data)
+    tuning_data = tmp_data.get("_defaults", {})
+    LOG.debug("Tuning data: %s", tuning_data)
     return tuning_data
 
 
@@ -161,8 +154,7 @@ def get_profile_template(profile_name):
     :rtype: Template
     """
 
-    selected_template_name, selected_template_path = \
-        select_profile_file(profile_name)
+    selected_template_name, selected_template_path = select_profile_file(profile_name)
 
     if not os.path.isdir(selected_template_path):
         raise TemplateError(
@@ -170,10 +162,12 @@ def get_profile_template(profile_name):
         )
 
     env = Environment(
-        loader=FileSystemLoader([
-            selected_template_path,  # selected template
-            get_profiles_path(),
-        ]),
+        loader=FileSystemLoader(
+            [
+                selected_template_path,  # selected template
+                get_profiles_path(),
+            ]
+        ),
         trim_blocks=True,
         lstrip_blocks=True,
     )

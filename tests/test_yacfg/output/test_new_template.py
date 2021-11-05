@@ -23,30 +23,28 @@ from yacfg.output import new_template
 from ..files.fakes import fake_templates_path, fake_select_template_dir
 
 
-@mock.patch('yacfg.output.select_template_dir',
-            side_effect=fake_select_template_dir)
-@mock.patch('shutil.copytree', mock.Mock())
+@mock.patch("yacfg.output.select_template_dir", side_effect=fake_select_template_dir)
+@mock.patch("shutil.copytree", mock.Mock())
 def test_true(*_):
-    template_name = 'my_template/1.2.3'
+    template_name = "my_template/1.2.3"
     template_path = fake_templates_path()
     template = os.path.join(template_path, template_name)
-    destination_path = '/output/template/dir/'
-    destination_name = 'new_template'
+    destination_path = "/output/template/dir/"
+    destination_name = "new_template"
     destination = os.path.join(destination_path, destination_name)
 
     new_template(template_name, destination)
     # noinspection PyUnresolvedReferences
-    shutil.copytree.assert_called_with(template, destination,
-                                       symlinks=False)
+    shutil.copytree.assert_called_with(template, destination, symlinks=False)
 
 
-@mock.patch('yacfg.output.select_template_dir',
-            side_effect=fake_select_template_dir)
-@mock.patch('shutil.copytree',
-            side_effect=OSError('[Errno 13] Permission denied: \'path\''))
+@mock.patch("yacfg.output.select_template_dir", side_effect=fake_select_template_dir)
+@mock.patch(
+    "shutil.copytree", side_effect=OSError("[Errno 13] Permission denied: 'path'")
+)
 def test_bad_destination(*_):
-    template_name = 'my_template/1.2.3'
-    destination = '/bad/destination'
+    template_name = "my_template/1.2.3"
+    destination = "/bad/destination"
 
     with pytest.raises(OSError):
         new_template(template_name, destination)
@@ -54,12 +52,11 @@ def test_bad_destination(*_):
     shutil.copytree.assert_called()
 
 
-@mock.patch('yacfg.output.select_template_dir',
-            side_effect=fake_select_template_dir)
-@mock.patch('yacfg.output.ensure_output_path', side_effect=mock.Mock())
+@mock.patch("yacfg.output.select_template_dir", side_effect=fake_select_template_dir)
+@mock.patch("yacfg.output.ensure_output_path", side_effect=mock.Mock())
 def test_no_destination(*_):
-    template_name = 'my_template/1.2.3'
-    destination = ''
+    template_name = "my_template/1.2.3"
+    destination = ""
 
     with pytest.raises(OSError):
         new_template(template_name, destination)

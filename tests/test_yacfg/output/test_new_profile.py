@@ -20,20 +20,16 @@ import pytest
 
 from yacfg.output import new_profile
 import yacfg.output
-from ..files.fakes import (
-    fake_select_profile_file,
-    fake_profiles_path
-)
+from ..files.fakes import fake_select_profile_file, fake_profiles_path
 
 
-@mock.patch('yacfg.output.select_profile_file',
-            side_effect=fake_select_profile_file)
-@mock.patch('shutil.copyfile', mock.Mock())
-@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
+@mock.patch("yacfg.output.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("shutil.copyfile", mock.Mock())
+@mock.patch("yacfg.output.ensure_output_path", mock.Mock())
 def test_true(*_):
     """Creating new profile true path"""
-    profile_name = 'existing_profile.yaml'
-    destination = '/output/directory/my_new_profile.yaml'
+    profile_name = "existing_profile.yaml"
+    destination = "/output/directory/my_new_profile.yaml"
     expected_source_file = os.path.join(fake_profiles_path(), profile_name)
     expected_target_file = destination
     expected_target_dir = os.path.dirname(destination)
@@ -42,18 +38,16 @@ def test_true(*_):
     # noinspection PyUnresolvedReferences
     yacfg.output.ensure_output_path.assert_called_with(expected_target_dir)
     # noinspection PyUnresolvedReferences
-    shutil.copyfile.assert_called_with(expected_source_file,
-                                       expected_target_file)
+    shutil.copyfile.assert_called_with(expected_source_file, expected_target_file)
 
 
-@mock.patch('yacfg.output.select_profile_file',
-            side_effect=fake_select_profile_file)
-@mock.patch('shutil.copyfile', mock.Mock())
-@mock.patch('yacfg.output.ensure_output_path', mock.Mock())
+@mock.patch("yacfg.output.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("shutil.copyfile", mock.Mock())
+@mock.patch("yacfg.output.ensure_output_path", mock.Mock())
 def test_true_no_destination(*_):
     """Creating new profile true path"""
-    profile_name = 'existing_profile.yaml'
-    destination = 'my_new_profile.yaml'
+    profile_name = "existing_profile.yaml"
+    destination = "my_new_profile.yaml"
     expected_source_file = os.path.join(fake_profiles_path(), profile_name)
     expected_target_file = destination
 
@@ -61,19 +55,19 @@ def test_true_no_destination(*_):
     # noinspection PyUnresolvedReferences
     yacfg.output.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
-    shutil.copyfile.assert_called_with(expected_source_file,
-                                       expected_target_file)
+    shutil.copyfile.assert_called_with(expected_source_file, expected_target_file)
 
 
-@mock.patch('yacfg.output.select_profile_file',
-            side_effect=fake_select_profile_file)
-@mock.patch('shutil.copyfile', mock.Mock())
-@mock.patch('yacfg.output.ensure_output_path',
-            side_effect=OSError('[Errno 13] Permission denied: \'path\''))
+@mock.patch("yacfg.output.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("shutil.copyfile", mock.Mock())
+@mock.patch(
+    "yacfg.output.ensure_output_path",
+    side_effect=OSError("[Errno 13] Permission denied: 'path'"),
+)
 def test_destination_problem_exception(*_):
     """Creating new profile true path"""
-    profile_name = 'existing_profile.yaml'
-    destination = '/problematic/directory/my_new_profile.yaml'
+    profile_name = "existing_profile.yaml"
+    destination = "/problematic/directory/my_new_profile.yaml"
     expected_target_dir = os.path.dirname(destination)
 
     with pytest.raises(OSError):

@@ -51,16 +51,13 @@ def main():
         return
 
     if not options.input:
-        error(
-            'Missing parameter input, cannot work without input.',
-            2
-        )
+        error("Missing parameter input, cannot work without input.", 2)
 
     if options.input:
         generate(options.input, options.output)
 
-    print('have a nice day.')
+    print("have a nice day.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

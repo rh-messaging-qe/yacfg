@@ -18,7 +18,7 @@ from yacfg.meta import PROFILES, TEMPLATES
 
 
 def fake_module_path():
-    return '/module/path'
+    return "/module/path"
 
 
 def fake_profiles_path():
@@ -30,7 +30,7 @@ def fake_templates_path():
 
 
 def fake_os_abspath(path):
-    return os.path.join('/absolute/path/', path)
+    return os.path.join("/absolute/path/", path)
 
 
 def fake_select_profile_file(name):

@@ -17,28 +17,28 @@ import yacfg.cli_arguments
 
 dataset_boolize = (
     (None, None),
-    ('Yes', True),
-    ('No', False),
-    ('yes', True),
-    ('no', False),
-    ('YES', True),
-    ('NO', False),
-    ('True', True),
-    ('False', False),
-    ('true', True),
-    ('false', False),
-    ('TRUE', True),
-    ('FALSE', False),
-    ('1', True),
-    ('0', False),
+    ("Yes", True),
+    ("No", False),
+    ("yes", True),
+    ("no", False),
+    ("YES", True),
+    ("NO", False),
+    ("True", True),
+    ("False", False),
+    ("true", True),
+    ("false", False),
+    ("TRUE", True),
+    ("FALSE", False),
+    ("1", True),
+    ("0", False),
 )
 
 
-@pytest.mark.parametrize('value,result', dataset_boolize)
+@pytest.mark.parametrize("value,result", dataset_boolize)
 def test_boolize_values(value, result):
     assert yacfg.cli_arguments.boolize(value) == result
 
 
 def test_boolize_exception():
     with pytest.raises(ValueError):
-        yacfg.cli_arguments.boolize('test')
+        yacfg.cli_arguments.boolize("test")

@@ -12,18 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from yacfg_batch.yacfg_batch import (
-    prioritize_generate_data,
-    GenerateData
-)
+from yacfg_batch.yacfg_batch import prioritize_generate_data, GenerateData
 
 
 def test_default(*_):
     default = GenerateData()
-    default.profile_name = 'Default Profile'
-    default.template_name = 'Default Template'
-    default.tuning_files = ['Default Tuning Files']
-    default.tuning_data = {'Tuning Data': 'Default', 'Default': 'Tuning data'}
+    default.profile_name = "Default Profile"
+    default.template_name = "Default Template"
+    default.tuning_files = ["Default Tuning Files"]
+    default.tuning_data = {"Tuning Data": "Default", "Default": "Tuning data"}
 
     common = GenerateData()
     profile = GenerateData()
@@ -36,16 +33,16 @@ def test_default(*_):
 
 def test_default_common(*_):
     default = GenerateData()
-    default.profile_name = 'Default Profile'
-    default.template_name = 'Default Template'
-    default.tuning_files = ['Default Tuning Files']
-    default.tuning_data = {'Tuning Data': 'Default', 'Default': 'Tuning data'}
+    default.profile_name = "Default Profile"
+    default.template_name = "Default Template"
+    default.tuning_files = ["Default Tuning Files"]
+    default.tuning_data = {"Tuning Data": "Default", "Default": "Tuning data"}
 
     common = GenerateData()
-    common.profile_name = 'Common Profile'
-    common.template_name = 'Common Template'
-    common.tuning_files = ['Common Tuning Files']
-    common.tuning_data = {'Tuning Data': 'Common', 'Common': 'Tuning data'}
+    common.profile_name = "Common Profile"
+    common.template_name = "Common Template"
+    common.tuning_files = ["Common Tuning Files"]
+    common.tuning_data = {"Tuning Data": "Common", "Common": "Tuning data"}
 
     profile = GenerateData()
 
@@ -64,22 +61,22 @@ def test_default_common(*_):
 
 def test_default_common_profile(*_):
     default = GenerateData()
-    default.profile_name = 'Default Profile'
-    default.template_name = 'Default Template'
-    default.tuning_files = ['Default Tuning Files']
-    default.tuning_data = {'Tuning Data': 'Default', 'Default': 'Tuning data'}
+    default.profile_name = "Default Profile"
+    default.template_name = "Default Template"
+    default.tuning_files = ["Default Tuning Files"]
+    default.tuning_data = {"Tuning Data": "Default", "Default": "Tuning data"}
 
     common = GenerateData()
-    common.profile_name = 'Common Profile'
-    common.template_name = 'Common Template'
-    common.tuning_files = ['Common Tuning Files']
-    common.tuning_data = {'Tuning Data': 'Common', 'Common': 'Tuning data'}
+    common.profile_name = "Common Profile"
+    common.template_name = "Common Template"
+    common.tuning_files = ["Common Tuning Files"]
+    common.tuning_data = {"Tuning Data": "Common", "Common": "Tuning data"}
 
     profile = GenerateData()
-    profile.profile_name = 'Profile Profile'
-    profile.template_name = 'Profile Template'
-    profile.tuning_files = ['Profile Tuning Files']
-    profile.tuning_data = {'Tuning Data': 'Profile', 'Profile': 'Tuning data'}
+    profile.profile_name = "Profile Profile"
+    profile.template_name = "Profile Template"
+    profile.tuning_files = ["Profile Tuning Files"]
+    profile.tuning_data = {"Tuning Data": "Profile", "Profile": "Tuning data"}
 
     expected = GenerateData()
     expected.profile_name = profile.profile_name
@@ -100,10 +97,10 @@ def test_profile(*_):
     common = GenerateData()
 
     profile = GenerateData()
-    profile.profile_name = 'Profile Profile'
-    profile.template_name = 'Profile Template'
-    profile.tuning_files = ['Profile Tuning Files']
-    profile.tuning_data = {'Tuning Data': 'Profile', 'Profile': 'Tuning data'}
+    profile.profile_name = "Profile Profile"
+    profile.template_name = "Profile Template"
+    profile.tuning_files = ["Profile Tuning Files"]
+    profile.tuning_data = {"Tuning Data": "Profile", "Profile": "Tuning data"}
 
     expected = profile
 
@@ -116,10 +113,10 @@ def test_common(*_):
     default = GenerateData()
 
     common = GenerateData()
-    common.profile_name = 'Common Profile'
-    common.template_name = 'Common Template'
-    common.tuning_files = ['Common Tuning Files']
-    common.tuning_data = {'Tuning Data': 'Common', 'Common': 'Tuning data'}
+    common.profile_name = "Common Profile"
+    common.template_name = "Common Template"
+    common.tuning_files = ["Common Tuning Files"]
+    common.tuning_data = {"Tuning Data": "Common", "Common": "Tuning data"}
 
     profile = GenerateData()
 

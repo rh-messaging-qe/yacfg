@@ -33,23 +33,20 @@ class GenerateData(object):
     tuning_data = None
 
     def __str__(self):
-        tmp = (
-            'GenerateData({!r}, {!r}, {}, {})'.format(
-                self.profile_name,
-                self.template_name,
-                self.tuning_files,
-                self.tuning_data
-            )
+        tmp = "GenerateData({!r}, {!r}, {}, {})".format(
+            self.profile_name, self.template_name, self.tuning_files, self.tuning_data
         )
         return tmp
 
     __repr__ = __str__
 
     def __eq__(self, other):
-        return (self.profile_name == other.profile_name
-                and self.template_name == other.template_name
-                and self.tuning_files == other.tuning_files
-                and self.tuning_data == other.tuning_data)
+        return (
+            self.profile_name == other.profile_name
+            and self.template_name == other.template_name
+            and self.tuning_files == other.tuning_files
+            and self.tuning_data == other.tuning_data
+        )
 
 
 def iter_gen_profiles(filename):
@@ -57,7 +54,7 @@ def iter_gen_profiles(filename):
     profile_data_list = None
 
     try:
-        profile_data_list = yaml.load_all(open(filename, 'r'))
+        profile_data_list = yaml.load_all(open(filename, "r"))
     except IOError as exc:
         raise YacfgBatchException(
             'Unable to open gen profile "{}" {}'.format(filename, exc)
@@ -82,19 +79,19 @@ def generate(input_files, output_path=None):
     :type output_path: str | None
     """
     for profile_file in input_files:
-        LOG.info('- Profile file: {}'.format(profile_file))
+        LOG.info("- Profile file: {}".format(profile_file))
         for profile_file_data in iter_gen_profiles(profile_file):
             input_path = os.path.dirname(profile_file)
 
             default = extract_generate_data(profile_file_data)
-            common = extract_generate_data(profile_file_data, '_common')
+            common = extract_generate_data(profile_file_data, "_common")
 
             generate_all_profiles(
                 input_path, output_path, default, common, profile_file_data
             )
 
 
-def extract_generate_data(profile_file_data, section='_default'):
+def extract_generate_data(profile_file_data, section="_default"):
     """Get all relevant data from special sections like _default
 
     Data contains profile name, template name, tuning files, and
@@ -112,10 +109,10 @@ def extract_generate_data(profile_file_data, section='_default'):
     section_data = profile_file_data.get(section)
     result = GenerateData()
     if section_data:
-        result.profile_name = section_data.get('profile')
-        result.template_name = section_data.get('template')
-        result.tuning_files = section_data.get('tuning_files')
-        result.tuning_data = section_data.get('tuning')
+        result.profile_name = section_data.get("profile")
+        result.template_name = section_data.get("template")
+        result.tuning_files = section_data.get("tuning_files")
+        result.tuning_data = section_data.get("tuning")
     return result
 
 
@@ -143,7 +140,7 @@ def prioritize_generate_data(profile, common, default):
     """
     result = GenerateData()
 
-    for key in ['profile_name', 'template_name']:
+    for key in ["profile_name", "template_name"]:
         for conf in [default, common, profile]:
             value = getattr(conf, key)
             if value:
@@ -176,8 +173,7 @@ def prioritize_generate_data(profile, common, default):
     return result
 
 
-def generate_all_profiles(input_path, output_path, default, common,
-                          profiles_file_data):
+def generate_all_profiles(input_path, output_path, default, common, profiles_file_data):
     """Main subroutine for generating all service's profile configs.
 
     :param input_path: path of used input yaml file, to pick
@@ -194,20 +190,17 @@ def generate_all_profiles(input_path, output_path, default, common,
         as loaded from YAML
     :type profiles_file_data: dict
     """
-    profile_list = [
-        x for x in profiles_file_data.keys() if not x.startswith('_')
-    ]
+    profile_list = [x for x in profiles_file_data.keys() if not x.startswith("_")]
 
     for profile in profile_list:
-        LOG.info('-- Profile: {}'.format(profile))
+        LOG.info("-- Profile: {}".format(profile))
 
         profile_data = extract_generate_data(profiles_file_data, profile)
         generate_data = prioritize_generate_data(profile_data, common, default)
 
         if not generate_data.profile_name:
             raise YacfgBatchException(
-                'No selected profile,'
-                ' cannot generate_via_tuning_files.'
+                "No selected profile," " cannot generate_via_tuning_files."
             )
 
         # post process tuning files
@@ -216,7 +209,7 @@ def generate_all_profiles(input_path, output_path, default, common,
                 os.path.join(input_path, x) for x in generate_data.tuning_files
             ]
 
-        LOG.debug('tuning data: {}'.format(generate_data.tuning_data))
+        LOG.debug("tuning data: {}".format(generate_data.tuning_data))
 
         target_path = None
         if output_path:
@@ -227,13 +220,17 @@ def generate_all_profiles(input_path, output_path, default, common,
             tuning_data = [generate_data.tuning_data]
 
         LOG.debug(
-            'CALL: yacfg --profile {} --template {} '
-            '--tuning {} --output {} # extra tuning: {} '
-            '>> {}'.format(
-                generate_data.profile_name, generate_data.template_name,
-                generate_data.tuning_files, target_path,
-                generate_data.tuning_data, target_path
-            ))
+            "CALL: yacfg --profile {} --template {} "
+            "--tuning {} --output {} # extra tuning: {} "
+            ">> {}".format(
+                generate_data.profile_name,
+                generate_data.template_name,
+                generate_data.tuning_files,
+                target_path,
+                generate_data.tuning_data,
+                target_path,
+            )
+        )
 
         yacfg.yacfg.generate(
             profile=generate_data.profile_name,

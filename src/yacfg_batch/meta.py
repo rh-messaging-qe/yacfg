@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-NAME = 'yacfg-batch'
-SHORT_DESCRIPTION = 'Template based configuration generator'
+NAME = "yacfg-batch"
+SHORT_DESCRIPTION = "Template based configuration generator"
 DESCRIPTION = (
-    'Batch configuration generator supporting generation of multiple services'
-    ' from a set of profiles using the template based configuration files'
-    ' generator \'yacfg\' based on jinja2 and yaml mainly focused on Apache'
-    ' ActiveMQ Artemis and related projects'
+    "Batch configuration generator supporting generation of multiple services"
+    " from a set of profiles using the template based configuration files"
+    " generator 'yacfg' based on jinja2 and yaml mainly focused on Apache"
+    " ActiveMQ Artemis and related projects"
 )

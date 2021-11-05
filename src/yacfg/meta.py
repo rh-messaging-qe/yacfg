@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-NAME = 'yacfg'
-SHORT_DESCRIPTION = 'Template based configuration generator'
+NAME = "yacfg"
+SHORT_DESCRIPTION = "Template based configuration generator"
 DESCRIPTION = (
-    'Template based configuration files generator based on jinja2 and yaml'
-    ' mainly focused on Apache ActiveMQ Artemis and related projects'
+    "Template based configuration files generator based on jinja2 and yaml"
+    " mainly focused on Apache ActiveMQ Artemis and related projects"
 )
-TEMPLATES = 'templates'
-PROFILES = 'profiles'
+TEMPLATES = "templates"
+PROFILES = "profiles"
