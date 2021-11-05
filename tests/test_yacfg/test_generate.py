@@ -16,8 +16,8 @@ import mock
 import pytest
 
 import yacfg.yacfg
-from yacfg.yacfg import generate
 from yacfg.exceptions import ProfileError, TemplateError
+from yacfg.yacfg import generate
 from .profiles.fakes import (
     fake_load_tuned_profile_no_defaults,
     fake_load_tuned_profile_w_template,

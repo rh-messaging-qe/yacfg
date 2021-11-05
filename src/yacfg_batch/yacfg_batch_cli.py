@@ -19,9 +19,9 @@ import sys
 
 from yacfg import logger_settings
 from yacfg.meta import NAME
-from .yacfg_batch import generate
-from .cli_arguments import parser
 from . import __version__
+from .cli_arguments import parser
+from .yacfg_batch import generate
 
 logger_settings.config_console_logger()
 

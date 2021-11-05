@@ -18,9 +18,10 @@ import logging
 import os
 import sys
 
-from .config_data import RenderOptions
-from .yacfg import generate
+from . import __version__
+from . import logger_settings
 from .cli_arguments import parser, boolize, parse_key_value_list
+from .config_data import RenderOptions
 from .exceptions import TemplateError, ProfileError, GenerationError
 from .meta import NAME
 from .output import (
@@ -30,9 +31,7 @@ from .output import (
     export_tuning_variables,
 )
 from .query import list_templates, list_profiles
-
-from . import logger_settings
-from . import __version__
+from .yacfg import generate
 
 logger_settings.config_console_logger()
 

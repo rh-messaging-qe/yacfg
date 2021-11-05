@@ -16,8 +16,8 @@ import datetime
 import time
 from collections import namedtuple
 
-from .meta import NAME
 from . import __version__
+from .meta import NAME
 
 
 def add_template_metadata(config_data):

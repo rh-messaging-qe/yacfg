@@ -13,11 +13,11 @@
 # limitations under the License.
 
 import argparse
-import re
 import json
+import re
 
-from .meta import NAME, DESCRIPTION
 from . import __version__
+from .meta import NAME, DESCRIPTION
 
 parser = argparse.ArgumentParser(
     prog="{} {}".format(NAME, __version__),
@@ -81,7 +81,7 @@ group_extra.add_argument(
 
 group_extra.add_argument(
     "--save-effective-profile",
-    help=("Write used profile data to output directory," " output has to be specified"),
+    help="Write used profile data to output directory," " output has to be specified",
     action="store_true",
 )
 
@@ -173,7 +173,7 @@ REX_BOOL_FALSE = re.compile(r"^(([Ff][Aa][Ll][Ss][Ee])|([Nn][Oo])|(0))$")
 
 
 def boolize(data):
-    """Conver input values from string to bool if possible
+    """Convert input values from string to bool if possible
 
     :param data: input data from argparse
     :type data: str

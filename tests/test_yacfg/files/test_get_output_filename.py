@@ -34,6 +34,7 @@ dataset_incorrect_values = (
 )
 
 
+# noinspection PyTypeChecker
 @pytest.mark.parametrize("value", dataset_incorrect_values)
 def test_int(value):
     with pytest.raises(TypeError):

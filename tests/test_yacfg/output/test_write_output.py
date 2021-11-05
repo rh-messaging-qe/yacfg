@@ -18,7 +18,6 @@ import mock
 import pytest
 
 import yacfg.output
-
 from yacfg.output import write_output
 
 

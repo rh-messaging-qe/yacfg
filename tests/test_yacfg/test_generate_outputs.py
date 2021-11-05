@@ -17,8 +17,8 @@ import mock
 import pytest
 
 import yacfg.yacfg
-from yacfg.yacfg import generate_outputs
 from yacfg.exceptions import GenerationError
+from yacfg.yacfg import generate_outputs
 
 
 @mock.patch("yacfg.yacfg.write_output", mock.Mock())

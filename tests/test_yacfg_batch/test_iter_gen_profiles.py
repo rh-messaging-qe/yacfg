@@ -15,9 +15,10 @@
 import mock
 import pytest
 import yaml
+
 import yacfg_batch
-from yacfg_batch.yacfg_batch import iter_gen_profiles
 from yacfg_batch.exceptions import YacfgBatchException
+from yacfg_batch.yacfg_batch import iter_gen_profiles
 
 
 @mock.patch("yacfg_batch.yacfg_batch.open", mock.Mock())

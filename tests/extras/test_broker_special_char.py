@@ -14,6 +14,7 @@
 
 import os
 import shutil
+
 import pytest
 
 import yacfg

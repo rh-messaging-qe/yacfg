@@ -16,8 +16,8 @@ import mock
 import pytest
 
 import yacfg
-from yacfg_batch.yacfg_batch import generate_all_profiles, GenerateData
 from yacfg_batch.exceptions import YacfgBatchException
+from yacfg_batch.yacfg_batch import generate_all_profiles, GenerateData
 
 
 @mock.patch("yacfg.yacfg.generate", mock.Mock())

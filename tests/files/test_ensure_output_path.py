@@ -14,8 +14,9 @@
 
 import os
 import os.path
-import pytest
+
 import mock
+import pytest
 
 from yacfg.files import ensure_output_path
 
