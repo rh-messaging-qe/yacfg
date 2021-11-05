@@ -83,7 +83,6 @@ yacfg-batch = 'yacfg_batch.yacfg_batch_cli:main'
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -vv --cov=yacfg --cov=yacfg_batch --cov-report=xml"
 testpaths = [
     "tests"
 ]
