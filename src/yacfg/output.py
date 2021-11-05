@@ -73,8 +73,9 @@ def new_profile(profile, dest_profile):
     shutil.copyfile(src, dest_profile)
 
 
-def new_profile_rendered(profile, dest_profile, tuning_files=None,
-                         tuning_data_list=None):
+def new_profile_rendered(
+    profile, dest_profile, tuning_files=None, tuning_data_list=None
+):
     """Export an existing profile in static form, stripped defaults section
 
     :param profile: existing profile name (from user or packaged)
@@ -97,12 +98,12 @@ def new_profile_rendered(profile, dest_profile, tuning_files=None,
     if dest_path:
         ensure_output_path(dest_path)  # raises: OSError
 
-    if '_defaults' in config_data:
-        del config_data['_defaults']
+    if "_defaults" in config_data:
+        del config_data["_defaults"]
 
     export_data = yaml_dump_wrapper(config_data)
 
-    export_data = '# {} tuning file generated from profile {}{}{}'.format(
+    export_data = "# {} tuning file generated from profile {}{}{}".format(
         NAME, profile, os.linesep, export_data
     )
     write_output(dest_name, dest_path, export_data)
@@ -151,12 +152,12 @@ def export_tuning_variables(profile_name, dest_file):
     # export_data = yaml.dump_all([defaults_data], default_flow_style=False)
     export_data = yaml_dump_wrapper(defaults_data)
 
-    LOG.debug('Exported tuning data:\n%s', export_data)
-    export_data = '# {} tuning file generated from profile {}{}{}'.format(
+    LOG.debug("Exported tuning data:\n%s", export_data)
+    export_data = "# {} tuning file generated from profile {}{}{}".format(
         NAME, profile_name, os.linesep, export_data
     )
     write_output(dest_name, dest_path, export_data)
-    LOG.info('Tuning data exported')
+    LOG.info("Tuning data exported")
 
 
 def write_output(filename, output_path, data):
@@ -170,7 +171,7 @@ def write_output(filename, output_path, data):
     :type data: str
     """
     filepath = os.path.join(output_path, filename)
-    with open(filepath, 'w') as fh:
+    with open(filepath, "w") as fh:
         fh.write(data)
         # fh.write(os.linesep)
     LOG.debug('File writen "%s"', filepath)

@@ -34,11 +34,9 @@ def filter_template_list(template_list, output_filter):
     """
     output_filter = [re.compile(flt) for flt in output_filter]
     template_list = [
-        templ
-        for templ in template_list
-        for rex in output_filter if rex.match(templ)
+        templ for templ in template_list for rex in output_filter if rex.match(templ)
     ]
-    LOG.debug('Filtered template files list: %s', template_list)
+    LOG.debug("Filtered template files list: %s", template_list)
     return template_list
 
 
@@ -54,13 +52,13 @@ def list_templates():
     """
 
     templates_path = get_templates_path()
-    LOG.debug('Templates path for query: %s', templates_path)
+    LOG.debug("Templates path for query: %s", templates_path)
 
     result = []
 
     for root, dirs, files in os.walk(templates_path):
         for fn in files:
-            if fn == '_template':
+            if fn == "_template":
                 prefix_path = os.path.relpath(root, templates_path)
                 result.append(prefix_path)
                 break
@@ -81,7 +79,7 @@ def list_profiles():
     """
 
     profiles_path = get_profiles_path()
-    LOG.debug('Profiles path for query: %s', profiles_path)
+    LOG.debug("Profiles path for query: %s", profiles_path)
 
     result = []
 
@@ -89,26 +87,20 @@ def list_profiles():
         prefix_path = os.path.relpath(root, profiles_path)
         # skip over underscored paths
         path_levels = prefix_path.split(os.path.sep)
-        if any([x.startswith('_') for x in path_levels]):
-            LOG.debug('Skipping underscored: %s', path_levels)
+        if any([x.startswith("_") for x in path_levels]):
+            LOG.debug("Skipping underscored: %s", path_levels)
             continue
         # filter only yaml profiles
         tmp_files = [
             fn
-            for fn in files if (
-                fn.endswith('.yaml')
-                or fn.endswith('.jinja2')
-                or fn.endswith('.j2')
-            )
+            for fn in files
+            if (fn.endswith(".yaml") or fn.endswith(".jinja2") or fn.endswith(".j2"))
         ]
 
         # add relative profile path if it is not profiles root,
         # it would add './' which is undesirable
-        if prefix_path != '.':
-            tmp_files = [
-                os.path.join(prefix_path, fn)
-                for fn in tmp_files
-            ]
+        if prefix_path != ".":
+            tmp_files = [os.path.join(prefix_path, fn) for fn in tmp_files]
         result += tmp_files
 
     result = [posixpath.join(*i.split(os.path.sep)) for i in result]
@@ -127,13 +119,13 @@ def get_main_template_list(env):
     :return: list of main template names
     :rtype: list[str]
     """
-    rex_main_template = re.compile(r'^[^/]+\.jinja2$')
+    rex_main_template = re.compile(r"^[^/]+\.jinja2$")
 
     def main_template_filter(name):
         return rex_main_template.match(name)
 
     templ_list = env.list_templates(filter_func=main_template_filter)
 
-    LOG.debug('Main template files list: %s', templ_list)
+    LOG.debug("Main template files list: %s", templ_list)
 
     return templ_list

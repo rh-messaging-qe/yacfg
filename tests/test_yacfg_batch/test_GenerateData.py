@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from yacfg_batch.yacfg_batch import (
-    GenerateData
-)
+from yacfg_batch.yacfg_batch import GenerateData
 
 
 def test_str_none(*_):
@@ -22,15 +20,15 @@ def test_str_none(*_):
 
     result = str(generate_data)
 
-    expected = 'GenerateData(None, None, None, None)'
+    expected = "GenerateData(None, None, None, None)"
 
     assert expected == result
 
 
 def test_str_str(*_):
     generate_data = GenerateData()
-    generate_data.profile_name = 'a'
-    generate_data.template_name = 'b'
+    generate_data.profile_name = "a"
+    generate_data.template_name = "b"
 
     result = str(generate_data)
 
@@ -48,79 +46,79 @@ def test_eq_empty(*_):
 
 def test_eq_data(*_):
     data1 = GenerateData()
-    data1.profile_name = 'Profile Name'
-    data1.template_name = 'Template Name'
-    data1.tuning_files = ['Tuning file']
-    data1.tuning_data = {'a': 1}
+    data1.profile_name = "Profile Name"
+    data1.template_name = "Template Name"
+    data1.tuning_files = ["Tuning file"]
+    data1.tuning_data = {"a": 1}
 
     data2 = GenerateData()
-    data2.profile_name = 'Profile Name'
-    data2.template_name = 'Template Name'
-    data2.tuning_files = ['Tuning file']
-    data2.tuning_data = {'a': 1}
+    data2.profile_name = "Profile Name"
+    data2.template_name = "Template Name"
+    data2.tuning_files = ["Tuning file"]
+    data2.tuning_data = {"a": 1}
 
     assert data1 == data2
 
 
 def test_neq_profile_name(*_):
     data1 = GenerateData()
-    data1.profile_name = 'Profile Nam'
-    data1.template_name = 'Template Name'
-    data1.tuning_files = ['Tuning file']
-    data1.tuning_data = {'a': 1}
+    data1.profile_name = "Profile Nam"
+    data1.template_name = "Template Name"
+    data1.tuning_files = ["Tuning file"]
+    data1.tuning_data = {"a": 1}
 
     data2 = GenerateData()
-    data2.profile_name = 'Profile Name'
-    data2.template_name = 'Template Name'
-    data2.tuning_files = ['Tuning file']
-    data2.tuning_data = {'a': 1}
+    data2.profile_name = "Profile Name"
+    data2.template_name = "Template Name"
+    data2.tuning_files = ["Tuning file"]
+    data2.tuning_data = {"a": 1}
 
     assert data1 != data2
 
 
 def test_neq_template_name(*_):
     data1 = GenerateData()
-    data1.profile_name = 'Profile Name'
-    data1.template_name = 'Template Nam'
-    data1.tuning_files = ['Tuning file']
-    data1.tuning_data = {'a': 1}
+    data1.profile_name = "Profile Name"
+    data1.template_name = "Template Nam"
+    data1.tuning_files = ["Tuning file"]
+    data1.tuning_data = {"a": 1}
 
     data2 = GenerateData()
-    data2.profile_name = 'Profile Name'
-    data2.template_name = 'Template Name'
-    data2.tuning_files = ['Tuning file']
-    data2.tuning_data = {'a': 1}
+    data2.profile_name = "Profile Name"
+    data2.template_name = "Template Name"
+    data2.tuning_files = ["Tuning file"]
+    data2.tuning_data = {"a": 1}
 
     assert data1 != data2
 
 
 def test_neq_tuning_files(*_):
     data1 = GenerateData()
-    data1.profile_name = 'Profile Name'
-    data1.template_name = 'Template Name'
-    data1.tuning_files = ['Tuning fil']
-    data1.tuning_data = {'a': 1}
+    data1.profile_name = "Profile Name"
+    data1.template_name = "Template Name"
+    data1.tuning_files = ["Tuning fil"]
+    data1.tuning_data = {"a": 1}
 
     data2 = GenerateData()
-    data2.profile_name = 'Profile Name'
-    data2.template_name = 'Template Name'
-    data2.tuning_files = ['Tuning file']
-    data2.tuning_data = {'a': 1}
+    data2.profile_name = "Profile Name"
+    data2.template_name = "Template Name"
+    data2.tuning_files = ["Tuning file"]
+    data2.tuning_data = {"a": 1}
 
     assert data1 != data2
 
 
 def test_neq_tuning_data(*_):
     data1 = GenerateData()
-    data1.profile_name = 'Profile Name'
-    data1.template_name = 'Template Name'
-    data1.tuning_files = ['Tuning file']
-    data1.tuning_data = {'a': 0}
+    data1.profile_name = "Profile Name"
+    data1.template_name = "Template Name"
+    data1.tuning_files = ["Tuning file"]
+    data1.tuning_data = {"a": 0}
 
     data2 = GenerateData()
-    data2.profile_name = 'Profile Name'
-    data2.template_name = 'Template Name'
-    data2.tuning_files = ['Tuning file']
-    data2.tuning_data = {'a': 1}
+    data2.profile_name = "Profile Name"
+    data2.template_name = "Template Name"
+    data2.tuning_files = ["Tuning file"]
+    data2.tuning_data = {"a": 1}
 
     assert data1 != data2

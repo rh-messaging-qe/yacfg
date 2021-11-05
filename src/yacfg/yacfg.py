@@ -14,7 +14,6 @@
 
 from __future__ import print_function
 
-import ast
 import copy
 import json
 import logging
@@ -37,9 +36,16 @@ _e = Environment
 LOG = logging.getLogger(__name__)
 
 
-def generate_core(config_data, tuned_profile=None, template=None,
-                  output_path=None, output_filter=None, render_options=None,
-                  write_profile_data=False, extra_properties_data=None):
+def generate_core(
+    config_data,
+    tuned_profile=None,
+    template=None,
+    output_path=None,
+    output_filter=None,
+    render_options=None,
+    write_profile_data=False,
+    extra_properties_data=None,
+):
     """Core of the generator, gets complete dataset with selected
     template in config data or explicitly selected via template
     parameter at minimum, and generates outputs, if requested writes
@@ -80,12 +86,10 @@ def generate_core(config_data, tuned_profile=None, template=None,
 
     # template
     if template is None:
-        template = config_data.get('render', {}).get('template')
-        LOG.debug('Profile specified template: %s', template)
+        template = config_data.get("render", {}).get("template")
+        LOG.debug("Profile specified template: %s", template)
     if template is None:
-        raise TemplateError(
-            'Missing template. User nor profile specifies a template.'
-        )
+        raise TemplateError("Missing template. User nor profile specifies a template.")
 
     env = get_template_environment(template)
 
@@ -146,27 +150,38 @@ def generate_core(config_data, tuned_profile=None, template=None,
         return new_map
 
     # Pass empty filter for performance if an extra_properties_data not defined (no more conditions)
-    env.filters['overridevalue'] = override_value if extra_properties_data else empty_filter
-    env.filters['overridevalue_listmapkeys'] = override_value_list_map_keys if extra_properties_data else empty_filter
+    env.filters["overridevalue"] = (
+        override_value if extra_properties_data else empty_filter
+    )
+    env.filters["overridevalue_listmapkeys"] = (
+        override_value_list_map_keys if extra_properties_data else empty_filter
+    )
 
     template_list = get_main_template_list(env)
     if output_filter:
         template_list = filter_template_list(template_list, output_filter)
 
-    LOG.debug('Config data: %s', json.dumps(config_data))
+    LOG.debug("Config data: %s", json.dumps(config_data))
 
     if output_path and tuned_profile:
         ensure_output_path(output_path)
         if write_profile_data:
-            write_output('profile_data.yaml', output_path, tuned_profile)
+            write_output("profile_data.yaml", output_path, tuned_profile)
 
     return generate_outputs(config_data, template_list, env, output_path)
 
 
-def generate(profile, template=None, output_path=None,
-             output_filter=None, render_options=None,
-             tuning_files_list=None, tuning_data_list=None,
-             write_profile_data=False, extra_properties_data=None):
+def generate(
+    profile,
+    template=None,
+    output_path=None,
+    output_filter=None,
+    render_options=None,
+    tuning_files_list=None,
+    tuning_data_list=None,
+    write_profile_data=False,
+    extra_properties_data=None,
+):
     """Generate procedure using list of tuning data
 
     generate_via_tuning_files output files based on output_filter, from
@@ -220,7 +235,7 @@ def generate(profile, template=None, output_path=None,
         output_filter=output_filter,
         render_options=render_options,
         write_profile_data=write_profile_data,
-        extra_properties_data=extra_properties_data
+        extra_properties_data=extra_properties_data,
     )
 
 
@@ -260,28 +275,27 @@ def generate_outputs(config_data, template_list, env, output_path=None):
 
     # metadata structure initialization,
     # if called without add_template_metadata()
-    if 'metadata' not in config_data:
-        config_data['metadata'] = {}
+    if "metadata" not in config_data:
+        config_data["metadata"] = {}
 
     for template_name in template_list:
         out_filename = get_output_filename(template_name)
-        config_data['metadata']['out_filename'] = template_name
+        config_data["metadata"]["out_filename"] = template_name
 
         try:
             template = env.get_template(template_name)
             output_data = template.render(config_data)
         except jinja2.TemplateError as exc:
             LOG.error('Config file "%s" generation FAILED', out_filename)
-            LOG.exception('Original error')
+            LOG.exception("Original error")
             if not generate_exception:
                 generate_exception = GenerationError(
                     'There was a problem generating file "%s" with "%s" '
-                    'template: %s'
-                    % (out_filename, template_name, exc)
+                    "template: %s" % (out_filename, template_name, exc)
                 )
         else:
-            LOG.debug('BEGIN %s\n%s', out_filename, output_data)
-            LOG.debug('END %s' % out_filename)
+            LOG.debug("BEGIN %s\n%s", out_filename, output_data)
+            LOG.debug("END %s" % out_filename)
             LOG.info('Config file "%s" generation PASSED', out_filename)
 
             result_data[out_filename] = output_data

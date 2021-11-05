@@ -24,9 +24,9 @@ from .fakes import (
 )
 
 
-@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
+@mock.patch("yacfg.profiles.get_profile_template", mock.Mock())
 def test_true(*_):
-    profile_name = 'profile.yaml'
+    profile_name = "profile.yaml"
     expected_data = fake_load_profile_defaults()
 
     # fake jinja template
@@ -41,10 +41,9 @@ def test_true(*_):
     yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
 
-@mock.patch('yacfg.profiles.get_profile_template',
-            side_effect=TemplateError)
+@mock.patch("yacfg.profiles.get_profile_template", side_effect=TemplateError)
 def test_bad_template(*_):
-    profile_name = 'bad_profile.yaml'
+    profile_name = "bad_profile.yaml"
 
     with pytest.raises(TemplateError):
         load_profile_defaults(profile_name)

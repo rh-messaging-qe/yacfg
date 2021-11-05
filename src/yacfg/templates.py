@@ -33,26 +33,26 @@ def get_template_environment(template_name):
     :return: jinja2 environment
     :rtype: Environment
     """
-    LOG.debug('Template name: %s', template_name)
+    LOG.debug("Template name: %s", template_name)
     templates_path = get_templates_path()
-    LOG.debug('Template path: %s', templates_path)
+    LOG.debug("Template path: %s", templates_path)
 
     selected_template_path = select_template_dir(template_name)
-    LOG.debug('Selected template path: %s', selected_template_path)
+    LOG.debug("Selected template path: %s", selected_template_path)
     try:
         env = Environment(
-            loader=FileSystemLoader([
-                selected_template_path,  # selected template
-                templates_path,  # all templates for includes
-            ]),
+            loader=FileSystemLoader(
+                [
+                    selected_template_path,  # selected template
+                    templates_path,  # all templates for includes
+                ]
+            ),
             trim_blocks=True,
             lstrip_blocks=True,
         )
     except jinja2.TemplateError:
-        LOG.exception('Original Error')
+        LOG.exception("Original Error")
         # this is yacfg.exceptions.TemplateError
-        raise TemplateError(
-            'There was a problem with templating environment.'
-        )
+        raise TemplateError("There was a problem with templating environment.")
 
     return env

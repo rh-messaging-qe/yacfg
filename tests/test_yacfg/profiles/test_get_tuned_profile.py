@@ -23,11 +23,11 @@ from yacfg.profiles import get_tuned_profile
 from .fakes import fake_load_tuned_profile_no_defaults
 
 
-@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
-@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
+@mock.patch("yacfg.profiles.load_tuning", mock.Mock())
+@mock.patch("yacfg.profiles.load_profile_defaults", mock.Mock())
+@mock.patch("yacfg.profiles.get_profile_template", mock.Mock())
 def test_no_tuning(*_):
-    profile_name = 'profile.yaml'
+    profile_name = "profile.yaml"
     tuning_data = None
     expected_data = fake_load_tuned_profile_no_defaults()
 
@@ -59,18 +59,16 @@ def test_no_tuning(*_):
     yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
-    expected_data_render['profile_path'] = profile_name
-    fake_profile.render.assert_called_with(
-        expected_data_render
-    )
+    expected_data_render["profile_path"] = profile_name
+    fake_profile.render.assert_called_with(expected_data_render)
 
 
-@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
-@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
+@mock.patch("yacfg.profiles.load_tuning", mock.Mock())
+@mock.patch("yacfg.profiles.load_profile_defaults", mock.Mock())
+@mock.patch("yacfg.profiles.get_profile_template", mock.Mock())
 def test_tuning_data(*_):
-    profile_name = 'profile.yaml'
-    tuning_data = [{'a': 1}]
+    profile_name = "profile.yaml"
+    tuning_data = [{"a": 1}]
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
@@ -104,19 +102,17 @@ def test_tuning_data(*_):
     yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
-    expected_data_render['profile_path'] = profile_name
-    fake_profile.render.assert_called_with(
-        expected_data_render
-    )
+    expected_data_render["profile_path"] = profile_name
+    fake_profile.render.assert_called_with(expected_data_render)
 
 
-@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
-@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
+@mock.patch("yacfg.profiles.load_tuning", mock.Mock())
+@mock.patch("yacfg.profiles.load_profile_defaults", mock.Mock())
+@mock.patch("yacfg.profiles.get_profile_template", mock.Mock())
 def test_tuning_files_data(*_):
-    profile_name = 'profile.yaml'
-    tuning_data = [{'a': 1}]
-    tuning_files = ['asdf.yaml']
+    profile_name = "profile.yaml"
+    tuning_data = [{"a": 1}]
+    tuning_files = ["asdf.yaml"]
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
@@ -151,19 +147,17 @@ def test_tuning_files_data(*_):
     yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
-    expected_data_render['profile_path'] = profile_name
-    fake_profile.render.assert_called_with(
-        expected_data_render
-    )
+    expected_data_render["profile_path"] = profile_name
+    fake_profile.render.assert_called_with(expected_data_render)
 
 
-@mock.patch('yacfg.profiles.load_tuning', mock.Mock())
-@mock.patch('yacfg.profiles.load_profile_defaults', mock.Mock())
-@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
+@mock.patch("yacfg.profiles.load_tuning", mock.Mock())
+@mock.patch("yacfg.profiles.load_profile_defaults", mock.Mock())
+@mock.patch("yacfg.profiles.get_profile_template", mock.Mock())
 def test_tuning_files(*_):
-    profile_name = 'profile.yaml'
+    profile_name = "profile.yaml"
     tuning_data = None
-    tuning_files = ['asdf.yaml']
+    tuning_files = ["asdf.yaml"]
     expected_data = fake_load_tuned_profile_no_defaults()
 
     # mock load_tuning
@@ -198,22 +192,18 @@ def test_tuning_files(*_):
     yacfg.profiles.get_profile_template.assert_called_with(profile_name)
 
     expected_data_render = copy.deepcopy(expected_data[0])
-    expected_data_render['profile_path'] = profile_name
-    fake_profile.render.assert_called_with(
-        expected_data_render
-    )
+    expected_data_render["profile_path"] = profile_name
+    fake_profile.render.assert_called_with(expected_data_render)
 
 
-@mock.patch('yacfg.profiles.load_profile_defaults',
-            side_effect=ProfileError)
-@mock.patch('yacfg.profiles.open',
-            side_effect=('%this is not yaml',))
-@mock.patch('yaml.load', mock.Mock())
-@mock.patch('yacfg.profiles.get_profile_template', mock.Mock())
+@mock.patch("yacfg.profiles.load_profile_defaults", side_effect=ProfileError)
+@mock.patch("yacfg.profiles.open", side_effect=("%this is not yaml",))
+@mock.patch("yaml.load", mock.Mock())
+@mock.patch("yacfg.profiles.get_profile_template", mock.Mock())
 def test_bad_profile_exception(*_):
-    profile_name = 'profile.yaml'
-    tuning_files = ['bad']
-    expected_data = 'key: value\n'
+    profile_name = "profile.yaml"
+    tuning_files = ["bad"]
+    expected_data = "key: value\n"
 
     # simulating jinja profile rendering
     fake_profile = mock.Mock()

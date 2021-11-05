@@ -18,11 +18,11 @@ from yacfg.files import get_output_filename
 
 
 def test_jinja_suffix():
-    assert get_output_filename('my_config.xml.jinja2') == 'my_config.xml'
+    assert get_output_filename("my_config.xml.jinja2") == "my_config.xml"
 
 
 def test_base_name():
-    assert get_output_filename('my_config.xml') == 'my_config.xml'
+    assert get_output_filename("my_config.xml") == "my_config.xml"
 
 
 dataset_incorrect_values = (
@@ -34,7 +34,8 @@ dataset_incorrect_values = (
 )
 
 
-@pytest.mark.parametrize('value', dataset_incorrect_values)
+# noinspection PyTypeChecker
+@pytest.mark.parametrize("value", dataset_incorrect_values)
 def test_int(value):
     with pytest.raises(TypeError):
         get_output_filename(value)

@@ -21,7 +21,7 @@ from .meta import PROFILES, TEMPLATES
 
 LOG = logging.getLogger(__name__)
 
-REX_TEMPLATE_TO_OUTPUT = re.compile(r'^(.*)(\.jinja2)$')
+REX_TEMPLATE_TO_OUTPUT = re.compile(r"^(.*)(\.jinja2)$")
 
 
 def get_module_path():
@@ -32,7 +32,7 @@ def get_module_path():
     :rtype: str
     """
     module_path = os.path.dirname(__file__)
-    LOG.debug('Module path: %s', module_path)
+    LOG.debug("Module path: %s", module_path)
     return module_path
 
 
@@ -43,11 +43,15 @@ def get_profiles_path():
     :rtype: str
     """
 
-    env_profiles = os.getenv('YACFG_PROFILES')  # TODO: Add test for YACFG_PROFILES environment variable
+    env_profiles = os.getenv(
+        "YACFG_PROFILES"
+    )  # TODO: Add test for YACFG_PROFILES environment variable
 
     if env_profiles:
         profiles_path = os.path.join(env_profiles)
-        LOG.debug('Using user defined $YACFG_PROFILES profiles path "%s"', profiles_path)
+        LOG.debug(
+            'Using user defined $YACFG_PROFILES profiles path "%s"', profiles_path
+        )
 
     else:
         module_path = get_module_path()
@@ -64,11 +68,15 @@ def get_templates_path():
     :rtype: str
     """
 
-    env_templates = os.getenv('YACFG_TEMPLATES')  # TODO: Add test for YACFG_TEMPLATES environment variable
+    env_templates = os.getenv(
+        "YACFG_TEMPLATES"
+    )  # TODO: Add test for YACFG_TEMPLATES environment variable
 
     if env_templates:
         templates_path = os.path.join(env_templates)
-        LOG.debug('Using user defined $YACFG_TEMPLATES template path "%s"', templates_path)
+        LOG.debug(
+            'Using user defined $YACFG_TEMPLATES template path "%s"', templates_path
+        )
 
     else:
         module_path = get_module_path()
@@ -114,9 +122,7 @@ def select_profile_file(profile_name):
     complete_path = os.path.join(selected_profile_path, selected_profile_name)
 
     if not os.path.isfile(complete_path):
-        raise ProfileError(
-            'Unable to find a requested profile "%s"' % profile_name
-        )
+        raise ProfileError('Unable to find a requested profile "%s"' % profile_name)
 
     LOG.debug('Selected profile: "%s"', complete_path)
     return selected_profile_name, selected_profile_path
@@ -155,13 +161,13 @@ def select_template_dir(template_name):
             'Unable to load requested template set "%s"' % template_name
         )
 
-    if not os.path.isfile(os.path.join(selected_template_path, '_template')):
+    if not os.path.isfile(os.path.join(selected_template_path, "_template")):
         raise TemplateError(
             'Selected template "%s" does not contain'
             ' "_template" file, so it is not considered a template'
         )
 
-    LOG.debug('Selected template: %s', selected_template_path)
+    LOG.debug("Selected template: %s", selected_template_path)
     return selected_template_path
 
 

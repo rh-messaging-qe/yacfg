@@ -13,35 +13,34 @@
 # limitations under the License.
 
 import pytest
+
 import yacfg.config_data
 
 dataset_render_config = (
-    (yacfg.config_data.RenderOptions(None, None), 'generator_notice', None),
-    (yacfg.config_data.RenderOptions(None, None), 'licenses', None),
-    (yacfg.config_data.RenderOptions(True, None), 'generator_notice', True),
-    (yacfg.config_data.RenderOptions(False, None), 'generator_notice', False),
-    (yacfg.config_data.RenderOptions(None, True), 'licenses', True),
-    (yacfg.config_data.RenderOptions(None, False), 'licenses', False),
+    (yacfg.config_data.RenderOptions(None, None), "generator_notice", None),
+    (yacfg.config_data.RenderOptions(None, None), "licenses", None),
+    (yacfg.config_data.RenderOptions(True, None), "generator_notice", True),
+    (yacfg.config_data.RenderOptions(False, None), "generator_notice", False),
+    (yacfg.config_data.RenderOptions(None, True), "licenses", True),
+    (yacfg.config_data.RenderOptions(None, False), "licenses", False),
 )
 
 
-@pytest.mark.parametrize('render_options,key,value', dataset_render_config)
+@pytest.mark.parametrize("render_options,key,value", dataset_render_config)
 def test_add_render_config_members(render_options, key, value):
     data = {}
-    yacfg.config_data.add_render_config(config_data=data,
-                                        render_options=render_options)
+    yacfg.config_data.add_render_config(config_data=data, render_options=render_options)
     if value is not None:
-        assert key in data['render']
+        assert key in data["render"]
     else:
-        assert key not in data['render']
+        assert key not in data["render"]
 
 
-@pytest.mark.parametrize('render_options,key,value', dataset_render_config)
+@pytest.mark.parametrize("render_options,key,value", dataset_render_config)
 def test_add_render_config_values(render_options, key, value):
     data = {}
-    yacfg.config_data.add_render_config(config_data=data,
-                                        render_options=render_options)
+    yacfg.config_data.add_render_config(config_data=data, render_options=render_options)
     if value is not None:
-        assert data['render'][key] == value
+        assert data["render"][key] == value
     else:
         assert True

@@ -19,17 +19,17 @@ from yacfg.query import get_main_template_list
 
 def fake_list_templates(filter_func):
     file_list = [
-        'broker.xml.jinja2',
-        'artemis-users.properties.jinja2',
-        'not_a_template.xml',
+        "broker.xml.jinja2",
+        "artemis-users.properties.jinja2",
+        "not_a_template.xml",
     ]
     return [i for i in file_list if filter_func(i)]
 
 
 def test_basic(*_):
     expected = [
-        'broker.xml.jinja2',
-        'artemis-users.properties.jinja2',
+        "broker.xml.jinja2",
+        "artemis-users.properties.jinja2",
     ]
     env = mock.Mock()
     env.list_templates = fake_list_templates

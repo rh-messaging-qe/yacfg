@@ -16,8 +16,8 @@ import datetime
 import time
 from collections import namedtuple
 
-from .meta import NAME
 from . import __version__
+from .meta import NAME
 
 
 def add_template_metadata(config_data):
@@ -28,16 +28,16 @@ def add_template_metadata(config_data):
     """
     now = datetime.datetime.now()
 
-    config_data['metadata'] = {
-        'tool_name': NAME,
-        'tool_version': __version__,
-        'datetime': {
-            'datetime': now.strftime('%Y-%m-%d %H:%M'),
-            'year': now.strftime('%Y'),
-            'time': now.strftime('%H:%M'),
-            'date': now.strftime('%Y-%m-%d'),
-            'unix': time.time(),
-        }
+    config_data["metadata"] = {
+        "tool_name": NAME,
+        "tool_version": __version__,
+        "datetime": {
+            "datetime": now.strftime("%Y-%m-%d %H:%M"),
+            "year": now.strftime("%Y"),
+            "time": now.strftime("%H:%M"),
+            "date": now.strftime("%Y-%m-%d"),
+            "unix": time.time(),
+        },
     }
 
 
@@ -52,15 +52,15 @@ def add_render_config(config_data, render_options):
     render_config = {}
 
     if render_options.generator_notice is not None:
-        render_config['generator_notice'] = render_options.generator_notice
+        render_config["generator_notice"] = render_options.generator_notice
     if render_options.licenses is not None:
-        render_config['licenses'] = render_options.licenses
+        render_config["licenses"] = render_options.licenses
 
     # update loaded config data
-    if 'render' not in config_data:
-        config_data['render'] = render_config
+    if "render" not in config_data:
+        config_data["render"] = render_config
     else:
-        config_data['render'].update(render_config)
+        config_data["render"].update(render_config)
 
 
-RenderOptions = namedtuple('RenderOptions', ['generator_notice', 'licenses'])
+RenderOptions = namedtuple("RenderOptions", ["generator_notice", "licenses"])

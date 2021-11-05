@@ -17,29 +17,29 @@ import pytest
 import yacfg.config_data
 
 dataset_metadata_members = (
-    'tool_name',
-    'datetime',
+    "tool_name",
+    "datetime",
 )
 
 
-@pytest.mark.parametrize('member', dataset_metadata_members)
+@pytest.mark.parametrize("member", dataset_metadata_members)
 def test_add_template_metadata_check_member(member):
     data = {}
     yacfg.config_data.add_template_metadata(data)
-    assert member in data['metadata']
+    assert member in data["metadata"]
 
 
 dataset_metadata_datetime_members = (
-    'datetime',
-    'year',
-    'time',
-    'date',
-    'unix',
+    "datetime",
+    "year",
+    "time",
+    "date",
+    "unix",
 )
 
 
-@pytest.mark.parametrize('member', dataset_metadata_datetime_members)
+@pytest.mark.parametrize("member", dataset_metadata_datetime_members)
 def test_add_template_metadata_datetime_check_member(member):
     data = {}
     yacfg.config_data.add_template_metadata(data)
-    assert member in data['metadata']['datetime']
+    assert member in data["metadata"]["datetime"]

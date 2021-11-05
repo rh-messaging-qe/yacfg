@@ -15,17 +15,19 @@
 import logging
 import sys
 
-FORMAT_CONSOLE = '[%(asctime)s] [%(levelname)s] %(name)s :: %(message)s'
-FORMAT_CONSOLE_COLOR = '[%(asctime)s] [%(log_color)s%(levelname)s%(reset)s]' \
-                       ' %(name)s :: %(message)s'
+FORMAT_CONSOLE = "[%(asctime)s] [%(levelname)s] %(name)s :: %(message)s"
+FORMAT_CONSOLE_COLOR = (
+    "[%(asctime)s] [%(log_color)s%(levelname)s%(reset)s]" " %(name)s :: %(message)s"
+)
 
-DATE_FORMAT_ISO = '%Y-%m-%d %H:%M:%S,'
-DATE_FORMAT_TIME = '%H:%M:%S'
+DATE_FORMAT_ISO = "%Y-%m-%d %H:%M:%S,"
+DATE_FORMAT_TIME = "%H:%M:%S"
 
 
-def config_console_logger(filename=None, level=None, fmt=None, fmt_color=None,
-                          datefmt=None):
-    """ configure console logger, if colorlog is installed it will use colorlog
+def config_console_logger(
+    filename=None, level=None, fmt=None, fmt_color=None, datefmt=None
+):
+    """configure console logger, if colorlog is installed it will use colorlog
     :param filename: stream to log into, default sys.stdout
     :param level: console log level
     :param fmt: console log format
@@ -37,6 +39,7 @@ def config_console_logger(filename=None, level=None, fmt=None, fmt_color=None,
     try:
         # noinspection PyUnresolvedReferences
         import colorama
+
         colorama.init()
     except ImportError:
         try:
@@ -44,10 +47,11 @@ def config_console_logger(filename=None, level=None, fmt=None, fmt_color=None,
             import colorlog
         except ImportError:
             import platform
-            if platform.system() == 'Windows':
+
+            if platform.system() == "Windows":
                 import_error_msg.append(
-                    'Colorlog without colorama used, expect escape codes,'
-                    ' please install colorama'
+                    "Colorlog without colorama used, expect escape codes,"
+                    " please install colorama"
                 )
 
     filename = filename or sys.stdout
@@ -65,18 +69,19 @@ def config_console_logger(filename=None, level=None, fmt=None, fmt_color=None,
     try:
         # noinspection PyUnresolvedReferences
         import colorlog  # noqa: F811
+
         console_formatter = colorlog.ColoredFormatter(
             fmt_color,
             log_colors={
-                'CRITICAL': 'black,bg_red',
-                'ERROR': 'red',
-                'WARNING': 'yellow',
-                'SKIP': 'blue',
-                'FAIL': 'bold_red',
-                'PASS': 'bold_green',
-                'INFO': 'reset',
-                'DOC': 'purple',
-                'DEBUG': 'cyan',
+                "CRITICAL": "black,bg_red",
+                "ERROR": "red",
+                "WARNING": "yellow",
+                "SKIP": "blue",
+                "FAIL": "bold_red",
+                "PASS": "bold_green",
+                "INFO": "reset",
+                "DOC": "purple",
+                "DEBUG": "cyan",
             },
             datefmt=datefmt,
         )

@@ -16,44 +16,42 @@ import mock
 import pytest
 
 import yacfg.yacfg
-from yacfg.yacfg import generate_core
 from yacfg.exceptions import TemplateError
+from yacfg.yacfg import generate_core
 from .profiles.fakes import (
     fake_load_tuned_profile_no_defaults,
     fake_load_tuned_profile_w_template,
-    fake_template_environment
+    fake_template_environment,
 )
 
 
-@mock.patch('yacfg.yacfg.add_template_metadata', mock.Mock())
-@mock.patch('yacfg.yacfg.add_render_config', mock.Mock())
-@mock.patch('yacfg.yacfg.get_template_environment',
-            side_effect=fake_template_environment)
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch("yacfg.yacfg.add_template_metadata", mock.Mock())
+@mock.patch("yacfg.yacfg.add_render_config", mock.Mock())
+@mock.patch(
+    "yacfg.yacfg.get_template_environment", side_effect=fake_template_environment
+)
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_true(*_):
-    template = 'template/1.0.0'
-    render_options = 'Render options'
-    expected_result = 'generated data'
+    template = "template/1.0.0"
+    render_options = "Render options"
+    expected_result = "generated data"
 
     config_data, _ = fake_load_tuned_profile_no_defaults()
 
     yacfg.yacfg.generate_outputs.return_value = expected_result
 
     result = generate_core(
-        config_data=config_data,
-        template=template,
-        render_options=render_options
+        config_data=config_data, template=template, render_options=render_options
     )
 
     assert expected_result == result
 
     # noinspection PyUnresolvedReferences
-    yacfg.yacfg.add_render_config.assert_called_with(config_data,
-                                                     render_options)
+    yacfg.yacfg.add_render_config.assert_called_with(config_data, render_options)
     # noinspection PyUnresolvedReferences
     yacfg.yacfg.get_template_environment.assert_called()
     # noinspection PyUnresolvedReferences
@@ -68,16 +66,17 @@ def test_true(*_):
     yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('yacfg.yacfg.get_template_environment',
-            side_effect=fake_template_environment)
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch(
+    "yacfg.yacfg.get_template_environment", side_effect=fake_template_environment
+)
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_true_no_output_path_write_profile(*_):
-    template = 'template/1.0.0'
-    expected_result = 'generated data'
+    template = "template/1.0.0"
+    expected_result = "generated data"
 
     config_data, tuned_profile = fake_load_tuned_profile_no_defaults()
     yacfg.yacfg.generate_outputs.return_value = expected_result
@@ -105,16 +104,17 @@ def test_true_no_output_path_write_profile(*_):
     yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('yacfg.yacfg.get_template_environment',
-            side_effect=fake_template_environment)
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch(
+    "yacfg.yacfg.get_template_environment", side_effect=fake_template_environment
+)
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_true_output_path_write_no_profile(*_):
-    template = 'template/1.0.0'
-    expected_result = 'generated data'
+    template = "template/1.0.0"
+    expected_result = "generated data"
 
     config_data, _ = fake_load_tuned_profile_no_defaults()
     yacfg.yacfg.generate_outputs.return_value = expected_result
@@ -141,17 +141,18 @@ def test_true_output_path_write_no_profile(*_):
     yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('yacfg.yacfg.get_template_environment',
-            side_effect=fake_template_environment)
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch(
+    "yacfg.yacfg.get_template_environment", side_effect=fake_template_environment
+)
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_true_output_path_write_profile(*_):
-    template = 'template/1.0.0'
-    output_path = '/out/directory'
-    expected_result = 'generated data'
+    template = "template/1.0.0"
+    output_path = "/out/directory"
+    expected_result = "generated data"
 
     config_data, tuned_profile = fake_load_tuned_profile_no_defaults()
     yacfg.yacfg.generate_outputs.return_value = expected_result
@@ -180,17 +181,18 @@ def test_true_output_path_write_profile(*_):
     yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('yacfg.yacfg.get_template_environment',
-            side_effect=fake_template_environment)
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch(
+    "yacfg.yacfg.get_template_environment", side_effect=fake_template_environment
+)
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_true_output_path(*_):
-    template = 'template/1.0.0'
-    output_path = '/out/directory'
-    expected_result = 'generated data'
+    template = "template/1.0.0"
+    output_path = "/out/directory"
+    expected_result = "generated data"
 
     config_data, tuned_profile = fake_load_tuned_profile_no_defaults()
     yacfg.yacfg.generate_outputs.return_value = expected_result
@@ -218,16 +220,17 @@ def test_true_output_path(*_):
     yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('yacfg.yacfg.get_template_environment',
-            side_effect=fake_template_environment)
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch(
+    "yacfg.yacfg.get_template_environment", side_effect=fake_template_environment
+)
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_true_template(*_):
-    template = 'template/1.0.0'
-    expected_result = 'generated data'
+    template = "template/1.0.0"
+    expected_result = "generated data"
 
     config_data, _ = fake_load_tuned_profile_no_defaults()
     yacfg.yacfg.generate_outputs.return_value = expected_result
@@ -253,15 +256,16 @@ def test_true_template(*_):
     yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('yacfg.yacfg.get_template_environment',
-            side_effect=fake_template_environment)
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch(
+    "yacfg.yacfg.get_template_environment", side_effect=fake_template_environment
+)
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_true_profile_template(*_):
-    expected_result = 'generated data'
+    expected_result = "generated data"
 
     config_data, _ = fake_load_tuned_profile_w_template()
     yacfg.yacfg.generate_outputs.return_value = expected_result
@@ -284,12 +288,12 @@ def test_true_profile_template(*_):
     yacfg.yacfg.generate_outputs.assert_called()
 
 
-@mock.patch('yacfg.yacfg.get_template_environment', mock.Mock())
-@mock.patch('yacfg.yacfg.get_main_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.filter_template_list', mock.Mock())
-@mock.patch('yacfg.yacfg.ensure_output_path', mock.Mock())
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
-@mock.patch('yacfg.yacfg.generate_outputs', mock.Mock())
+@mock.patch("yacfg.yacfg.get_template_environment", mock.Mock())
+@mock.patch("yacfg.yacfg.get_main_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.filter_template_list", mock.Mock())
+@mock.patch("yacfg.yacfg.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
+@mock.patch("yacfg.yacfg.generate_outputs", mock.Mock())
 def test_no_template_exception(*_):
     config_data, _ = fake_load_tuned_profile_no_defaults()
 

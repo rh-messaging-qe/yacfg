@@ -21,18 +21,17 @@ from yacfg.profiles import get_profile_template
 from ..files.fakes import fake_select_profile_file, fake_profiles_path
 
 
-@mock.patch('yacfg.profiles.select_profile_file',
-            side_effect=fake_select_profile_file)
-@mock.patch('os.path.isdir', side_effect=(True,))
-@mock.patch('yacfg.profiles.get_profiles_path',
-            side_effect=fake_profiles_path)
-@mock.patch('yacfg.profiles.FileSystemLoader', mock.Mock())
-@mock.patch('yacfg.profiles.Environment', mock.Mock())
+@mock.patch("yacfg.profiles.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("os.path.isdir", side_effect=(True,))
+@mock.patch("yacfg.profiles.get_profiles_path", side_effect=fake_profiles_path)
+@mock.patch("yacfg.profiles.FileSystemLoader", mock.Mock())
+@mock.patch("yacfg.profiles.Environment", mock.Mock())
 def test_true(*_):
-    profile_name = 'profile.yaml'
-    expected_template = 'my_template'
-    expected_selected_name, expected_selected_path = \
-        fake_select_profile_file(profile_name)
+    profile_name = "profile.yaml"
+    expected_template = "my_template"
+    expected_selected_name, expected_selected_path = fake_select_profile_file(
+        profile_name
+    )
 
     fake_env = mock.Mock()
     yacfg.profiles.Environment.return_value = fake_env
@@ -44,23 +43,20 @@ def test_true(*_):
     # noinspection PyUnresolvedReferences
     yacfg.profiles.select_profile_file.assert_called_with(profile_name)
     # noinspection PyUnresolvedReferences
-    yacfg.profiles.FileSystemLoader.assert_called_with([
-        expected_selected_path,
-        fake_profiles_path()
-    ])
+    yacfg.profiles.FileSystemLoader.assert_called_with(
+        [expected_selected_path, fake_profiles_path()]
+    )
     fake_env.get_template.assert_called_with(expected_selected_name)
 
 
-@mock.patch('yacfg.profiles.select_profile_file',
-            side_effect=fake_select_profile_file)
-@mock.patch('os.path.isdir', side_effect=(False,))
-@mock.patch('yacfg.profiles.get_profiles_path',
-            side_effect=fake_profiles_path)
-@mock.patch('yacfg.profiles.FileSystemLoader', mock.Mock())
-@mock.patch('yacfg.profiles.Environment', mock.Mock())
+@mock.patch("yacfg.profiles.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("os.path.isdir", side_effect=(False,))
+@mock.patch("yacfg.profiles.get_profiles_path", side_effect=fake_profiles_path)
+@mock.patch("yacfg.profiles.FileSystemLoader", mock.Mock())
+@mock.patch("yacfg.profiles.Environment", mock.Mock())
 def test_bad_profile_exception(*_):
-    profile_name = 'bad_profile.yaml'
-    expected_template = 'my_template'
+    profile_name = "bad_profile.yaml"
+    expected_template = "my_template"
 
     fake_env = mock.Mock()
     yacfg.profiles.Environment.return_value = fake_env

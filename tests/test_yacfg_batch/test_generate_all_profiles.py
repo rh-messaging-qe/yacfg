@@ -16,53 +16,41 @@ import mock
 import pytest
 
 import yacfg
-from yacfg_batch.yacfg_batch import generate_all_profiles, GenerateData
 from yacfg_batch.exceptions import YacfgBatchException
+from yacfg_batch.yacfg_batch import generate_all_profiles, GenerateData
 
 
-@mock.patch('yacfg.yacfg.generate', mock.Mock())
+@mock.patch("yacfg.yacfg.generate", mock.Mock())
 def test_no_profile_name(*_):
-    input_path = ''
-    output_path = ''
+    input_path = ""
+    output_path = ""
     default = GenerateData()
     common = GenerateData()
-    profile_file_data = {
-        'service': {'pass': True}
-    }
+    profile_file_data = {"service": {"pass": True}}
 
     with pytest.raises(YacfgBatchException):
         generate_all_profiles(
-            input_path,
-            output_path,
-            default,
-            common,
-            profile_file_data
+            input_path, output_path, default, common, profile_file_data
         )
 
 
-@mock.patch('yacfg.yacfg.generate', mock.Mock())
+@mock.patch("yacfg.yacfg.generate", mock.Mock())
 def test_basic(*_):
-    input_path = ''
-    output_path = ''
+    input_path = ""
+    output_path = ""
     default = GenerateData()
     common = GenerateData()
     profile_file_data = {
-        'service': {
-            'profile': 'test',
+        "service": {
+            "profile": "test",
         }
     }
 
-    generate_all_profiles(
-        input_path,
-        output_path,
-        default,
-        common,
-        profile_file_data
-    )
+    generate_all_profiles(input_path, output_path, default, common, profile_file_data)
 
     # noinspection PyUnresolvedReferences
     yacfg.yacfg.generate.assert_called_with(
-        profile='test',
+        profile="test",
         template=None,
         output_path=None,
         tuning_files_list=None,
@@ -70,48 +58,49 @@ def test_basic(*_):
     )
 
 
-@mock.patch('yacfg.yacfg.generate', mock.Mock())
+@mock.patch("yacfg.yacfg.generate", mock.Mock())
 def test_advanced(*_):
-    input_path = ''
-    output_path = 'test'
+    input_path = ""
+    output_path = "test"
     default = GenerateData()
-    default.profile_name = 'test2'
+    default.profile_name = "test2"
     common = GenerateData()
     profile_file_data = {
-        '_default': {
-            'profile': 'test2',
+        "_default": {
+            "profile": "test2",
         },
-        'service': {
-            'profile': 'test',
+        "service": {
+            "profile": "test",
         },
-        'service2': {
-            'tuning_files': ['a']
-        },
-        'service3': {
-            'template': 'My Template',
-            'tuning': {
-                'a': 1
-            }
-        }
+        "service2": {"tuning_files": ["a"]},
+        "service3": {"template": "My Template", "tuning": {"a": 1}},
     }
 
-    generate_all_profiles(
-        input_path,
-        output_path,
-        default,
-        common,
-        profile_file_data
-    )
+    generate_all_profiles(input_path, output_path, default, common, profile_file_data)
     import os
 
     calls = [
-        mock.call(profile='test', template=None, output_path=os.path.join('test','service'),
-                  tuning_files_list=None, tuning_data_list=None),
-        mock.call(profile='test2', template=None, output_path=os.path.join('test','service2'),
-                  tuning_files_list=['a'], tuning_data_list=None),
-        mock.call(profile='test2', template='My Template',
-                  output_path=os.path.join('test','service3'), tuning_files_list=None,
-                  tuning_data_list=[{'a': 1}]),
+        mock.call(
+            profile="test",
+            template=None,
+            output_path=os.path.join("test", "service"),
+            tuning_files_list=None,
+            tuning_data_list=None,
+        ),
+        mock.call(
+            profile="test2",
+            template=None,
+            output_path=os.path.join("test", "service2"),
+            tuning_files_list=["a"],
+            tuning_data_list=None,
+        ),
+        mock.call(
+            profile="test2",
+            template="My Template",
+            output_path=os.path.join("test", "service3"),
+            tuning_files_list=None,
+            tuning_data_list=[{"a": 1}],
+        ),
     ]
 
     # noinspection PyUnresolvedReferences

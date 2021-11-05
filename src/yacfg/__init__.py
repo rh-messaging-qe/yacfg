@@ -18,8 +18,8 @@ except ImportError:
     import importlib_metadata as metadata  # type: ignore
 
 try:
-    __version__ = metadata.version('yacfg')
+    __version__ = metadata.version("yacfg")
 except metadata.PackageNotFoundError:
-    __version__ = 'devel'
+    __version__ = "devel"
 
 from .yacfg import generate  # noqa: F401

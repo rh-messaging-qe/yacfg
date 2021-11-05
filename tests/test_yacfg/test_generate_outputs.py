@@ -17,54 +17,47 @@ import mock
 import pytest
 
 import yacfg.yacfg
-from yacfg.yacfg import generate_outputs
 from yacfg.exceptions import GenerationError
+from yacfg.yacfg import generate_outputs
 
 
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
 def test_one_true_no_output(*_):
     config_data = {}
     template_list = [
-        'broker.xml.jinja2',
+        "broker.xml.jinja2",
     ]
 
-    expected_result_data = {
-        'broker.xml': 'Rendered data'
-    }
+    expected_result_data = {"broker.xml": "Rendered data"}
 
     env = mock.Mock()
     template = mock.Mock()
     env.get_template.return_value = template
-    template.render.return_value = 'Rendered data'
+    template.render.return_value = "Rendered data"
 
     # noinspection PyTypeChecker
     result = generate_outputs(
-        config_data=config_data,
-        template_list=template_list,
-        env=env,
-        output_path=None
+        config_data=config_data, template_list=template_list, env=env, output_path=None
     )
 
     assert expected_result_data == result
 
-    env.get_template.assert_called_with('broker.xml.jinja2')
+    env.get_template.assert_called_with("broker.xml.jinja2")
     template.render.assert_called()
     # noinspection PyUnresolvedReferences
     yacfg.yacfg.write_output.assert_not_called()
 
 
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
 def test_one_true_output(*_):
     config_data = {}
-    output_file = 'broker.xml'
-    output_path = '/output/directory'
-    expected_output_data = 'Rendered data'
+    output_file = "broker.xml"
+    output_path = "/output/directory"
+    expected_output_data = "Rendered data"
     template_list = [
-        '%s.jinja2' % output_file,
+        "%s.jinja2" % output_file,
     ]
-    expected_result_data = {
-        output_file: 'Rendered data'
-    }
+    expected_result_data = {output_file: "Rendered data"}
 
     env = mock.Mock()
     template = mock.Mock()
@@ -76,25 +69,26 @@ def test_one_true_output(*_):
         config_data=config_data,
         template_list=template_list,
         env=env,
-        output_path=output_path
+        output_path=output_path,
     )
 
     assert expected_result_data == result
 
-    env.get_template.assert_called_with('broker.xml.jinja2')
+    env.get_template.assert_called_with("broker.xml.jinja2")
     template.render.assert_called()
     # noinspection PyUnresolvedReferences
-    yacfg.yacfg.write_output.assert_called_with(output_file, output_path,
-                                                expected_output_data)
+    yacfg.yacfg.write_output.assert_called_with(
+        output_file, output_path, expected_output_data
+    )
 
 
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
 def test_one_exception_render(*_):
     config_data = {}
-    output_file = 'broker.xml'
-    output_path = '/output/directory'
+    output_file = "broker.xml"
+    output_path = "/output/directory"
     template_list = [
-        '%s.jinja2' % output_file,
+        "%s.jinja2" % output_file,
     ]
 
     env = mock.Mock()
@@ -108,22 +102,22 @@ def test_one_exception_render(*_):
             config_data=config_data,
             template_list=template_list,
             env=env,
-            output_path=output_path
+            output_path=output_path,
         )
 
-    env.get_template.assert_called_with('broker.xml.jinja2')
+    env.get_template.assert_called_with("broker.xml.jinja2")
     template.render.assert_called()
     # noinspection PyUnresolvedReferences
     yacfg.yacfg.write_output.assert_not_called()
 
 
-@mock.patch('yacfg.yacfg.write_output', mock.Mock())
+@mock.patch("yacfg.yacfg.write_output", mock.Mock())
 def test_one_exception_template(*_):
     config_data = {}
-    output_file = 'broker.xml'
-    output_path = '/output/directory'
+    output_file = "broker.xml"
+    output_path = "/output/directory"
     template_list = [
-        '%s.jinja2' % output_file,
+        "%s.jinja2" % output_file,
     ]
 
     env = mock.Mock()
@@ -135,9 +129,9 @@ def test_one_exception_template(*_):
             config_data=config_data,
             template_list=template_list,
             env=env,
-            output_path=output_path
+            output_path=output_path,
         )
 
-    env.get_template.assert_called_with('broker.xml.jinja2')
+    env.get_template.assert_called_with("broker.xml.jinja2")
     # noinspection PyUnresolvedReferences
     yacfg.yacfg.write_output.assert_not_called()

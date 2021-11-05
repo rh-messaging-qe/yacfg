@@ -17,26 +17,25 @@ import pytest
 from yacfg.query import filter_template_list
 
 basic_template_list = [
-    'a.xml',
-    'a.txt',
-    'b.xml',
-    'b.txt',
-    'c.xml',
-    'c.properties',
+    "a.xml",
+    "a.txt",
+    "b.xml",
+    "b.txt",
+    "c.xml",
+    "c.properties",
 ]
 
 dataset_filter_basic = (
-    ([''], basic_template_list),
-    (['a.*'], ['a.xml', 'a.txt']),
-    (['b.*'], ['b.xml', 'b.txt']),
-    (['.*xml'], ['a.xml', 'b.xml', 'c.xml']),
-    (['.*xml', '.*txt'], ['a.xml', 'a.txt', 'b.xml', 'b.txt', 'c.xml']),
-    (['xxx'], []),
+    ([""], basic_template_list),
+    (["a.*"], ["a.xml", "a.txt"]),
+    (["b.*"], ["b.xml", "b.txt"]),
+    ([".*xml"], ["a.xml", "b.xml", "c.xml"]),
+    ([".*xml", ".*txt"], ["a.xml", "a.txt", "b.xml", "b.txt", "c.xml"]),
+    (["xxx"], []),
 )
 
 
-@pytest.mark.parametrize('output_filter,expected_result', dataset_filter_basic)
+@pytest.mark.parametrize("output_filter,expected_result", dataset_filter_basic)
 def test_filter_basic(output_filter, expected_result):
-    result = filter_template_list(basic_template_list,
-                                  output_filter=output_filter)
+    result = filter_template_list(basic_template_list, output_filter=output_filter)
     assert result == expected_result

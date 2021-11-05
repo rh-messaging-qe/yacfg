@@ -24,71 +24,69 @@ def fake_walk_templates_basic(*_):
     prefix_path = fake_templates_path()
     return [
         (
-            os.path.join(prefix_path, 'a'),
-            ['modules'],
-            ['broker.xml.jinja2', '_template']
+            os.path.join(prefix_path, "a"),
+            ["modules"],
+            ["broker.xml.jinja2", "_template"],
+        ),
+        (os.path.join(prefix_path, "a/modules"), ["broker_xml"], ["add-on.jinja2"]),
+        (os.path.join(prefix_path, "a/modules/broker_xml"), [], ["queues.jinja2"]),
+        (os.path.join(prefix_path, "b"), ["1.0.0"], []),
+        (
+            os.path.join(prefix_path, "b/1.0.0"),
+            ["modules"],
+            [
+                "management.xml.jinja2",
+                "artemis-roles.properties.jinja2",
+                "broker.xml.jinja2",
+                "artemis.profile.jinja2",
+                "bootstrap.xml.jinja2",
+                "jolokia-access.xml.jinja2",
+                "artemis-users.properties.jinja2",
+                "logging.properties.jinja2",
+                "login.config.jinja2",
+                "_template",
+            ],
+        ),
+        (os.path.join(prefix_path, "b/1.0.0/modules"), [], ["broker_xml.jinja2"]),
+        (
+            os.path.join(prefix_path, "not_a_template"),
+            ["a"],
+            [
+                "acceptors.jinja2",
+                "store.jinja2",
+                "cluster_connections.jinja2",
+                "security_settings.jinja2",
+                "journal.jinja2",
+                "broadcast_group.jinja2",
+                "discovery_group.jinja2",
+                "cluster.jinja2",
+                "addresses.jinja2",
+                "critical_analyzer.jinja2",
+                "grouping_handler.jinja2",
+                "ha_policy.jinja2",
+                "duplicate_cache.jinja2",
+                "queue.jinja2",
+                "broker_plugins.jinja2",
+                "wildcards_addresses.jinja2",
+                "address_settings.jinja2",
+                "connectors.jinja2",
+            ],
         ),
         (
-            os.path.join(prefix_path, 'a/modules'),
-            ['broker_xml'],
-            ['add-on.jinja2']
+            os.path.join(prefix_path, "not_a_template/a"),
+            ["x"],
+            ["security_setting.jinja2", "security_setting_plugin.jinja2"],
         ),
-        (
-            os.path.join(prefix_path, 'a/modules/broker_xml'),
-            [],
-            ['queues.jinja2']
-        ),
-        (
-            os.path.join(prefix_path, 'b'),
-            ['1.0.0'], []
-        ),
-        (
-            os.path.join(prefix_path, 'b/1.0.0'),
-            ['modules'],
-            ['management.xml.jinja2', 'artemis-roles.properties.jinja2',
-             'broker.xml.jinja2', 'artemis.profile.jinja2',
-             'bootstrap.xml.jinja2', 'jolokia-access.xml.jinja2',
-             'artemis-users.properties.jinja2',
-             'logging.properties.jinja2',
-             'login.config.jinja2', '_template']
-        ),
-        (
-            os.path.join(prefix_path, 'b/1.0.0/modules'),
-            [], ['broker_xml.jinja2']
-        ),
-        (
-            os.path.join(prefix_path, 'not_a_template'),
-            ['a'],
-            ['acceptors.jinja2', 'store.jinja2',
-             'cluster_connections.jinja2',
-             'security_settings.jinja2', 'journal.jinja2',
-             'broadcast_group.jinja2', 'discovery_group.jinja2',
-             'cluster.jinja2', 'addresses.jinja2',
-             'critical_analyzer.jinja2',
-             'grouping_handler.jinja2', 'ha_policy.jinja2',
-             'duplicate_cache.jinja2', 'queue.jinja2',
-             'broker_plugins.jinja2',
-             'wildcards_addresses.jinja2', 'address_settings.jinja2',
-             'connectors.jinja2']),
-        (
-            os.path.join(prefix_path, 'not_a_template/a'),
-            ['x'],
-            ['security_setting.jinja2', 'security_setting_plugin.jinja2']
-        ),
-        (
-            os.path.join(prefix_path, 'not_a_template/a/x'),
-            [],
-            ['jdbc.jinja2']
-        ),
+        (os.path.join(prefix_path, "not_a_template/a/x"), [], ["jdbc.jinja2"]),
     ]
 
 
-@mock.patch('yacfg.query.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.walk', side_effect=fake_walk_templates_basic)
+@mock.patch("yacfg.query.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("os.walk", side_effect=fake_walk_templates_basic)
 def test_true(*_):
     expected = [
-        'a',
-        'b/1.0.0',
+        "a",
+        "b/1.0.0",
     ]
 
     result = list_templates()
@@ -99,34 +97,40 @@ def fake_walk_templates_not_a_template(*_):
     prefix_path = fake_templates_path()
     return [
         (
-            os.path.join(prefix_path, 'not_a_template'),
-            ['a'],
-            ['acceptors.jinja2', 'store.jinja2',
-             'cluster_connections.jinja2',
-             'security_settings.jinja2', 'journal.jinja2',
-             'broadcast_group.jinja2', 'discovery_group.jinja2',
-             'cluster.jinja2', 'addresses.jinja2',
-             'critical_analyzer.jinja2',
-             'grouping_handler.jinja2', 'ha_policy.jinja2',
-             'duplicate_cache.jinja2', 'queue.jinja2',
-             'broker_plugins.jinja2',
-             'wildcards_addresses.jinja2', 'address_settings.jinja2',
-             'connectors.jinja2']),
-        (
-            os.path.join(prefix_path, 'not_a_template/a'),
-            ['x'],
-            ['security_setting.jinja2', 'security_setting_plugin.jinja2']
+            os.path.join(prefix_path, "not_a_template"),
+            ["a"],
+            [
+                "acceptors.jinja2",
+                "store.jinja2",
+                "cluster_connections.jinja2",
+                "security_settings.jinja2",
+                "journal.jinja2",
+                "broadcast_group.jinja2",
+                "discovery_group.jinja2",
+                "cluster.jinja2",
+                "addresses.jinja2",
+                "critical_analyzer.jinja2",
+                "grouping_handler.jinja2",
+                "ha_policy.jinja2",
+                "duplicate_cache.jinja2",
+                "queue.jinja2",
+                "broker_plugins.jinja2",
+                "wildcards_addresses.jinja2",
+                "address_settings.jinja2",
+                "connectors.jinja2",
+            ],
         ),
         (
-            os.path.join(prefix_path, 'not_a_template/a/x'),
-            [],
-            ['jdbc.jinja2']
+            os.path.join(prefix_path, "not_a_template/a"),
+            ["x"],
+            ["security_setting.jinja2", "security_setting_plugin.jinja2"],
         ),
+        (os.path.join(prefix_path, "not_a_template/a/x"), [], ["jdbc.jinja2"]),
     ]
 
 
-@mock.patch('yacfg.query.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.walk', side_effect=fake_walk_templates_not_a_template)
+@mock.patch("yacfg.query.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("os.walk", side_effect=fake_walk_templates_not_a_template)
 def test_not_a_template(*_):
     expected = []
 
@@ -134,8 +138,8 @@ def test_not_a_template(*_):
     assert result == expected
 
 
-@mock.patch('yacfg.query.get_templates_path', side_effect=fake_templates_path)
-@mock.patch('os.walk', side_effect=((),))
+@mock.patch("yacfg.query.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("os.walk", side_effect=((),))
 def test_empty(*_):
     expected = []
 

@@ -18,35 +18,34 @@ import mock
 import pytest
 
 import yacfg.output
-
 from yacfg.output import write_output
 
 
-@mock.patch('yacfg.output.open', mock.MagicMock())
+@mock.patch("yacfg.output.open", mock.MagicMock())
 def test_true(*_):
-    file_name = 'my_output.txt'
-    file_path = '/output/path'
+    file_name = "my_output.txt"
+    file_path = "/output/path"
     file_pathname = os.path.join(file_path, file_name)
 
-    data = 'output data'
+    data = "output data"
 
     write_output(file_name, file_path, data)
     # noinspection PyUnresolvedReferences
-    yacfg.output.open.assert_called_with(file_pathname, 'w')
+    yacfg.output.open.assert_called_with(file_pathname, "w")
     # noinspection PyUnresolvedReferences
     fh = yacfg.output.open.return_value.__enter__.return_value
     fh.write.assert_has_calls([mock.call(data)])
 
 
-@mock.patch('yacfg.output.open', side_effect=IOError)
+@mock.patch("yacfg.output.open", side_effect=IOError)
 def test_bad_filename(*_):
-    file_name = 'my_output.txt'
-    file_path = '/bad/output/path'
+    file_name = "my_output.txt"
+    file_path = "/bad/output/path"
     file_pathname = os.path.join(file_path, file_name)
 
-    data = 'output data'
+    data = "output data"
 
     with pytest.raises(IOError):
         write_output(file_name, file_path, data)
     # noinspection PyUnresolvedReferences
-    yacfg.output.open.assert_called_with(file_pathname, 'w')
+    yacfg.output.open.assert_called_with(file_pathname, "w")
