@@ -1,14 +1,14 @@
 # yacfg - YAML Configurator
 
-This tool can generate a set of configuration files mainly needed for
-AMQ Broker, but it is not limited to only generating files for one product.
+This tool can generate a set of configuration files mainly created for
+ActiveMQ Artemis, but it is not limited to only generating configuration files.
 
 It has a user facing Command Line Tool for quick and easy command line usage.
 Furthermore, it is possible to use its API in your python code.
 
 ## Getting started
 
-* Python 3.5+
+* Python 3.7+
 * Python Poetry
 
 ### From git
@@ -31,11 +31,20 @@ yacfg --help
 ```bash
 yacfg --help
 
+# Set path for profiles and templates
+# For example the ActiveMQ Artemis template and profiles
+git clone https://github.com/rh-messaging-qe/yacfg_artemis.git ./yacfg_artemis
+
+# Currently is needed to setup profiles and templates paths as environment variables
+export YACFG_PROFILES=./yacfg_artemis/profiles
+export YACFG_TEMPLATES=./yacfg_artemis/templates
+
 yacfg --list-profiles
 yacfg --list-templates
 
 # perform a generation of a default profile
-yacfg --profile artemis/2.5.0/default.yaml.jinja2
+yacfg --profile artemis/default.yaml.jinja2
+
 # also save result to [OUTDIR] directory
 yacfg --profile [PROFILE] --output [OUTDIR]
 ```
@@ -84,8 +93,8 @@ yacfg --profile my_new_profile.yaml
 ```
 
 Profile is just another jinja2 file that enables customization of profile data
- -- that is tuning. Becuase of that we recommend to keep the extension `.yaml.jinja2`
- unless it is static profile withou any jinja2 capabilities, in that case it could
+ -- that is tuning. Because of that we recommend keeping the extension `.yaml.jinja2`
+ unless it is static profile without any jinja2 capabilities, in that case it could
  be named `.yaml`. That way we can run yaml lint against static profiles and verify
  that they are correct.
 
@@ -100,7 +109,7 @@ or more correctly a template set is a directory containing a set of main
 templates that subsequently generate_via_tuning_files a new file.
 
 Of course feel free to write your own templates. Especially when you need to
-generate_via_tuning_files files for something that is not packaged.
+generate_via_tuning_files for something that is not packaged.
 
 Just remember for a template set to be identified the directory must contain
 a file named '_template' and then main templates ending with '.jinja2'.
@@ -136,15 +145,15 @@ import yacfg
 # generating only broker.xml config using default values from profile,
 # no tuning, writing output to a target path
 yacfg.generate(
-    profile='artemis/2.5.0/default.yaml.jinja2',
+    profile='artemis/default.yaml.jinja2',
     output_filter=['broker.xml'],
-    output_path='/opt/artemis-2.5.0-i0/etc/',
+    output_path='/opt/artemis-i0/etc/',
 )
 
 # using both files and direct values, and writing generated configs to
 # a target directory
 yacfg.generate(
-    profile='artemis/2.5.0/default.yaml.jinja2',
+    profile='artemis/default.yaml.jinja2',
     tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',
@@ -155,12 +164,12 @@ yacfg.generate(
         {'address': '10.0.0.1'},
         {'LOG_LEVEL': 'debug'},
     ],
-    output_path='/opt/artemis-2.5.0-i0/etc/',
+    output_path='/opt/artemis-i0/etc/',
 )
 
 # just get generated data for further processing, using just tuning files
 data = yacfg.generate(
-    profile='artemis/2.5.0/default.yaml.jinja2',
+    profile='artemis/default.yaml.jinja2',
     tuning_files_list=[
         'my_values.yaml',
         'machine_specific.yaml',
@@ -174,7 +183,7 @@ print(data['broker.xml'])
 
 In case you have multiple services to configure in your environment,
 that you probably will have at some point, there is a tool for that
-as well. The tool is called yacfg-batch. It has only yaml input and
+as well. The tool is called yacfg-batch. It has only yaml input, and
 it uses yacfg to generate configurations as you are already used to.
 
 Input yaml file defines all services you need to generate, what
@@ -203,11 +212,11 @@ Every section has 4 values: `profile`, `template`, `tuning_files`,
  dict.update() and it will work only on first level, so it is recommended
  to use flat values for tuning only.
 
-Example:
+#### Example
 ```yaml
 
 _default:
-    profile: artemis/2.5.0/default.yaml.jinja2
+    profile: artemis/default.yaml.jinja2
     tuning_files:
       - defaults/broker_default.yaml
 
@@ -222,16 +231,16 @@ brokerA/opt/artemis/etc:
     pass: true
 
 brokerB/opt/artemis/etc:
-    profile: artemis/2.5.0/AIOBasic.yaml.jinja2
+    profile: artemis/AIOBasic.yaml.jinja2
     tuning_files:
       - brokerB/queues.yaml
 
 ---
 
 _default:
-    profile: amq_broker/7.2.0/default.yaml.jinja2
+    profile: artemis/default.yaml.jinja2
     tuning_files:
-      - defaults/amq_broker_default.yaml
+      - defaults/broker_default.yaml
 
 brokerC/opt/amq/etc:
     tuning:
@@ -243,7 +252,7 @@ As you can see, `yacfg-batch` supports multiple sections, in single
 batch profile file, that allows you to generate multiple groups using
 separated `_default` and `_common` sections for that.
 
-### executing batch
+#### Executing batch
 
 When you have defined all tuning files you need, and in the root of this
 batch configuration you have your batch profile file, you can now simply

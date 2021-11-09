@@ -18,8 +18,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["Ubuntu", "Windows", "Macos"]
-        python-version: ["3.8", "3.9"]
+        os: ["Ubuntu", "Windows"]
+        python-version: ["3.7", "3.8", "3.9"]
     runs-on: "${{ matrix.os }}-latest"
     steps:
 
@@ -36,8 +36,7 @@ jobs:
         run: |
           python -VV
           python -m site
-          python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade coverage[toml] tox tox-gh-actions
+          python -m pip install --upgrade pip setuptools wheel coverage[toml] tox tox-gh-actions
           poetry install
 
 #      - name: "Configure poetry"
