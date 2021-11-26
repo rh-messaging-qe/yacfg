@@ -1866,7 +1866,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-jinja2"
-version = "2.11.8"
+version = "2.11.9"
 description = "Typing stubs for Jinja2"
 category = "dev"
 optional = false
@@ -2012,7 +2012,7 @@ color_log = ["colorama", "colorlog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "02f8b46e7f9e4af2c57899975642126df3acc2d5e391094a80da2c4a647f1921"
+content-hash = "7e03ec1f0c710c3e342843a292e5edc48c224ec7572ce87321450a7b96c89dc1"
 
 [metadata.files]
 alabaster = [
@@ -3084,8 +3084,8 @@ typed-ast = [
     {file = "typed_ast-1.4.3.tar.gz", hash = "sha256:fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65"},
 ]
 types-jinja2 = [
-    {file = "types-Jinja2-2.11.8.tar.gz", hash = "sha256:8331174ba46bc4570b65edc5c6828bb0aec8a93b1e487fc5e878aad5e373ae21"},
-    {file = "types_Jinja2-2.11.8-py3-none-any.whl", hash = "sha256:f80f29dbf8fec4a3c0f3ee1c9504235757232e739881325a78c14858814012a4"},
+    {file = "types-Jinja2-2.11.9.tar.gz", hash = "sha256:dbdc74a40aba7aed520b7e4d89e8f0fe4286518494208b35123bcf084d4b8c81"},
+    {file = "types_Jinja2-2.11.9-py3-none-any.whl", hash = "sha256:60a1e21e8296979db32f9374d8a239af4cb541ff66447bb915d8ad398f9c63b2"},
 ]
 types-markupsafe = [
     {file = "types-MarkupSafe-1.1.8.tar.gz", hash = "sha256:b2940f4faab46be0f9509b2f98ea9ff36d058f89fa113d98ae07cdc7958ec15f"},
