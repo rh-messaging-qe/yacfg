@@ -63,7 +63,7 @@ importlib-metadata = { version = "<4.8.1", python = "<3.8" }
 pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
 flake8 = "^4.0.1"
-mypy = "^0.930"
+mypy = "^0.931"
 mock = "^4.0.3"
 tox = "^3.24.5"
 coverage = "^6.2"
