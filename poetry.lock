@@ -1876,7 +1876,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.3"
+version = "6.0.7"
 description = "Typing stubs for PyYAML"
 category = "dev"
 optional = false
@@ -2003,7 +2003,7 @@ color_log = ["colorama", "colorlog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "96df4e290b7a7fe99efff1a6408fbd0e49909cdacc0ea2cf44ae3a03f4d2923b"
+content-hash = "c565ef4ba28a3ed116b99f6a0a529b7627c8d43f0810791df9394c7d24696845"
 
 [metadata.files]
 alabaster = [
@@ -3034,8 +3034,8 @@ types-markupsafe = [
     {file = "types_MarkupSafe-1.1.8-py3-none-any.whl", hash = "sha256:08ca3cf19abab0476a1efe4a82af6d21471573e08c1e5e065e26aa78a1b552ad"},
 ]
 types-pyyaml = [
-    {file = "types-PyYAML-6.0.3.tar.gz", hash = "sha256:6ea4eefa8579e0ce022f785a62de2bcd647fad4a81df5cf946fd67e4b059920b"},
-    {file = "types_PyYAML-6.0.3-py3-none-any.whl", hash = "sha256:8b50294b55a9db89498cdc5a65b1b4545112b6cd1cf4465bd693d828b0282a17"},
+    {file = "types-PyYAML-6.0.7.tar.gz", hash = "sha256:59480cf44595d836aaae050f35e3c39f197f3a833679ef3978d97aa9f2fb7def"},
+    {file = "types_PyYAML-6.0.7-py3-none-any.whl", hash = "sha256:7b273a34f32af9910cf9405728c9d2ad3afc4be63e4048091a1a73d76681fe67"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.2-py2-none-any.whl", hash = "sha256:d8226d10bc02a29bcc81df19a26e56a9647f8b0a6d4a83924139f4a8b01f17b7"},
