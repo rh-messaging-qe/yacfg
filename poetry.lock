@@ -560,37 +560,37 @@ format_nongpl = ["idna", "jsonpointer (>1.13)", "webcolors", "rfc3986-validator 
 
 [[package]]
 name = "jupyter-book"
-version = "0.12.1"
-description = "Jupyter Book: Create an online book with Jupyter Notebooks"
+version = "0.12.3"
+description = "Build a book with Jupyter Notebooks and Sphinx."
 category = "dev"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 
 [package.dependencies]
-click = ">=7.1,<8.0"
+click = ">=7.1,<9"
 docutils = ">=0.15,<0.18"
+Jinja2 = "<3.1"
 jsonschema = "<4"
-jupytext = ">=1.11.2,<1.12"
 linkify-it-py = ">=1.0.1,<1.1.0"
 myst-nb = ">=0.13.1,<0.14.0"
 pyyaml = "*"
 sphinx = ">=3,<5"
-sphinx-book-theme = ">=0.1.4,<0.2.0"
+sphinx_book_theme = ">=0.1.4,<0.2.0"
 sphinx-comments = "*"
 sphinx-copybutton = "*"
 sphinx-external-toc = ">=0.2.3,<0.3.0"
 sphinx-jupyterbook-latex = ">=0.4.6,<0.5.0"
 sphinx-multitoc-numbering = ">=0.1.3,<0.2.0"
 sphinx-panels = ">=0.6.0,<0.7.0"
-sphinx-thebe = ">=0.0.10,<0.1.0"
-sphinx-togglebutton = "*"
-sphinxcontrib-bibtex = ">=2.2.0,<2.3.0"
+sphinx-thebe = ">=0.1.1,<0.2.0"
+sphinx_togglebutton = "*"
+sphinxcontrib-bibtex = ">=2.2.0,<=2.5.0"
 
 [package.extras]
 code_style = ["pre-commit (>=2.12,<3.0)"]
 pdfhtml = ["pyppeteer"]
-sphinx = ["altair", "bokeh", "folium", "ipywidgets", "matplotlib", "nbclient", "numpy", "pandas", "plotly", "sphinx-click", "sphinx-inline-tabs", "sphinxext-rediraffe (>=0.2.3,<0.3.0)", "sympy", "sphinx-proof"]
-testing = ["altair", "beautifulsoup4", "cookiecutter", "coverage", "matplotlib", "pyppeteer", "pytest (>=6.2.4)", "pytest-cov", "pytest-regressions", "pytest-timeout", "pytest-xdist", "sphinx-click", "sphinx-tabs", "texsoup"]
+sphinx = ["altair", "bokeh", "folium", "ipywidgets", "jupytext", "matplotlib", "nbclient", "numpy", "pandas", "plotly", "sphinx-click", "sphinx-inline-tabs", "sphinxext-rediraffe (>=0.2.3,<0.3.0)", "sympy", "sphinx-proof"]
+testing = ["altair", "beautifulsoup4", "beautifulsoup4", "cookiecutter", "coverage", "jupytext", "matplotlib", "pyppeteer", "pytest (>=6.2.4)", "pytest-cov", "pytest-regressions", "pytest-timeout", "pytest-xdist", "sphinx-click", "sphinx-tabs", "texsoup"]
 
 [[package]]
 name = "jupyter-cache"
@@ -721,25 +721,6 @@ description = "A JupyterLab extension."
 category = "dev"
 optional = false
 python-versions = ">=3.6"
-
-[[package]]
-name = "jupytext"
-version = "1.11.5"
-description = "Jupyter notebooks as Markdown documents, Julia, Python or R scripts"
-category = "dev"
-optional = false
-python-versions = "~=3.6"
-
-[package.dependencies]
-markdown-it-py = ">=1.0,<2.0"
-mdit-py-plugins = "*"
-nbformat = "*"
-pyyaml = "*"
-toml = "*"
-
-[package.extras]
-rst2md = ["sphinx-gallery (>=0.7.0,<0.8.0)"]
-toml = ["toml"]
 
 [[package]]
 name = "latexcodec"
@@ -1616,7 +1597,7 @@ themes = ["sphinx-rtd-theme", "pydata-sphinx-theme (>=0.4.0,<0.5.0)", "sphinx-bo
 
 [[package]]
 name = "sphinx-thebe"
-version = "0.0.10"
+version = "0.1.2"
 description = "Integrate interactive code blocks into your documentation with Thebe and Binder."
 category = "dev"
 optional = false
@@ -1626,8 +1607,8 @@ python-versions = "*"
 sphinx = ">=3.5,<5"
 
 [package.extras]
-sphinx = ["myst-parser", "sphinx-book-theme", "jupyter-sphinx", "sphinx-panels"]
-testing = ["pytest", "pytest-regressions", "beautifulsoup4"]
+sphinx = ["matplotlib", "myst-nb", "sphinx-book-theme", "sphinx-copybutton", "sphinx-panels"]
+testing = ["matplotlib", "pytest", "pytest-regressions", "beautifulsoup4"]
 
 [[package]]
 name = "sphinx-togglebutton"
@@ -2003,7 +1984,7 @@ color_log = ["colorama", "colorlog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "96df4e290b7a7fe99efff1a6408fbd0e49909cdacc0ea2cf44ae3a03f4d2923b"
+content-hash = "c68d1deece7abe02e99926c68e443acea591cec5790b9f6585bb47c1f3366aa4"
 
 [metadata.files]
 alabaster = [
@@ -2361,8 +2342,8 @@ jsonschema = [
     {file = "jsonschema-3.2.0.tar.gz", hash = "sha256:c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a"},
 ]
 jupyter-book = [
-    {file = "jupyter-book-0.12.1.tar.gz", hash = "sha256:674d40c1e18c3f3fb02514a9f60898bbdcb9939c72d3f795db02fd4f1d1d3f70"},
-    {file = "jupyter_book-0.12.1-py3-none-any.whl", hash = "sha256:37ca4642df60b1d16b9b54feb89be84e206b04e687a4cc304fda200fa8f4b1ee"},
+    {file = "jupyter-book-0.12.3.tar.gz", hash = "sha256:ed695f29b1d1a0816e1fc0c409755ccb2a15fda36e507b19da69e3bdc4f5c7a8"},
+    {file = "jupyter_book-0.12.3-py3-none-any.whl", hash = "sha256:063ab998ae7dae00ae2992ab986f83253c71385af99faa36c643e6e9f491b27d"},
 ]
 jupyter-cache = [
     {file = "jupyter-cache-0.4.3.tar.gz", hash = "sha256:4c9b5431b1d320bc68440c21fa0a155bbeb29c5b979bef72222e244a7bcd54fc"},
@@ -2395,10 +2376,6 @@ jupyterlab-pygments = [
 jupyterlab-widgets = [
     {file = "jupyterlab_widgets-1.0.2-py3-none-any.whl", hash = "sha256:f5d9efface8ec62941173ba1cffb2edd0ecddc801c11ae2931e30b50492eb8f7"},
     {file = "jupyterlab_widgets-1.0.2.tar.gz", hash = "sha256:7885092b2b96bf189c3a705cc3c412a4472ec5e8382d0b47219a66cccae73cfa"},
-]
-jupytext = [
-    {file = "jupytext-1.11.5-py3-none-any.whl", hash = "sha256:7d9e3a4396a35e4dd5604af8664bec14695fa2634ad1666d1610e27b07a981d7"},
-    {file = "jupytext-1.11.5.tar.gz", hash = "sha256:3fbf2747afca7228d5e82a907cc51937219d2233bc4efbcc9a0974d70d7e8986"},
 ]
 latexcodec = [
     {file = "latexcodec-2.0.1-py2.py3-none-any.whl", hash = "sha256:c277a193638dc7683c4c30f6684e3db728a06efb0dc9cf346db8bd0aa6c5d271"},
@@ -2853,8 +2830,8 @@ sphinx-panels = [
     {file = "sphinx_panels-0.6.0-py3-none-any.whl", hash = "sha256:bd64afaf85c07f8096d21c8247fc6fd757e339d1be97832c8832d6ae5ed2e61d"},
 ]
 sphinx-thebe = [
-    {file = "sphinx-thebe-0.0.10.tar.gz", hash = "sha256:b51ed38e0974c891319aed1554212598597ae12226c7916f2215becc382ae8d7"},
-    {file = "sphinx_thebe-0.0.10-py3-none-any.whl", hash = "sha256:4e349204eab2f059d037be423b93bfe138fa8feceedd5eae7f358f1e82403968"},
+    {file = "sphinx-thebe-0.1.2.tar.gz", hash = "sha256:756f1dd6643f5abb491f8a27b22825b04f47e05c5d214bbb2e6b5d42b621b85e"},
+    {file = "sphinx_thebe-0.1.2-py3-none-any.whl", hash = "sha256:42bb15287bba3459a1faf6081d1bb7a6a426c77a6ba41ac8d3aa98e8f75baa6b"},
 ]
 sphinx-togglebutton = [
     {file = "sphinx-togglebutton-0.2.3.tar.gz", hash = "sha256:41cbe2f87459eade8dc5718bb56146e8e113a05fb97459b90472470f0d357b55"},
