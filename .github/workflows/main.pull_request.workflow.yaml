@@ -71,7 +71,7 @@ jobs:
 #
 #      - name: "Upload coverage artifacts"
 #        if: "contains(env.USING_DOCS, matrix.python-version)"
-#        uses: actions/upload-artifact@v2
+#        uses: actions/upload-artifact@v3
 #        with:
 #          name: coverage
 #          path: .coverage-reports
@@ -81,13 +81,13 @@ jobs:
           poetry build
 
       - name: "Upload dist artifacts"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: package-dist-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}
           path: dist/
 
       - name: "Upload docs artifacts"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: "contains(env.USING_DOCS, matrix.python-version)"
         with:
           name: docs
