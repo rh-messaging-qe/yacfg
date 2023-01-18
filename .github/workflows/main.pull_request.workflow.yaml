@@ -10,15 +10,15 @@ jobs:
   Tests:
     name: "Tests | ${{ matrix.os }} | Python ${{ matrix.python-version }}"
     env:
-      USING_COVERAGE: '3.9'
-      USING_DOCS: '3.9'
-      USING_DIST: '3.9'
+      USING_COVERAGE: '3.11'
+      USING_DOCS: '3.11'
+      USING_DIST: '3.11'
 
     strategy:
       fail-fast: false
       matrix:
         os: ["Ubuntu"]
-        python-version: ["3.7", "3.8", "3.9", "pypy-3.8"]
+        python-version: ["3.11", "pypy-3.9"]
     runs-on: "${{ matrix.os }}-latest"
 
     steps:
