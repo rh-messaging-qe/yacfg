@@ -190,33 +190,39 @@ lxml = ["lxml"]
 
 [[package]]
 name = "black"
-version = "21.12b0"
+version = "23.1a1"
 description = "The uncompromising code formatter."
 category = "dev"
 optional = false
-python-versions = ">=3.6.2"
+python-versions = ">=3.7"
 files = [
-    {file = "black-21.12b0-py3-none-any.whl", hash = "sha256:a615e69ae185e08fdd73e4715e260e2479c861b5740057fde6e8b4e3b7dd589f"},
-    {file = "black-21.12b0.tar.gz", hash = "sha256:77b80f693a569e2e527958459634f18df9b0ba2625ba4e0c2d5da5be42e6f2b3"},
+    {file = "black-23.1a1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5fb7641d442ede92538bc70fa0201f884753a7d0f62f26c722b7b00301b95902"},
+    {file = "black-23.1a1-cp310-cp310-win_amd64.whl", hash = "sha256:88288a645402106b8eb9f50d7340ae741e16240bb01c2eed8466549153daa96e"},
+    {file = "black-23.1a1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4db1d8027ce7ae53f0ccf02b0be0b8808fefb291d6cb1543420f4165d96d364c"},
+    {file = "black-23.1a1-cp311-cp311-win_amd64.whl", hash = "sha256:88ec25a64063945b4591b6378bead544c5d3260de1c93ad96f3ad2d76ddd76fd"},
+    {file = "black-23.1a1-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8dff6f0157e47fbbeada046fca144b6557d3be2fb2602d668881cd179f04a352"},
+    {file = "black-23.1a1-cp37-cp37m-win_amd64.whl", hash = "sha256:ca658b69260a18bf7aa0b0a6562dbbd304a737487d1318998aaca5a75901fd2c"},
+    {file = "black-23.1a1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:85dede655442f5e246e7abd667fe07e14916897ba52f3640b5489bf11f7dbf67"},
+    {file = "black-23.1a1-cp38-cp38-win_amd64.whl", hash = "sha256:ddbf9da228726d46f45c29024263e160d41030a415097254817d65127012d1a2"},
+    {file = "black-23.1a1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:63330069d8ec909cf4e2c4d43a7f00aeb03335430ef9fec6cd2328e6ebde8a77"},
+    {file = "black-23.1a1-cp39-cp39-win_amd64.whl", hash = "sha256:793c9176beb2adf295f6b863d9a4dc953fe2ac359ca3da108d71d14cb2c09e52"},
+    {file = "black-23.1a1-py3-none-any.whl", hash = "sha256:e88e4b633d64b9e7adc4a6b922f52bb204af9f90d7b1e3317e6490f2b598b1ea"},
+    {file = "black-23.1a1.tar.gz", hash = "sha256:0b945a5a1e5a5321f884de0061d5a8585d947c9b608e37b6d26ceee4dfdf4b62"},
 ]
 
 [package.dependencies]
-click = ">=7.1.2"
+click = ">=8.0.0"
 mypy-extensions = ">=0.4.3"
-pathspec = ">=0.9.0,<1"
+pathspec = ">=0.9.0"
 platformdirs = ">=2"
-tomli = ">=0.2.6,<2.0.0"
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 typed-ast = {version = ">=1.4.2", markers = "python_version < \"3.8\" and implementation_name == \"cpython\""}
-typing-extensions = [
-    {version = ">=3.10.0.0", markers = "python_version < \"3.10\""},
-    {version = ">=3.10.0.0,<3.10.0.1 || >3.10.0.1", markers = "python_version >= \"3.10\""},
-]
+typing-extensions = {version = ">=3.10.0.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
 d = ["aiohttp (>=3.7.4)"]
 jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
-python2 = ["typed-ast (>=1.4.3)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
@@ -340,15 +346,19 @@ unicode-backport = ["unicodedata2"]
 
 [[package]]
 name = "click"
-version = "7.1.2"
+version = "8.1.3"
 description = "Composable command line interface toolkit"
 category = "dev"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.7"
 files = [
-    {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
-    {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
+    {file = "click-8.1.3-py3-none-any.whl", hash = "sha256:bb4d8133cb15a609f44e8213d9b391b0809795062913b383c62be0ee95b1db48"},
+    {file = "click-8.1.3.tar.gz", hash = "sha256:7682dc8afb30297001674575ea00d1814d808d6a36af415a82bd481d37ba7b8e"},
 ]
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "colorama"
@@ -2410,19 +2420,19 @@ theme-sbt = ["sphinx-book-theme (>=0.3.0,<0.4.0)"]
 
 [[package]]
 name = "sphinx-external-toc"
-version = "0.2.3"
+version = "0.2.4"
 description = "A sphinx extension that allows the site-map to be defined in a single YAML file."
 category = "dev"
 optional = false
 python-versions = "~=3.6"
 files = [
-    {file = "sphinx_external_toc-0.2.3-py3-none-any.whl", hash = "sha256:1aaab6c49b3950c41b7e6b2301fc765d86545715c0b8b48a22a740bf727e7264"},
-    {file = "sphinx_external_toc-0.2.3.tar.gz", hash = "sha256:22d1d63f74206b388fb4e1d67e0c0d0b4de2ea98a2820f97a03ae3f3141dc525"},
+    {file = "sphinx_external_toc-0.2.4-py3-none-any.whl", hash = "sha256:f7906620e74fbef50f0c3b8adf943da03000ab955ffe957ae4760d6cd5a09717"},
+    {file = "sphinx_external_toc-0.2.4.tar.gz", hash = "sha256:f073c482d959a166f844ca8caadd13e24fa43153750cc120646ded37ff622018"},
 ]
 
 [package.dependencies]
 attrs = ">=20.3,<22"
-click = ">=7.1,<8.0"
+click = ">=7.1,<9"
 pyyaml = "*"
 sphinx = ">=3,<5"
 
@@ -3105,4 +3115,4 @@ color-log = ["colorama", "colorlog"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "20da58e100f065f983ea04e8a3e707df1f9b5c41a8ebc4a1b84db0c93cc5aa8b"
+content-hash = "bf8ca632b09dbf67ee4ed2955d7f60bfe6b720e8023f352435a037f8530731b0"
