@@ -152,10 +152,8 @@ def export_tuning_variables(profile_name, dest_file):
     # export_data = yaml.dump_all([defaults_data], default_flow_style=False)
     export_data = yaml_dump_wrapper(defaults_data)
 
-    LOG.debug("Exported tuning data:\n%s", export_data)
-    export_data = "# {} tuning file generated from profile {}{}{}".format(
-        NAME, profile_name, os.linesep, export_data
-    )
+    LOG.debug(f"Exported tuning data:\n{export_data}")
+    export_data = f"# {NAME} tuning file generated from profile {profile_name}{os.linesep}{export_data}"
     write_output(dest_name, dest_path, export_data)
     LOG.info("Tuning data exported")
 
@@ -174,4 +172,4 @@ def write_output(filename, output_path, data):
     with open(filepath, "w") as fh:
         fh.write(data)
         # fh.write(os.linesep)
-    LOG.debug('File writen "%s"', filepath)
+    LOG.debug(f'File writen {filepath}')

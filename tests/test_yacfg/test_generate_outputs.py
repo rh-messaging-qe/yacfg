@@ -55,7 +55,7 @@ def test_one_true_output(*_):
     output_path = "/output/directory"
     expected_output_data = "Rendered data"
     template_list = [
-        "%s.jinja2" % output_file,
+        f"{output_file}.jinja2",
     ]
     expected_result_data = {output_file: "Rendered data"}
 
@@ -88,7 +88,7 @@ def test_one_exception_render(*_):
     output_file = "broker.xml"
     output_path = "/output/directory"
     template_list = [
-        "%s.jinja2" % output_file,
+        f"{output_file}.jinja2",
     ]
 
     env = mock.Mock()
@@ -117,7 +117,7 @@ def test_one_exception_template(*_):
     output_file = "broker.xml"
     output_path = "/output/directory"
     template_list = [
-        "%s.jinja2" % output_file,
+        f"{output_file}.jinja2",
     ]
 
     env = mock.Mock()
