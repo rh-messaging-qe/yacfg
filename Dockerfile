@@ -1,4 +1,4 @@
-FROM python:3.10.0-alpine3.14 AS base
+FROM python:3.11.1-alpine3.16 AS base
 
 FROM base AS builder
 ENV PYTHONFAULTHANDLER=1 \
@@ -10,7 +10,7 @@ ENV PYTHONFAULTHANDLER=1 \
     POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_CREATE=false \
     PATH="$PATH:/runtime/bin" \
-    PYTHONPATH="$PYTHONPATH:/runtime/lib/python3.9/site-packages"
+    PYTHONPATH="$PYTHONPATH:/runtime/lib/python3.11/site-packages"
 
 RUN apk add --no-cache \
     build-base \
