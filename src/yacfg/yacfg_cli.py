@@ -67,7 +67,7 @@ def main():
         except ValueError as exc:
             error(exc, 2)
 
-    LOG.debug("Direct Tuning options %s", options.opt)
+    LOG.debug(f"Direct Tuning options {options.opt}")
 
     do_not_generate = False
 

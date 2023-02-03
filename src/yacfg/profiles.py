@@ -51,7 +51,7 @@ def load_tuning_files(tuning_files=None):
                 raise ProfileError(
                     'Unable to parse YAML tuning file "{}" {}'.format(tuning_files, exc)
                 )
-            LOG.debug("Tuning file {} loaded", tuning_file)
+            LOG.debug(f"Tuning file {tuning_file} loaded")
     else:
         LOG.debug("No tuning files requested.")
 
@@ -138,7 +138,7 @@ def load_profile_defaults(profile):
     scratch_profile = scratch_profile.render()
     tmp_data = yaml.load(stream=scratch_profile, Loader=yaml.SafeLoader)
     tuning_data = tmp_data.get("_defaults", {})
-    LOG.debug("Tuning data: %s", tuning_data)
+    LOG.debug(f"Tuning data: {tuning_data}")
     return tuning_data
 
 

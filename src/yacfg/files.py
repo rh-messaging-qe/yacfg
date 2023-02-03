@@ -32,7 +32,7 @@ def get_module_path():
     :rtype: str
     """
     module_path = os.path.dirname(__file__)
-    LOG.debug("Module path: %s", module_path)
+    LOG.debug(f"Module path: {module_path}")
     return module_path
 
 
@@ -50,13 +50,13 @@ def get_profiles_path():
     if env_profiles:
         profiles_path = os.path.join(env_profiles)
         LOG.debug(
-            'Using user defined $YACFG_PROFILES profiles path "%s"', profiles_path
+            f'Using user defined $YACFG_PROFILES profiles path {profiles_path}'
         )
 
     else:
         module_path = get_module_path()
         profiles_path = os.path.join(module_path, PROFILES)
-        LOG.debug('Using module profiles path "%s"', profiles_path)
+        LOG.debug(f'Using module profiles path {profiles_path}')
 
     return profiles_path
 
@@ -75,13 +75,13 @@ def get_templates_path():
     if env_templates:
         templates_path = os.path.join(env_templates)
         LOG.debug(
-            'Using user defined $YACFG_TEMPLATES template path "%s"', templates_path
+            f'Using user defined $YACFG_TEMPLATES template path "{templates_path}"'
         )
 
     else:
         module_path = get_module_path()
         templates_path = os.path.join(module_path, TEMPLATES)
-        LOG.debug('Using module templates path "%s"', templates_path)
+        LOG.debug(f'Using module templates path {templates_path}')
 
     return templates_path
 
@@ -107,14 +107,14 @@ def select_profile_file(profile_name):
     user_extra_path = os.path.join(PROFILES, profile_name)
 
     if os.path.isfile(user_extra_path):
-        LOG.debug('User ./profile/ omitting profile "%s"', profile_name)
+        LOG.debug(f'User ./profile/ omitting profile {profile_name}')
         profile_tmp_name = os.path.abspath(user_extra_path)
         selected_profile_path = os.path.dirname(profile_tmp_name)
         selected_profile_name = os.path.basename(profile_tmp_name)
 
     # user direct path
     if os.path.isfile(profile_name):
-        LOG.debug('User direct profile "%s"', profile_name)
+        LOG.debug(f'User direct profile {profile_name}')
         profile_tmp_name = os.path.abspath(profile_name)
         selected_profile_path = os.path.dirname(profile_tmp_name)
         selected_profile_name = os.path.basename(profile_tmp_name)
@@ -122,9 +122,9 @@ def select_profile_file(profile_name):
     complete_path = os.path.join(selected_profile_path, selected_profile_name)
 
     if not os.path.isfile(complete_path):
-        raise ProfileError('Unable to find a requested profile "%s"' % profile_name)
+        raise ProfileError(f'Unable to find a requested profile {profile_name}')
 
-    LOG.debug('Selected profile: "%s"', complete_path)
+    LOG.debug(f'Selected profile: {complete_path}')
     return selected_profile_name, selected_profile_path
 
 
@@ -149,16 +149,16 @@ def select_template_dir(template_name):
 
     if os.path.isdir(user_extra_path):
         selected_template_path = user_extra_path
-        LOG.debug('Using user defined template path "%s"', template_name)
+        LOG.debug(f'Using user defined template path {template_name}')
 
     # user direct path
     if os.path.isdir(template_name):
         selected_template_path = template_name
-        LOG.debug('Using user defined template path "%s"', template_name)
+        LOG.debug(f'Using user defined template path {template_name}')
 
     if not os.path.isdir(selected_template_path):
         raise TemplateError(
-            'Unable to load requested template set "%s"' % template_name
+            f'Unable to load requested template set "{template_name}"'
         )
 
     if not os.path.isfile(os.path.join(selected_template_path, "_template")):
@@ -167,7 +167,7 @@ def select_template_dir(template_name):
             ' "_template" file, so it is not considered a template'
         )
 
-    LOG.debug("Selected template: %s", selected_template_path)
+    LOG.debug(f"Selected template: {selected_template_path}")
     return selected_template_path
 
 
@@ -186,9 +186,9 @@ def ensure_output_path(output_path):
                 % output_path
             )
         os.makedirs(output_path, exist_ok=True)
-        LOG.debug('Created directory "%s"', output_path)
+        LOG.debug(f'Created directory {output_path}')
     else:
-        LOG.debug('Requested directory "%s" exists', output_path)
+        LOG.debug(f'Requested directory {output_path} exists')
 
 
 def get_output_filename(template_name):

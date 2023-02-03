@@ -87,7 +87,7 @@ def generate_core(
     # template
     if template is None:
         template = config_data.get("render", {}).get("template")
-        LOG.debug("Profile specified template: %s", template)
+        LOG.debug(f"Profile specified template: {template}")
     if template is None:
         raise TemplateError("Missing template. User nor profile specifies a template.")
 
@@ -161,7 +161,7 @@ def generate_core(
     if output_filter:
         template_list = filter_template_list(template_list, output_filter)
 
-    LOG.debug("Config data: %s", json.dumps(config_data))
+    LOG.debug(f"Config data: {json.dumps(config_data)}")
 
     if output_path and tuned_profile:
         ensure_output_path(output_path)
@@ -286,7 +286,7 @@ def generate_outputs(config_data, template_list, env, output_path=None):
             template = env.get_template(template_name)
             output_data = template.render(config_data)
         except jinja2.TemplateError as exc:
-            LOG.error('Config file "%s" generation FAILED', out_filename)
+            LOG.error(f'Config file {out_filename} generation FAILED')
             LOG.exception("Original error")
             if not generate_exception:
                 generate_exception = GenerationError(
@@ -294,9 +294,8 @@ def generate_outputs(config_data, template_list, env, output_path=None):
                     "template: %s" % (out_filename, template_name, exc)
                 )
         else:
-            LOG.debug("BEGIN %s\n%s", out_filename, output_data)
-            LOG.debug("END %s" % out_filename)
-            LOG.info('Config file "%s" generation PASSED', out_filename)
+            LOG.debug(f"END {out_filename}")
+            LOG.info(f'Config file {out_filename} generation PASSED')
 
             result_data[out_filename] = output_data
 

@@ -188,7 +188,7 @@ def boolize(data):
         return True
     if REX_BOOL_FALSE.match(data):
         return False
-    raise ValueError('Cannot convert input option "%s" to bool' % data)
+    raise ValueError(f'Cannot convert input option {data} to bool')
 
 
 def split_key_value(item):

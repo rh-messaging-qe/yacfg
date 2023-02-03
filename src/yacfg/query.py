@@ -36,7 +36,7 @@ def filter_template_list(template_list, output_filter):
     template_list = [
         templ for templ in template_list for rex in output_filter if rex.match(templ)
     ]
-    LOG.debug("Filtered template files list: %s", template_list)
+    LOG.debug(f"Filtered template files list: {template_list}")
     return template_list
 
 
@@ -52,7 +52,7 @@ def list_templates():
     """
 
     templates_path = get_templates_path()
-    LOG.debug("Templates path for query: %s", templates_path)
+    LOG.debug(f"Templates path for query: {templates_path}")
 
     result = []
 
@@ -79,7 +79,7 @@ def list_profiles():
     """
 
     profiles_path = get_profiles_path()
-    LOG.debug("Profiles path for query: %s", profiles_path)
+    LOG.debug(f"Profiles path for query: {profiles_path}")
 
     result = []
 
@@ -88,7 +88,7 @@ def list_profiles():
         # skip over underscored paths
         path_levels = prefix_path.split(os.path.sep)
         if any([x.startswith("_") for x in path_levels]):
-            LOG.debug("Skipping underscored: %s", path_levels)
+            LOG.debug(f"Skipping underscored: {path_levels}")
             continue
         # filter only yaml profiles
         tmp_files = [
@@ -126,6 +126,6 @@ def get_main_template_list(env):
 
     templ_list = env.list_templates(filter_func=main_template_filter)
 
-    LOG.debug("Main template files list: %s", templ_list)
+    LOG.debug(f"Main template files list: {templ_list}")
 
     return templ_list

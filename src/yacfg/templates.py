@@ -33,12 +33,12 @@ def get_template_environment(template_name):
     :return: jinja2 environment
     :rtype: Environment
     """
-    LOG.debug("Template name: %s", template_name)
+    LOG.debug(f"Template name: {template_name}")
     templates_path = get_templates_path()
-    LOG.debug("Template path: %s", templates_path)
+    LOG.debug(f"Template path: {templates_path}")
 
     selected_template_path = select_template_dir(template_name)
-    LOG.debug("Selected template path: %s", selected_template_path)
+    LOG.debug(f"Selected template path: {selected_template_path}")
     try:
         env = Environment(
             loader=FileSystemLoader(

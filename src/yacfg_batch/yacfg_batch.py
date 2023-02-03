@@ -79,7 +79,7 @@ def generate(input_files, output_path=None):
     :type output_path: str | None
     """
     for profile_file in input_files:
-        LOG.info("- Profile file: {}".format(profile_file))
+        LOG.info(f"- Profile file: {profile_file}")
         for profile_file_data in iter_gen_profiles(profile_file):
             input_path = os.path.dirname(profile_file)
 
@@ -193,7 +193,7 @@ def generate_all_profiles(input_path, output_path, default, common, profiles_fil
     profile_list = [x for x in profiles_file_data.keys() if not x.startswith("_")]
 
     for profile in profile_list:
-        LOG.info("-- Profile: {}".format(profile))
+        LOG.info(f"-- Profile: {profile}")
 
         profile_data = extract_generate_data(profiles_file_data, profile)
         generate_data = prioritize_generate_data(profile_data, common, default)
@@ -209,7 +209,7 @@ def generate_all_profiles(input_path, output_path, default, common, profiles_fil
                 os.path.join(input_path, x) for x in generate_data.tuning_files
             ]
 
-        LOG.debug("tuning data: {}".format(generate_data.tuning_data))
+        LOG.debug(f"tuning data: {generate_data.tuning_data}")
 
         target_path = None
         if output_path:
@@ -220,16 +220,9 @@ def generate_all_profiles(input_path, output_path, default, common, profiles_fil
             tuning_data = [generate_data.tuning_data]
 
         LOG.debug(
-            "CALL: yacfg --profile {} --template {} "
-            "--tuning {} --output {} # extra tuning: {} "
-            ">> {}".format(
-                generate_data.profile_name,
-                generate_data.template_name,
-                generate_data.tuning_files,
-                target_path,
-                generate_data.tuning_data,
-                target_path,
-            )
+            f"CALL: yacfg --profile {generate_data.profile_name} --template {generate_data.template_name} "
+            f"--tuning {generate_data.tuning_files} --output {target_path} # extra tuning: {generate_data.tuning_data} "
+            f">> {target_path}"
         )
 
         yacfg.yacfg.generate(
