@@ -170,6 +170,7 @@ def get_profile_template(profile_name):
         ),
         trim_blocks=True,
         lstrip_blocks=True,
+        extensions=['jinja2_ansible_filters.AnsibleCoreFiltersExtension']
     )
 
     template = env.get_template(selected_template_name)
