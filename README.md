@@ -121,6 +121,11 @@ yacfg --template my_new_template --profile [PROFILE]
 
 ```
 
+## Jinja2 filters:
+
+We use Jinja2 filters from Ansible project, read more about it here: 
+[https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_filters.html](Ansible filters documentation)
+
 ## API guide
 
 Direct use of API is to use `generate()` nearly the same as the CLI.

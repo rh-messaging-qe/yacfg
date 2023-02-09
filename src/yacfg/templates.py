@@ -49,6 +49,7 @@ def get_template_environment(template_name):
             ),
             trim_blocks=True,
             lstrip_blocks=True,
+            extensions=['jinja2_ansible_filters.AnsibleCoreFiltersExtension']
         )
     except jinja2.TemplateError:
         LOG.exception("Original Error")
