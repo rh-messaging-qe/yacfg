@@ -15,7 +15,7 @@
 from __future__ import print_function
 
 import copy
-import json
+import yaml
 import logging
 
 import jinja2
@@ -161,7 +161,7 @@ def generate_core(
     if output_filter:
         template_list = filter_template_list(template_list, output_filter)
 
-    LOG.debug(f"Config data: {json.dumps(config_data)}")
+    LOG.debug(f"Config data:\n {yaml.dump(config_data, default_flow_style=False)}")
 
     if output_path and tuned_profile:
         ensure_output_path(output_path)
