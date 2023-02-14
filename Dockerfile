@@ -22,13 +22,13 @@ RUN apk add --no-cache \
     libzmq \
     zeromq-dev
 
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel poetry
+RUN pip install --no-cache-dir --upgrade --user pip setuptools wheel poetry
 
 COPY . /src
 WORKDIR /src
 
-RUN poetry build
-RUN pip install --prefix=/runtime --force-reinstall dist/*.whl
+RUN /root/.local/bin/poetry build
+RUN /root/.local/bin/pip install --prefix=/runtime --force-reinstall dist/*.whl
 
 FROM base AS runtime
 
