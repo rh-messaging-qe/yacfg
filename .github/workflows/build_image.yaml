@@ -31,7 +31,7 @@ jobs:
       with:
         image: ${{ env.IMAGE_NAME }}
         tags: latest ${{ github.sha }} ${{ github.ref_name }}
-        archs: amd64, arm64 #ppc64le, s390x, 
+        archs: amd64, arm64 # ppc64le, s390x # wheel issue
         containerfiles: |
           ./Dockerfile
 
