@@ -1,29 +1,44 @@
-# Copyright 2018 Red Hat Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
 class YacfgException(Exception):
-    pass
+    """Base exception for Yet Another Configuration Generator (YACFG)."""
 
 
 class TemplateError(YacfgException):
-    pass
+    """Exception raised for template-related errors in YACFG."""
 
 
 class ProfileError(YacfgException):
-    pass
+    """Exception raised for profile-related errors in YACFG."""
 
 
 class GenerationError(YacfgException):
-    pass
+    """Exception raised for generation-related errors in YACFG."""
+
+
+class ConfigurationError(YacfgException):
+    """Exception raised for configuration-related errors in YACFG."""
+
+
+class ParsingError(YacfgException):
+    """Exception raised for parsing-related errors in YACFG."""
+
+
+class AuthorizationError(YacfgException):
+    """Exception raised for authorization-related errors in YACFG."""
+
+
+# Custom exception with additional details
+class InvalidInputError(YacfgException):
+    """Exception raised for invalid input in YACFG.
+
+    Attributes:
+        input_value -- input value that caused the error
+        message -- explanation of the error
+    """
+
+    def __init__(self, input_value: str, message: str = "Invalid input"):
+        self.input_value: str = input_value
+        self.message: str = message
+        super().__init__(self.message)
+
+    def __str__(self) -> str:
+        return f"{self.message}: {self.input_value}"
