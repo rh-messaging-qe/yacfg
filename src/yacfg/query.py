@@ -1,131 +1,100 @@
-# Copyright 2018 Red Hat Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import logging
 import os
 import posixpath
 import re
+from typing import List, Pattern
+from jinja2.environment import Environment
 
 from .files import get_templates_path, get_profiles_path
 
 LOG = logging.getLogger(__name__)
 
 
-def filter_template_list(template_list, output_filter):
-    """Based on list of output filters, select templates to be generated
+def filter_template_list(
+    template_list: List[str], output_filter: List[str]
+) -> List[str]:
+    """Filter templates based on output filter regular expressions.
 
-    :param template_list: list of template file names
+    :param template_list: List of template file names.
     :type template_list: list[str]
-    :param output_filter: list of regular expressions to filter out templates
+    :param output_filter: List of regular expressions to filter out templates.
     :type output_filter: list[str]
-    :return: list of selected template file names to process
+    :return: List of selected template file names to process.
     :rtype: list[str]
     """
-    output_filter = [re.compile(flt) for flt in output_filter]
-    template_list = [
-        templ for templ in template_list for rex in output_filter if rex.match(templ)
+    filtered_templates = [
+        template
+        for template in template_list
+        if any(re.match(flt, template) for flt in output_filter)
     ]
-    LOG.debug(f"Filtered template files list: {template_list}")
-    return template_list
+    LOG.debug(f"Filtered template files list: {filtered_templates}")
+    return filtered_templates
 
 
-def list_templates():
-    """List all packaged templates with their package relative path
+def list_templates() -> List[str]:
+    """List all packaged templates with their package relative path.
 
-    Package is directory under 'templates' directory that contains
-    file named '_template'. It would be good if template directory
-    would contain some jinja2 templates.
+    Package is a directory under 'templates' directory that contains
+    a file named '_template'. It would be good if the template directory
+    contains some Jinja2 templates.
 
-    :return: list of templates paths from package
+    :return: List of template paths from the package.
     :rtype: list[str]
     """
-
     templates_path = get_templates_path()
     LOG.debug(f"Templates path for query: {templates_path}")
 
-    result = []
-
+    template_paths = []
     for root, dirs, files in os.walk(templates_path):
-        for fn in files:
-            if fn == "_template":
-                prefix_path = os.path.relpath(root, templates_path)
-                result.append(prefix_path)
-                break
+        if any(file.endswith((".yaml", ".jinja2", ".j2")) for file in files):
+            if "_template" in files:
+                relative_path = os.path.relpath(root, templates_path)
+                template_path = posixpath.join(*relative_path.split(os.path.sep))
+                template_paths.append(template_path)
+                LOG.debug(f"Included template path: {template_path} (using _template)")
+            else:
+                LOG.debug(f"Template files found, but no _template file in {root}")
 
-    result = [posixpath.join(*i.split(os.path.sep)) for i in result]
+    LOG.debug(f"Template paths: {template_paths}")
+    return template_paths
 
-    return result
 
-
-def list_profiles():
+def list_profiles() -> List[str]:
     """List all packaged complete profiles with their package relative path.
 
-    Profile is any yaml file under 'profiles' directory in package, that is
-    not placed under directory with leading underscore like _modules
+    Profile is any YAML file under the 'profiles' directory in the package
+    that is not placed under a directory with a leading underscore like '_modules'.
 
-    :return: list of profile from package
+    :return: List of profiles from the package.
     :rtype: list[str]
     """
-
     profiles_path = get_profiles_path()
     LOG.debug(f"Profiles path for query: {profiles_path}")
 
-    result = []
-
+    profile_paths = []
     for root, dirs, files in os.walk(profiles_path):
-        prefix_path = os.path.relpath(root, profiles_path)
-        # skip over underscored paths
-        path_levels = prefix_path.split(os.path.sep)
-        if any([x.startswith("_") for x in path_levels]):
-            LOG.debug(f"Skipping underscored: {path_levels}")
-            continue
-        # filter only yaml profiles
-        tmp_files = [
-            fn
-            for fn in files
-            if (fn.endswith(".yaml") or fn.endswith(".jinja2") or fn.endswith(".j2"))
-        ]
+        dirs[:] = [d for d in dirs if not d.startswith("_")]
+        for file in files:
+            if file.endswith((".yaml", ".jinja2", ".j2")):
+                relative_path = os.path.relpath(os.path.join(root, file), profiles_path)
+                profile_paths.append(posixpath.join(*relative_path.split(os.path.sep)))
 
-        # add relative profile path if it is not profiles root,
-        # it would add './' which is undesirable
-        if prefix_path != ".":
-            tmp_files = [os.path.join(prefix_path, fn) for fn in tmp_files]
-        result += tmp_files
-
-    result = [posixpath.join(*i.split(os.path.sep)) for i in result]
-
-    return result
+    LOG.debug(f"Profile paths: {profile_paths}")
+    return profile_paths
 
 
-def get_main_template_list(env):
-    """Get list of main templates from selected template set
+def get_main_template_list(env: Environment) -> List[str]:
+    """Get a list of main templates from the selected template set.
 
-    .. note: main template -> template that resembles a output config file
+    Note:
+        Main template -> template that resembles an output config file.
 
-    :param env: jinja2 environment
+    :param env: Jinja2 environment.
     :type env: Environment
-
-    :return: list of main template names
+    :return: List of main template names.
     :rtype: list[str]
     """
-    rex_main_template = re.compile(r"^[^/]+\.jinja2$")
-
-    def main_template_filter(name):
-        return rex_main_template.match(name)
-
-    templ_list = env.list_templates(filter_func=main_template_filter)
-
-    LOG.debug(f"Main template files list: {templ_list}")
-
-    return templ_list
+    main_template_regex = re.compile(r"^[^/]+\.jinja2$")
+    main_template_list = env.list_templates(filter_func=main_template_regex.match)
+    LOG.debug(f"Main template files list: {main_template_list}")
+    return main_template_list
