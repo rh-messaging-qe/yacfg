@@ -1,45 +1,28 @@
-# Copyright 2018 Red Hat Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import logging
 import os
 import shutil
-
 import yaml
 
-from .exceptions import ProfileError
-from .files import select_profile_file, ensure_output_path, select_template_dir
+from typing import Any, Dict, List, Optional
+
+from . import exceptions, files, meta, profiles
 from .meta import NAME
-from .profiles import load_profile_defaults, get_tuned_profile
 
-LOG = logging.getLogger(__name__)
+LOG: logging.Logger = logging.getLogger(NAME)
 
 
-# pyyaml workaround
-# https://stackoverflow.com/questions/25108581/python-yaml-dump-bad-indentation
-# https://github.com/yaml/pyyaml/issues/234
 class MyDumper(yaml.SafeDumper):
-    def increase_indent(self, flow=False, indentless=False):
-        return super(MyDumper, self).increase_indent(flow, False)
+    def increase_indent(self, flow: bool = False, indentless: bool = False) -> None:
+        return super().increase_indent(flow, False)
 
 
-def yaml_dump_wrapper(data):
-    """YAML dump unified call wrapper
+def yaml_dump_wrapper(data: Dict[str, Any]) -> str:
+    """
+    Wrapper function for dumping YAML data with custom settings.
 
-    :param data: data passed to yaml.dump
+    :param data: Data to be dumped as YAML.
     :type data: dict
-    :return: dumped yaml
+    :return: Dumped YAML data as a string.
     :rtype: str
     """
     return yaml.dump(
@@ -52,124 +35,115 @@ def yaml_dump_wrapper(data):
     )
 
 
-def new_profile(profile, dest_profile):
-    """Export an existing profile
-
-    :param profile: existing profile name (from user or packaged)
-    :type profile: str
-    :param dest_profile: filename of new profile
-    :type dest_profile: str
-
-    :raises OSError: if there is a problem with destination path
-    :raises ProfileError: if there is a problem with the existing template
+def new_profile(profile: str, dest_profile: str) -> None:
     """
-    profile_name, profile_path = select_profile_file(profile)
-    src = os.path.join(profile_path, profile_name)
+    Export an existing profile to a new destination.
 
-    dest_path = os.path.dirname(dest_profile)
-    if dest_path:
-        ensure_output_path(dest_path)  # raises: OSError
+    :param profile: Existing profile name (from user or packaged).
+    :type profile: str
+    :param dest_profile: Filename of the new profile.
+    :type dest_profile: str
+    :raises OSError: If there is a problem with the destination path.
+    """
+    profile_name, profile_path = files.select_profile_file(profile)
+    src: str = os.path.join(profile_path, profile_name)
+
+    dest_path: str = os.path.dirname(dest_profile)
+    files.ensure_output_path(dest_path)
 
     shutil.copyfile(src, dest_profile)
 
 
 def new_profile_rendered(
-    profile, dest_profile, tuning_files=None, tuning_data_list=None
-):
-    """Export an existing profile in static form, stripped defaults section
-
-    :param profile: existing profile name (from user or packaged)
-    :type profile: str
-    :param dest_profile: filename of new profile
-    :type dest_profile: str
-    :param tuning_files: user specified tuning file path
-    :type tuning_files: list[str] | None
-    :param tuning_data_list: user specific tuning data list
-        provided directly
-    :type tuning_data_list: list[dict] | None
-
-    :raises OSError: if there is a problem with destination path
-    :raises ProfileError: if there is a problem with the existing template
+    profile: str,
+    dest_profile: str,
+    tuning_files: Optional[List[str]] = None,
+    tuning_data_list: Optional[List[Dict[str, Any]]] = None,
+) -> None:
     """
-    config_data, _ = get_tuned_profile(profile, tuning_files, tuning_data_list)
+    Export an existing profile in static form, stripped defaults section.
 
-    dest_path = os.path.dirname(dest_profile)
-    dest_name = os.path.basename(dest_profile)
-    if dest_path:
-        ensure_output_path(dest_path)  # raises: OSError
+    :param profile: Existing profile name (from user or packaged).
+    :type profile: str
+    :param dest_profile: Filename of the new profile.
+    :type dest_profile: str
+    :param tuning_files: User-specified tuning file path, defaults to None.
+    :type tuning_files: list[str], optional
+    :param tuning_data_list: User-specified tuning data list provided directly, defaults to None.
+    :type tuning_data_list: list[dict], optional
+    :raises OSError: If there is a problem with the destination path.
+    """
+    config_data, _ = profiles.get_tuned_profile(profile, tuning_files, tuning_data_list)
 
-    if "_defaults" in config_data:
-        del config_data["_defaults"]
+    dest_path: str = os.path.dirname(dest_profile)
+    dest_name: str = os.path.basename(dest_profile)
+    files.ensure_output_path(dest_path)
 
-    export_data = yaml_dump_wrapper(config_data)
+    config_data.pop("_defaults", None)
 
-    export_data = "# {} tuning file generated from profile {}{}{}".format(
-        NAME, profile, os.linesep, export_data
+    export_data: str = yaml_dump_wrapper(config_data)
+
+    export_data = (
+        f"# {meta.NAME} tuning file generated from profile {profile}\n{export_data}"
     )
     write_output(dest_name, dest_path, export_data)
 
 
-def new_template(template, dest_template):
-    """Export an existing template dir
-
-    :param template: existing template name (from user or packaged)
-    :type template: str
-    :param dest_template: dirname of new profile
-    :type dest_template: str
-
-    :raises OSError: if there is problem with destination path
-    :raises TemplateError: if there is a problem with existing template
+def new_template(template: str, dest_template: str) -> None:
     """
-    template_path = select_template_dir(template)
+    Export an existing template directory to a new destination.
 
+    :param template: Existing template name (from user or packaged).
+    :type template: str
+    :param dest_template: Directory name of the new template.
+    :type dest_template: str
+    :raises OSError: If there is a problem with the destination path.
+    """
+    template_path = files.select_template_dir(template)
     shutil.copytree(template_path, dest_template, symlinks=False)
 
 
-def export_tuning_variables(profile_name, dest_file):
-    """Export subsection of profile tunable variables to new yaml file
-
-    :param profile_name: profile name (user defined or packaged)
-    :type profile_name: str
-    :param dest_file: filename of destination tuning file
-    :type dest_file: str
-
-    :raises OSError: if there is s problem with destination path
-    :raises ProfileError: if there is a problem with selected profile
+def export_tuning_variables(profile_name: str, dest_file: str) -> None:
     """
+    Export a subsection of profile's tunable variables to a new YAML file.
 
-    defaults_data = load_profile_defaults(profile_name)
+    :param profile_name: Profile name (user-defined or packaged).
+    :type profile_name: str
+    :param dest_file: Filename of the destination tuning file.
+    :type dest_file: str
+    :raises OSError: If there is a problem with the destination path.
+    :raises ProfileError: If there is a problem with the selected profile.
+    """
+    defaults_data = profiles.load_profile_defaults(profile_name)
     if not defaults_data:
-        raise ProfileError(
-            'Selected profile "%s" does not contain any tunable variables'
-            % profile_name
+        raise exceptions.ProfileError(
+            f'Selected profile "{profile_name}" does not contain any tunable variables'
         )
 
-    dest_path = os.path.dirname(dest_file)
-    dest_name = os.path.basename(dest_file)
-    if dest_path:
-        ensure_output_path(dest_path)  # raises: OSError
+    dest_path: str = os.path.dirname(dest_file)
+    dest_name: str = os.path.basename(dest_file)
+    files.ensure_output_path(dest_path)
 
-    # export_data = yaml.dump_all([defaults_data], default_flow_style=False)
-    export_data = yaml_dump_wrapper(defaults_data)
+    export_data: str = yaml_dump_wrapper(defaults_data)
 
     LOG.debug(f"Exported tuning data:\n{export_data}")
-    export_data = f"# {NAME} tuning file generated from profile {profile_name}{os.linesep}{export_data}"
+    export_data = f"# {meta.NAME} tuning file generated from profile {profile_name}\n{export_data}"
     write_output(dest_name, dest_path, export_data)
     LOG.info("Tuning data exported")
 
 
-def write_output(filename, output_path, data):
-    """Helper to write generated data to file
+def write_output(filename: str, output_path: str, data: str) -> None:
+    """
+    Helper function to write generated data to a file.
 
-    :param filename: name of output file
+    :param filename: Name of the output file.
     :type filename: str
-    :param output_path: main path for generating files
+    :param output_path: Main path for generating files.
     :type output_path: str
-    :param data: data to write
+    :param data: Data to write to the file.
     :type data: str
     """
-    filepath = os.path.join(output_path, filename)
+    filepath: str = os.path.join(output_path, filename)
     with open(filepath, "w") as fh:
         fh.write(data)
-        # fh.write(os.linesep)
-    LOG.debug(f'File writen {filepath}')
+    LOG.debug(f"File written {filepath}")
