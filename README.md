@@ -8,7 +8,7 @@ Furthermore, it is possible to use its API in your python code.
 
 ## Getting started
 
-* Python 3.7+
+* Python 3.8+
 * Python Poetry
 
 ### From git
@@ -288,7 +288,7 @@ If you find a bug or room for improvement, submit either a ticket or PR.
 
 _Alphabetically ordered_
 
-* Dominik Lenoch <dlenoch@redhat.com> (maintainer)
+* Dominik Lenosi <dlenoch@redhat.com> (maintainer)
 * Michal Tóth <mtoth@redhat.com>
 * Otavio Piske <opiske@redhat.com>
 * Sean Davey <sdavey@redhat.com>
@@ -296,7 +296,7 @@ _Alphabetically ordered_
 
 ## License
 
-Copyright 2018-2021 Red Hat Inc.
+Copyright 2018-2023 Red Hat Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

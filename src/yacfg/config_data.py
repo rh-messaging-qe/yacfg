@@ -1,10 +1,9 @@
 import datetime
 import time
-from typing import Dict
 from collections import namedtuple
+from typing import Dict
 
-from . import __version__
-from .meta import NAME
+from . import NAME, __version__
 
 RenderOptions = namedtuple("RenderOptions", ["generator_notice", "licenses"])
 
