@@ -1,10 +1,6 @@
-# YamlConfiger --- AMQ configurator
+# yacfg as a the YAML configurator
 
-This tool can generate a set of configuration files mainly needed for
-AMQ Broker, but it is not limited to only generating files for one product.
-
-YamlConfiger has a user facing Command Line Tool for quick and easy command line usage.
-Furthermore, it is possible to use its API in your python code.
+This tool can generate a set of configuration files mainly created for ActiveMQ Artemis, but it is not limited to only generating configuration files.
 
 ## Documentation
 
