@@ -1,28 +1,13 @@
-# Copyright 2018 Red Hat Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-from __future__ import print_function
-
-import copy
-import yaml
 import logging
+import os
+from typing import Any, Dict, List, Optional
 
-import jinja2
+import yaml
 from jinja2 import Environment, Template
 
-from .config_data import add_template_metadata, add_render_config
-from .exceptions import TemplateError, GenerationError
+from . import NAME
+from .config_data import RenderOptions, add_render_config, add_template_metadata
+from .exceptions import GenerationError, TemplateError
 from .files import ensure_output_path, get_output_filename
 from .output import write_output
 from .profiles import get_tuned_profile
@@ -33,22 +18,22 @@ from .templates import get_template_environment
 _t = Template
 _e = Environment
 
-LOG = logging.getLogger(__name__)
+LOG: logging.Logger = logging.getLogger(NAME)
 
 
 def generate_core(
-    config_data,
-    tuned_profile=None,
-    template=None,
-    output_path=None,
-    output_filter=None,
-    render_options=None,
-    write_profile_data=False,
-    extra_properties_data=None,
-):
+    config_data: Dict[str, Any],
+    tuned_profile: Optional[str] = None,
+    template: Optional[str] = None,
+    output_path: Optional[str] = None,
+    output_filter: Optional[List[str]] = None,
+    render_options: Optional[RenderOptions] = None,
+    write_profile_data: bool = False,
+    extra_properties_data: Optional[Dict[str, str]] = None,
+) -> Dict[str, str]:
     """Core of the generator, gets complete dataset with selected
     template in config data or explicitly selected via template
-    parameter at minimum, and generates outputs, if requested writes
+    parameter at minimum, and generates outputs. If requested, it writes
     to file.
 
     :param config_data: complete and tuned config data
@@ -61,7 +46,7 @@ def generate_core(
         or path to user provided template set
     :type template: str or None
     :param output_path: proposed output path,
-        if do not exists, it will be created
+        if it does not exist, it will be created
     :type output_path: str or None
     :param output_filter: list of regular expressions to filter out
         which output files should be generated, if None, then all will
@@ -70,7 +55,7 @@ def generate_core(
     :param render_options: extra render options tuning
     :type render_options: RenderOptions
     :param write_profile_data: enables writing profile data used for
-        templating to file in a output path, output path must be
+        templating to file in an output path, output path must be
         specified
     :type write_profile_data: bool
     :param extra_properties_data: pass in any specific key/values
@@ -84,72 +69,72 @@ def generate_core(
     if render_options:
         add_render_config(config_data, render_options)
 
-    # template
     if template is None:
         template = config_data.get("render", {}).get("template")
         LOG.debug(f"Profile specified template: {template}")
     if template is None:
-        raise TemplateError("Missing template. User nor profile specifies a template.")
+        raise TemplateError(
+            "Missing template. Neither user nor profile specifies a template."
+        )
 
-    env = get_template_environment(template)
+    try:
+        env = get_template_environment(template)
+    except TemplateError as exc:
+        raise TemplateError(f"Failed to create template environment: {exc}")
 
-    def override_value(value, value_key):
+    def override_value(value: str, value_key: str) -> str:
         """
         To work around some unexpected conversions by yaml loader
         for example empty string -> None and OFF -> False
         callers of yacfg need to pass in any specific key/values
         and call filter, the filter will override the values
 
-        :param value:
+        :param value: Value to override
         :type value: str
-        :param value_key:
+        :param value_key: Key of the value to override
         :type value_key: str
         :return: str
         """
-        if value_key in extra_properties_data:
+        if extra_properties_data and value_key in extra_properties_data:
             return extra_properties_data[value_key]
         return value
 
-    def empty_filter(value, value_key):
+    def empty_filter(value: str, value_key: str) -> str:
         """
         Simply pass the value
 
-        :param value:
+        :param value: Value to filter
         :type value: str
-        :param value_key:
+        :param value_key: Key of the value to filter
         :type value_key: str
         :return: str
         """
+        # noinspection PyStatementEffect
+        value_key
         return value
 
-    def override_value_list_map_keys(value):
+    def override_value_list_map_keys(
+        value: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """
         Replace keys with overrides if possible
         in list of maps
-        :param value:
+        :param value: Value to override
         :type value: list of dict
         :return: list of dict
         """
-        for idx, item in enumerate(value):
-            item = override_value_map_keys(item)
-            value[idx] = item
-        return value
+        return [override_value_map_keys(item) for item in value]
 
-    def override_value_map_keys(value):
+    def override_value_map_keys(value: Dict[str, Any]) -> Dict[str, Any]:
         """
         Replace keys with overrides if possible
-        :param value:
+        :param value: Value to override
         :type value: dict
         :return: dict
         """
-        new_map = dict()
-        for key in value.keys():
-            val = value[key]
-            key = override_value(key, key)
-            new_map[key] = val
-        return new_map
+        return {override_value(key, key): val for key, val in value.items()}
 
-    # Pass empty filter for performance if an extra_properties_data not defined (no more conditions)
+    # Pass empty filter for performance if extra_properties_data is not defined (no more conditions)
     env.filters["overridevalue"] = (
         override_value if extra_properties_data else empty_filter
     )
@@ -172,20 +157,20 @@ def generate_core(
 
 
 def generate(
-    profile,
-    template=None,
-    output_path=None,
-    output_filter=None,
-    render_options=None,
-    tuning_files_list=None,
-    tuning_data_list=None,
-    write_profile_data=False,
-    extra_properties_data=None,
-):
-    """Generate procedure using list of tuning data
+    profile: str,
+    template: Optional[str] = None,
+    output_path: Optional[str] = None,
+    output_filter: Optional[List[str]] = None,
+    render_options: Optional[RenderOptions] = None,
+    tuning_files_list: Optional[List[str]] = None,
+    tuning_data_list: Optional[List[Dict[str, Any]]] = None,
+    write_profile_data: bool = False,
+    extra_properties_data: Optional[Dict[str, str]] = None,
+) -> dict[str, str]:
+    """Generate procedure using a list of tuning data
 
     generate_via_tuning_files output files based on output_filter, from
-    selected template set, with selected profile, and write output to
+    the selected template set, with the selected profile, and write output to
     a proposed output path.
 
     :param profile: name of packaged profile,
@@ -195,27 +180,27 @@ def generate(
         or path to user provided template set
     :type template: str | None
     :param output_path: proposed output path,
-        if do not exists, it will be created
+        if it does not exist, it will be created
     :type output_path: str | None
     :param output_filter: list of regular expressions to filter out
         which output files should be generated, if None, then all will
-        be generated, based on selected template set
+        be generated, based on the selected template set
     :type output_filter: list[str] | None
     :param render_options: extra render options tuning
     :type render_options: RenderOptions
     :param tuning_files_list: Additional yaml tuning files with tuning
         values.
     :type tuning_files_list: list[str] | None
-    :param tuning_data_list: Additional user values to fine-tune profile
-        before applying it to template.
+    :param tuning_data_list: Additional user values to fine-tune the profile
+        before applying it to the template.
     :type tuning_data_list: list[dict] | None
     :param write_profile_data: enables writing profile data used for
-        templating to file in a output path, output path must be
+        templating to file in an output path, the output path must be
         specified
     :type write_profile_data: bool
     :param extra_properties_data: properties that can be used to help
         process templates with additional info
-    :type extra_properties_data: dict[str,str]
+    :type extra_properties_data: dict[str, str]
 
     :return: mapping of filename to generated data for further use
     :rtype: dict[str, str] or dict[str, unicode]
@@ -227,25 +212,35 @@ def generate(
         tuning_data_list=tuning_data_list,
     )
 
-    return generate_core(
-        config_data=config_data,
-        tuned_profile=tuned_profile,
-        template=template,
-        output_path=output_path,
-        output_filter=output_filter,
-        render_options=render_options,
-        write_profile_data=write_profile_data,
-        extra_properties_data=extra_properties_data,
-    )
+    try:
+        return generate_core(
+            config_data=config_data,
+            tuned_profile=tuned_profile,
+            template=template,
+            output_path=output_path,
+            output_filter=output_filter,
+            render_options=render_options,
+            write_profile_data=write_profile_data,
+            extra_properties_data=extra_properties_data,
+        )
+    except GenerationError as exc:
+        LOG.error(f"Generation failed: {exc}")
+
+    return {}  # Add a default return statement
 
 
 # main alias
 main = generate
 
 
-def generate_outputs(config_data, template_list, env, output_path=None):
+def generate_outputs(
+    config_data: Dict[str, Any],
+    template_list: List[str],
+    env: Environment,
+    output_path: Optional[str] = None,
+) -> Dict[str, str]:
     """Generate output files based on config_data, (filtered) template list,
-    within provided jinja environment, and if output_path is specified, then
+    within the provided jinja environment, and if output_path is specified, then
     write results to that directory.
 
     .. note: output_path directory has to be created before.
@@ -256,51 +251,52 @@ def generate_outputs(config_data, template_list, env, output_path=None):
     :type template_list: list[str]
     :param env: jinja2 template environment
     :type env: Environment
-    :param output_path: path where to generate_via_tuning_files output files,
+    :param output_path: path where to generate output files,
         or None to do a dry run
-    :type output_path: str
+    :type output_path: str | None
 
     :raises GenerationError: when there was a problem with generating one of
         config files
-
-    :return: mapping of filename to generated data for further use
-    :rtype: dict[str, str] or dict[str, unicode]
     """
-    generate_exception = None
-    result_data = {}
+    result_data: Dict[str, str] = {}
+    generate_exception: Optional[GenerationError] = None
 
-    # only additions of runtime data happens on base level,
-    # so deeper structures are unaffected
-    config_data = copy.copy(config_data)
-
-    # metadata structure initialization,
-    # if called without add_template_metadata()
-    if "metadata" not in config_data:
-        config_data["metadata"] = {}
+    if output_path and not os.path.exists(output_path):
+        raise GenerationError(f"Output path '{output_path}' does not exist.")
 
     for template_name in template_list:
         out_filename = get_output_filename(template_name)
         config_data["metadata"]["out_filename"] = template_name
 
         try:
-            template = env.get_template(template_name)
-            output_data = template.render(config_data)
-        except jinja2.TemplateError as exc:
-            LOG.error(f'Config file {out_filename} generation FAILED')
+            template: Template = env.get_template(template_name)
+            output_data: str = template.render(config_data)
+
+        except TemplateError as exc:
+            LOG.error(f"Config file {out_filename} generation FAILED")
             LOG.exception("Original error")
             if not generate_exception:
                 generate_exception = GenerationError(
-                    'There was a problem generating file "%s" with "%s" '
-                    "template: %s" % (out_filename, template_name, exc)
+                    f"There was a problem generating file {out_filename} with {template_name} template: {exc}"
                 )
         else:
             LOG.debug(f"END {out_filename}")
-            LOG.info(f'Config file {out_filename} generation PASSED')
+            LOG.info(f"Config file {out_filename} generation PASSED")
 
             result_data[out_filename] = output_data
 
             if output_path:
-                write_output(out_filename, output_path, output_data)
+                try:
+                    write_output(out_filename, output_path, output_data)
+
+                except Exception as exc:
+                    LOG.error(
+                        f"Failed to write output file {out_filename} to {output_path}"
+                    )
+                    LOG.exception("Write error")
+                    generate_exception = GenerationError(
+                        f"There was a problem writing output file '{out_filename}' to '{output_path}': {exc}"
+                    )
 
     if generate_exception:
         raise generate_exception
