@@ -1,12 +1,11 @@
 import logging
 import os
 import shutil
-import yaml
-
 from typing import Any, Dict, List, Optional
 
-from . import exceptions, files, meta, profiles
-from .meta import NAME
+import yaml
+
+from . import NAME, exceptions, files, profiles
 
 LOG: logging.Logger = logging.getLogger(NAME)
 
@@ -83,9 +82,7 @@ def new_profile_rendered(
 
     export_data: str = yaml_dump_wrapper(config_data)
 
-    export_data = (
-        f"# {meta.NAME} tuning file generated from profile {profile}\n{export_data}"
-    )
+    export_data = f"# {NAME} tuning file generated from profile {profile}\n{export_data}"
     write_output(dest_name, dest_path, export_data)
 
 
@@ -127,23 +124,41 @@ def export_tuning_variables(profile_name: str, dest_file: str) -> None:
     export_data: str = yaml_dump_wrapper(defaults_data)
 
     LOG.debug(f"Exported tuning data:\n{export_data}")
-    export_data = f"# {meta.NAME} tuning file generated from profile {profile_name}\n{export_data}"
+    export_data = (
+        f"# {NAME} tuning file generated from profile {profile_name}\n{export_data}"
+    )
     write_output(dest_name, dest_path, export_data)
     LOG.info("Tuning data exported")
 
 
-def write_output(filename: str, output_path: str, data: str) -> None:
+def yaml_dump_wrapper(data: Dict[str, Any]) -> str:
     """
-    Helper function to write generated data to a file.
+    Convert data to YAML string.
 
-    :param filename: Name of the output file.
-    :type filename: str
-    :param output_path: Main path for generating files.
-    :type output_path: str
-    :param data: Data to write to the file.
-    :type data: str
+    :param data: Data to convert to YAML.
+    :type data: dict
+    :return: YAML string representation of the data.
+    :rtype: str
     """
-    filepath: str = os.path.join(output_path, filename)
-    with open(filepath, "w") as fh:
-        fh.write(data)
-    LOG.debug(f"File written {filepath}")
+    return yaml.dump(data)
+
+
+def write_output(filename: str, output_path: str, content: str) -> None:
+    """
+    Write content to the specified file.
+
+    :param filename: Name of the file.
+    :type filename: str
+    :param output_path: Path to the output directory.
+    :type output_path: str
+    :param content: Content to write to the file.
+    :type content: str
+    :raises OSError: If there is a problem with the output path or writing the file.
+    """
+    output_file = os.path.join(output_path, filename)
+    try:
+        with open(output_file, "w") as file:
+            file.write(content)
+        LOG.debug(f"Successfully wrote content to {output_file}")
+    except OSError as e:
+        raise OSError(f"Error writing content to {output_file}: {e}") from e
