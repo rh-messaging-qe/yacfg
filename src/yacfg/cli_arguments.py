@@ -5,8 +5,8 @@ from typing import Dict, List, Tuple, Union
 
 from . import DESCRIPTION, NAME, __version__
 
-REX_BOOL_TRUE = re.compile(r"^(([Tt][Rr][Uu][Ee])|[Yy][Ee][Ss]|(1)|[Oo][Nn])$")
-REX_BOOL_FALSE = re.compile(r"^(([Ff][Aa][Ll][Ss][Ee])|([Nn][Oo])|(0)|[Oo][Ff][Ff])$")
+REX_BOOL_TRUE = re.compile(r"^(true|yes|1|on)$", re.IGNORECASE)
+REX_BOOL_FALSE = re.compile(r"^(false|no|0|off)$", re.IGNORECASE)
 
 
 def boolize(data: str) -> Union[bool, None]:
