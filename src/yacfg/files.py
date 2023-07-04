@@ -138,34 +138,26 @@ def select_template_dir(template_name: str) -> str:
 
     user_extra_path = os.path.join("templates", template_name)
 
-    if os.path.isdir(user_extra_path) or os.path.isdir(template_name):
-        # User-defined template path without the "templates" directory or directly specified template directory
-        selected_template_path = (
-            user_extra_path if os.path.isdir(user_extra_path) else template_name
-        )
+    if os.path.isdir(user_extra_path):
+        # User-defined template path without the "templates" directory
+        selected_template_path = user_extra_path
         LOG.debug(f"Using user-defined template path {selected_template_path}")
+        return selected_template_path
 
-    else:
-        selected_template_path = next(
-            (
-                os.path.join(template_path, template_name)
-                for template_path in templates_paths
-                if os.path.isdir(os.path.join(template_path, template_name))
-                and os.path.isfile(
-                    os.path.join(template_path, template_name, "_template")
-                )
-            ),
-            None,
-        )
+    if os.path.isdir(template_name):
+        # User directly specified template directory
+        LOG.debug(f"Using user-specified template directory {template_name}")
+        return template_name
 
-        if selected_template_path is None:
-            raise TemplateError(
-                f"Unable to load the requested template set: {template_name}"
-            )
+    for template_path in templates_paths:
+        complete_path = os.path.join(template_path, template_name)
+        if os.path.isdir(complete_path) and os.path.isfile(
+            os.path.join(complete_path, "_template")
+        ):
+            LOG.debug(f"Selected template: {complete_path}")
+            return complete_path
 
-        LOG.debug(f"Selected template: {selected_template_path}")
-
-    return selected_template_path
+    raise TemplateError(f"Unable to load the requested template set: {template_name}")
 
 
 def ensure_output_path(output_path: str) -> None:
