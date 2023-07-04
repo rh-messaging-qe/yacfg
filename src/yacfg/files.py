@@ -1,15 +1,13 @@
+import importlib.util
 import logging
 import os
 import re
-from typing import Tuple, NoReturn
-import importlib.util
+from typing import NoReturn, Tuple
 
+from . import NAME
 from .exceptions import ProfileError, TemplateError
-from .meta import NAME
 
 LOG = logging.getLogger(NAME)
-
-REX_TEMPLATE_TO_OUTPUT = re.compile(r"^(.*)(\.jinja2)$")
 
 
 def get_module_path() -> str:
@@ -27,54 +25,60 @@ def get_module_path() -> str:
         raise ModuleNotFoundError("Module path not found")
 
     module_path = module_spec.origin
-    LOG.debug(f"Module path: {module_path}")
-    return module_path
+    module_folder = os.path.dirname(module_path)
+    LOG.debug(f"Module path: {module_folder}")
+    return module_folder
 
 
-def get_profiles_path() -> str:
+def get_paths(environment_variable, subdirectory):
     """
-    Helper for getting profiles path from module installation location
+    Helper for getting paths from module installation location or environment variable
 
-    :return: path to packaged profiles directory
-    :rtype: str
+    :param environment_variable: Name of the environment variable
+    :type environment_variable: str
+    :param subdirectory: Subdirectory name to append to the module installation location
+    :type subdirectory: str
+    :return: List of paths
+    :rtype: list[str]
     """
-    env_profiles = os.getenv("YACFG_PROFILES")
+    paths = []
 
-    if env_profiles:
-        # Use user-defined profiles path
-        profiles_path = os.path.join(env_profiles)
-        LOG.debug(f"Using user defined $YACFG_PROFILES profiles path {profiles_path}")
-    else:
-        # Use module profiles path
-        module_path = get_module_path()
-        profiles_path = os.path.join(module_path, "profiles")
-        LOG.debug(f"Using module profiles path {profiles_path}")
+    # Use module path
+    module_path = get_module_path()
+    module_subdirectory = os.path.join(module_path, subdirectory)
+    paths.append(module_subdirectory)
+    LOG.debug(f"Using module {subdirectory} path {module_subdirectory}")
 
-    return profiles_path
-
-
-def get_templates_path() -> str:
-    """
-    Helper for getting templates path from module installation location
-
-    :return: path packaged templates directory
-    :rtype: str
-    """
-    env_templates = os.getenv("YACFG_TEMPLATES")
-
-    if env_templates:
-        # Use user-defined templates path
-        templates_path = os.path.join(env_templates)
+    env_value = os.getenv(environment_variable)
+    if env_value:
+        # Use user-defined path
+        user_subdirectory = os.path.join(env_value)
+        paths.append(user_subdirectory)
         LOG.debug(
-            f'Using user defined $YACFG_TEMPLATES template path "{templates_path}"'
+            f'Using user defined ${environment_variable} {subdirectory} path "{user_subdirectory}"'
         )
-    else:
-        # Use module templates path
-        module_path = get_module_path()
-        templates_path = os.path.join(module_path, "templates")
-        LOG.debug(f"Using module templates path {templates_path}")
 
-    return templates_path
+    return paths
+
+
+def get_profiles_paths() -> list:
+    """
+    Helper for getting profiles path from module installation location or environment variable
+
+    :return: List of paths to packaged profiles directory
+    :rtype: list[str]
+    """
+    return get_paths("YACFG_PROFILES", "profiles")
+
+
+def get_templates_paths() -> list:
+    """
+    Helper for getting templates path from module installation location or environment variable
+
+    :return: List of paths to packaged templates directory
+    :rtype: list[str]
+    """
+    return get_paths("YACFG_TEMPLATES", "templates")
 
 
 def select_profile_file(profile_name: str) -> Tuple[str, str]:
@@ -91,35 +95,29 @@ def select_profile_file(profile_name: str) -> Tuple[str, str]:
     """
     LOG.debug(f"Selecting profile file: {profile_name}")
 
-    profiles_path = get_profiles_path()
-    LOG.debug(f"Profiles path: {profiles_path}")
-
-    selected_profile_path = profiles_path
-    selected_profile_name = profile_name
-
     user_extra_path = os.path.join("profiles", profile_name)
-
     if os.path.isfile(user_extra_path):
         # User-defined profile in the ./profiles/ directory
-        LOG.debug(f"User ./profile/ omitting profile {profile_name}")
+        LOG.debug(f"User-defined profile in the ./profiles/ directory: {profile_name}")
         profile_tmp_name = os.path.abspath(user_extra_path)
-        selected_profile_path = os.path.dirname(profile_tmp_name)
-        selected_profile_name = os.path.basename(profile_tmp_name)
+        return profile_name, os.path.dirname(profile_tmp_name)
 
-    elif os.path.isfile(profile_name):
+    if os.path.isfile(profile_name):
         # User directly specified the profile file
-        LOG.debug(f"User direct profile {profile_name}")
+        LOG.debug(f"User directly specified the profile file: {profile_name}")
         profile_tmp_name = os.path.abspath(profile_name)
-        selected_profile_path = os.path.dirname(profile_tmp_name)
-        selected_profile_name = os.path.basename(profile_tmp_name)
+        return profile_name, os.path.dirname(profile_tmp_name)
 
-    complete_path = os.path.join(selected_profile_path, selected_profile_name)
+    profiles_paths = get_profiles_paths()
+    LOG.debug(f"Profiles paths: {profiles_paths}")
 
-    if not os.path.isfile(complete_path):
-        raise ProfileError(f"Unable to find the requested profile: {profile_name}")
+    for path in profiles_paths:
+        complete_path = os.path.join(path, profile_name)
+        if os.path.isfile(complete_path):
+            LOG.debug(f"Selected profile: {complete_path}")
+            return profile_name, complete_path
 
-    LOG.debug(f"Selected profile: {complete_path}")
-    return selected_profile_name, selected_profile_path
+    raise ProfileError(f"Unable to find the requested profile: {profile_name}")
 
 
 def select_template_dir(template_name: str) -> str:
@@ -135,58 +133,60 @@ def select_template_dir(template_name: str) -> str:
     :rtype: str
     """
 
-    templates_path = get_templates_path()
-    LOG.debug(f"Templates path: {templates_path}")
-
-    selected_template_path = os.path.join(templates_path, template_name)
+    templates_paths = get_templates_paths()
+    LOG.debug(f"Templates path: {templates_paths}")
 
     user_extra_path = os.path.join("templates", template_name)
 
-    if os.path.isdir(user_extra_path):
-        # User-defined template path without the "templates" directory
-        selected_template_path = user_extra_path
-        LOG.debug(f"Using user defined template path {template_name}")
+    if os.path.isdir(user_extra_path) or os.path.isdir(template_name):
+        # User-defined template path without the "templates" directory or directly specified template directory
+        selected_template_path = (
+            user_extra_path if os.path.isdir(user_extra_path) else template_name
+        )
+        LOG.debug(f"Using user-defined template path {selected_template_path}")
 
-    elif os.path.isdir(template_name):
-        # User directly specified the template directory
-        selected_template_path = template_name
-        LOG.debug(f"Using user defined template path {template_name}")
-
-    if not os.path.isdir(selected_template_path):
-        raise TemplateError(
-            f"Unable to load the requested template set: {template_name}"
+    else:
+        selected_template_path = next(
+            (
+                os.path.join(template_path, template_name)
+                for template_path in templates_paths
+                if os.path.isdir(os.path.join(template_path, template_name))
+                and os.path.isfile(
+                    os.path.join(template_path, template_name, "_template")
+                )
+            ),
+            None,
         )
 
-    if not os.path.isfile(os.path.join(selected_template_path, "_template")):
-        raise TemplateError(
-            f'Selected template "{template_name}" does not contain '
-            f'"_template" file, so it is not considered a template'
-        )
+        if selected_template_path is None:
+            raise TemplateError(
+                f"Unable to load the requested template set: {template_name}"
+            )
 
-    LOG.debug(f"Selected template: {selected_template_path}")
+        LOG.debug(f"Selected template: {selected_template_path}")
+
     return selected_template_path
 
 
-def ensure_output_path(output_path: str) -> NoReturn:
+def ensure_output_path(output_path: str) -> None:
     """
     Ensure that the output path is an existing directory
 
     :param output_path: selected output path to ensure
     :type output_path: str
 
-    :raises OSError: if output_path exists, but it is not a directory
+    :raises NotADirectoryError: if output_path exists, but it is not a directory
     """
-    LOG.debug(f"Ensuring output path: {output_path}")
-
-    if not os.path.exists(output_path):
+    try:
         os.makedirs(output_path, exist_ok=True)
         LOG.debug(f"Created directory {output_path}")
-    elif not os.path.isdir(output_path):
-        raise OSError(
-            f'Output path "{output_path}" already exists and it is not a directory!'
-        )
-    else:
-        LOG.debug(f"Requested directory {output_path} exists")
+    except FileExistsError:
+        if not os.path.isdir(output_path):
+            raise NotADirectoryError(
+                f'Output path "{output_path}" already exists and it is not a directory!'
+            )
+        else:
+            LOG.debug(f"Requested directory {output_path} exists")
 
 
 def get_output_filename(template_name: str) -> str:
@@ -203,10 +203,8 @@ def get_output_filename(template_name: str) -> str:
     """
     LOG.debug(f"Getting output filename: {template_name}")
 
-    match = REX_TEMPLATE_TO_OUTPUT.match(template_name)
-    output_filename = template_name
-    if match:
-        output_filename = match.group(1)
+    match = re.match(r"^(.*)(\.jinja2)$", template_name)
+    output_filename = match.group(1) if match else template_name
 
     LOG.debug(f"Output filename: {output_filename}")
     return output_filename
