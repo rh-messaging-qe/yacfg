@@ -1,80 +1,71 @@
-# Copyright 2018 Red Hat Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 import itertools
 import logging
-import os
+from typing import Dict, List, Optional, Tuple, Union
 
 import yaml
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import ChoiceLoader, Environment, FileSystemLoader, Template
 
+from . import NAME
 from .exceptions import ProfileError, TemplateError
-from .files import select_profile_file, get_profiles_path
+from .files import get_profiles_paths, select_profile_file
 
-LOG = logging.getLogger(__name__)
+LOG: logging.Logger = logging.getLogger(NAME)
 
 
-def load_tuning_files(tuning_files=None):
+def load_tuning_files(tuning_files: Optional[List[str]] = None) -> List[Dict[str, str]]:
     """Load tuning data from requested tuning files in order and
-    provides list of tuning data for further processing.
+    provide a list of tuning data for further processing.
 
-    :param tuning_files: list of tuning files names
-    :type tuning_files: list[str] | None
+    :param tuning_files: List of tuning file names.
+    :type tuning_files: list[str]
 
-    :return: list of tuning data loaded from yaml tuning files
+    :return: List of tuning data loaded from YAML tuning files.
     :rtype: list[dict]
     """
-
-    tuning_values_list = []
+    tuning_values_list: List[Dict] = []
 
     if tuning_files:
         for tuning_file in tuning_files:
             try:
-                tuning_values_list.append(
-                    yaml.load(stream=open(tuning_file, "r"), Loader=yaml.SafeLoader)
-                )
+                with open(tuning_file, "r") as stream:
+                    tuning_values_list.append(yaml.safe_load(stream))
             except IOError as exc:
                 raise ProfileError(
                     'Unable to open tuning file "{}" {}'.format(tuning_file, exc)
                 )
             except yaml.YAMLError as exc:
                 raise ProfileError(
-                    'Unable to parse YAML tuning file "{}" {}'.format(tuning_files, exc)
+                    'Unable to parse YAML tuning file "{}" {}'.format(tuning_file, exc)
                 )
-            LOG.debug(f"Tuning file {tuning_file} loaded")
+
+            LOG.debug("Tuning file {} loaded".format(tuning_file))
     else:
         LOG.debug("No tuning files requested.")
 
     return tuning_values_list
 
 
-def load_tuning(profile_defaults=None, tuning_files_list=None, tuning_data_list=None):
-    """Load and apply all tuning, from profile defaults, from tuning
-    files, and then directly provided tuning data. If provided.
-    All data is applied in order.
+def load_tuning(
+    profile_defaults: Dict[str, str] = {},
+    tuning_files_list: Optional[List[str]] = None,
+    tuning_data_list: Optional[List[Dict[str, str]]] = None,
+) -> Dict[str, str]:
+    """Load and apply all tuning, from profile defaults, tuning
+    files, and then directly provided tuning data. All data is
+    applied in order.
 
-    :param profile_defaults: profile defaults data to be tuned
-    :type profile_defaults: dict | None
-    :param tuning_files_list: list of tuning files names
-    :type tuning_files_list: list[str] | None
-    :param tuning_data_list: list of tuning data directly provided
-    :type tuning_data_list: list[dict] | None
+    :param profile_defaults: Profile defaults data to be tuned.
+    :type profile_defaults: dict, optional
+    :param tuning_files_list: List of tuning file names.
+    :type tuning_files_list: list[str], optional
+    :param tuning_data_list: List of tuning data directly provided.
+    :type tuning_data_list: list[dict], optional
 
-    :return: compound overlaid tuning data in order of appearance
+    :return: Compound overlaid tuning data in order of appearance.
     :rtype: dict
     """
-    result = {}
-    files_tuning_values = load_tuning_files(tuning_files_list)
+    result: Dict = {}
+    files_tuning_values: List[Dict] = load_tuning_files(tuning_files_list)
     if profile_defaults:
         result.update(profile_defaults)
     if tuning_data_list is None:
@@ -86,24 +77,28 @@ def load_tuning(profile_defaults=None, tuning_files_list=None, tuning_data_list=
     return result
 
 
-def get_tuned_profile(profile, tuning_files_list=None, tuning_data_list=None):
-    """Get selected profile and use tuning data to fine tune
-     it's variable values.
+def get_tuned_profile(
+    profile: str,
+    tuning_files_list: Optional[List[str]] = None,
+    tuning_data_list: Optional[List[Dict[str, str]]] = None,
+) -> Tuple[Dict[str, str], str]:
+    """Get selected profile and use tuning data to fine-tune
+    its variable values.
 
-    :param profile: profile name (packaged) or path to profile
-        (user specified)
+    :param profile: Profile name (packaged) or path to profile
+        (user-specified).
     :type profile: str
-    :param tuning_files_list: list of files with tuning data to be used
-    :type tuning_files_list: list[str] | None
-    :param tuning_data_list: data used to tune the variable values.
-    :type tuning_data_list: list[dict] | None
+    :param tuning_files_list: List of files with tuning data to be used.
+    :type tuning_files_list: list[str], optional
+    :param tuning_data_list: Data used to tune the variable values.
+    :type tuning_data_list: list[dict], optional
 
-    :raises ProfileError: when tuned profile is not valid.
+    :raises ProfileError: When the tuned profile is not valid.
 
-    :return: compound tuned config data, and tuned profile yaml
-    :rtype: dict, str
+    :return: Compound tuned config data and tuned profile YAML.
+    :rtype: tuple[dict, str]
     """
-    tuning_data = load_tuning(
+    tuning_data: Dict = load_tuning(
         profile_defaults=load_profile_defaults(profile),
         tuning_files_list=tuning_files_list,
         tuning_data_list=tuning_data_list,
@@ -114,65 +109,71 @@ def get_tuned_profile(profile, tuning_files_list=None, tuning_data_list=None):
     tuned_profile = tuning_profile.render(tuning_data)
 
     try:
-        config_data = yaml.load(stream=tuned_profile, Loader=yaml.SafeLoader)
+        config_data = yaml.safe_load(tuned_profile)
     except yaml.YAMLError as exc:
         raise ProfileError('Unable to parse tuned profile "{}" {}'.format(profile, exc))
 
     return config_data, tuned_profile
 
 
-def load_profile_defaults(profile):
-    """Load defaults variables from a profile if available
+def load_profile_defaults(profile: str) -> Dict:
+    """Load default variables from a profile if available.
 
-    .. note: profile will be rendered as scratch without any values
-        to be able to be loaded as valid yaml.
+    Note:
+        The profile will be rendered as scratch without any values
+        to be able to be loaded as valid YAML.
 
-    :param profile: profile name (from package or from user)
+    :param profile: Profile name (from package or from the user).
     :type profile: str
 
-    :return: defaults values mapping, if not available then empty dict
+    :return: Default values mapping, if not available then an empty dict.
     :rtype: dict
     """
-    # scratch render of profile template for _defaults extraction
-    scratch_profile = get_profile_template(profile)
-    scratch_profile = scratch_profile.render()
-    tmp_data = yaml.load(stream=scratch_profile, Loader=yaml.SafeLoader)
+    # Scratch render of the profile template for _defaults extraction
+    scratch_profile: Template = get_profile_template(profile)
+    scratch_profile_rendered: str = scratch_profile.render()
+    tmp_data = yaml.safe_load(scratch_profile_rendered)
     tuning_data = tmp_data.get("_defaults", {})
-    LOG.debug(f"Tuning data: {tuning_data}")
+    LOG.debug("Tuning data: {}".format(tuning_data))
     return tuning_data
 
 
-def get_profile_template(profile_name):
-    """Get a jinja2 template via env generated for selected profile
-    (for fine-tuning of profile)
+def get_profile_template(profile_name: str) -> Template:
+    """Get a Jinja2 template via the environment generated for the selected profile
+    (for fine-tuning of the profile).
 
-    :param profile_name: name of template set
-        (alternatively path to user specified template set)
+    :param profile_name: Name of the template set
+        (alternatively path to user-specified template set).
     :type profile_name: str
 
-    :return: jinja2 profile template for fine tuning template
-    :rtype: Template
+    :return: Jinja2 profile template for fine-tuning template.
+    :rtype: Environment
     """
+    LOG.debug(f"Profile name: {profile_name}")
 
     selected_template_name, selected_template_path = select_profile_file(profile_name)
 
-    if not os.path.isdir(selected_template_path):
-        raise TemplateError(
-            'Unable to load requested profile location "%s"' % profile_name
-        )
-
-    env = Environment(
-        loader=FileSystemLoader(
-            [
-                selected_template_path,  # selected template
-                get_profiles_path(),
-            ]
-        ),
-        trim_blocks=True,
-        lstrip_blocks=True,
-        extensions=['jinja2_ansible_filters.AnsibleCoreFiltersExtension']
+    loader = ChoiceLoader(
+        [
+            FileSystemLoader(selected_template_path),
+            FileSystemLoader(get_profiles_paths()),
+        ]
     )
+    extensions = ["jinja2_ansible_filters.AnsibleCoreFiltersExtension"]
 
-    template = env.get_template(selected_template_name)
+    LOG.debug(f"Selected profile path: {selected_template_path}")
 
+    try:
+        env = Environment(
+            loader=loader,
+            trim_blocks=True,
+            lstrip_blocks=True,
+            extensions=extensions,
+        )
+        template = env.get_template(selected_template_name)
+    except Exception as e:
+        LOG.exception("Error creating the Jinja2 environment.")
+        raise TemplateError(
+            "There was a problem with the templating environment."
+        ) from e
     return template
