@@ -41,7 +41,7 @@ from .profiles.fakes import (
 def test_true_render_options(*_):
     profile = "profile.yaml"
     template = "template/1.0.0"
-    render_options = "Render options"
+    render_options = ("RenderOptions", ["generator_notice", "licenses"])
     expected_result = "generated data"
 
     config_data, _ = fake_load_tuned_profile_no_defaults()
