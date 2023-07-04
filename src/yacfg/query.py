@@ -2,12 +2,13 @@ import logging
 import os
 import posixpath
 import re
-from typing import List, Pattern
+from typing import List
+
 from jinja2.environment import Environment
 
-from .files import get_templates_path, get_profiles_path
+from .files import NAME, get_profiles_paths, get_templates_paths
 
-LOG = logging.getLogger(__name__)
+LOG: logging.Logger = logging.getLogger(NAME)
 
 
 def filter_template_list(
@@ -41,19 +42,22 @@ def list_templates() -> List[str]:
     :return: List of template paths from the package.
     :rtype: list[str]
     """
-    templates_path = get_templates_path()
-    LOG.debug(f"Templates path for query: {templates_path}")
+    templates_paths: list = get_templates_paths()
+    LOG.debug(f"Templates path for query: {templates_paths}")
 
     template_paths = []
-    for root, dirs, files in os.walk(templates_path):
-        if any(file.endswith((".yaml", ".jinja2", ".j2")) for file in files):
-            if "_template" in files:
-                relative_path = os.path.relpath(root, templates_path)
-                template_path = posixpath.join(*relative_path.split(os.path.sep))
-                template_paths.append(template_path)
-                LOG.debug(f"Included template path: {template_path} (using _template)")
-            else:
-                LOG.debug(f"Template files found, but no _template file in {root}")
+    for template in templates_paths:
+        for root, dirs, files in os.walk(template):
+            if any(file.endswith((".yaml", ".jinja2", ".j2")) for file in files):
+                if "_template" in files:
+                    relative_path = os.path.relpath(root, template)
+                    template_path = posixpath.join(*relative_path.split(os.path.sep))
+                    template_paths.append(template_path)
+                    LOG.debug(
+                        f"Included template path: {template_path} (using _template)"
+                    )
+                else:
+                    LOG.debug(f"Template files found, but no _template file in {root}")
 
     LOG.debug(f"Template paths: {template_paths}")
     return template_paths
@@ -68,16 +72,20 @@ def list_profiles() -> List[str]:
     :return: List of profiles from the package.
     :rtype: list[str]
     """
-    profiles_path = get_profiles_path()
-    LOG.debug(f"Profiles path for query: {profiles_path}")
+    profiles_paths = get_profiles_paths()
+    LOG.debug(f"Profiles path for query: {profiles_paths}")
 
     profile_paths = []
-    for root, dirs, files in os.walk(profiles_path):
-        dirs[:] = [d for d in dirs if not d.startswith("_")]
-        for file in files:
-            if file.endswith((".yaml", ".jinja2", ".j2")):
-                relative_path = os.path.relpath(os.path.join(root, file), profiles_path)
-                profile_paths.append(posixpath.join(*relative_path.split(os.path.sep)))
+
+    for profiles in profiles_paths:
+        for root, dirs, files in os.walk(profiles):
+            dirs[:] = [d for d in dirs if not d.startswith("_")]
+            for file in files:
+                if file.endswith((".yaml", ".jinja2", ".j2")):
+                    relative_path = os.path.relpath(os.path.join(root, file), profiles)
+                    profile_paths.append(
+                        posixpath.join(*relative_path.split(os.path.sep))
+                    )
 
     LOG.debug(f"Profile paths: {profile_paths}")
     return profile_paths

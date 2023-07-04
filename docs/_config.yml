@@ -1,9 +1,9 @@
 ---
 # Book settings
-title: YamlConfiger
+title: YAMLCFG
 author: rh-messaging-qe
 repository:
-  url: https://github.com/rh-messaging-qe/YamlConfiger
+  url: https://github.com/rh-messaging-qe/yacfg
   path_to_book: docs
 html:
   use_repository_button: true

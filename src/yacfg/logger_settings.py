@@ -2,6 +2,10 @@ import logging
 from logging.handlers import RotatingFileHandler
 from typing import Optional
 
+from . import NAME
+
+LOG: logging.Logger = logging.getLogger(NAME)
+
 
 def config_console_logger(
     filename: Optional[str] = None,
@@ -33,8 +37,8 @@ def config_console_logger(
     datefmt = datefmt or "%H:%M:%S"
 
     try:
-        import colorlog  # type: ignore
         import colorama  # type: ignore
+        import colorlog  # type: ignore
 
         colorama.init()
 
@@ -69,6 +73,7 @@ def config_console_logger(
 
     # Add the console_handler to the logger
     logging.getLogger().addHandler(console_handler)
+    LOG.debug("Added console handler to the logger.")
 
     # File logging
     if filename:
@@ -78,3 +83,4 @@ def config_console_logger(
         file_formatter = logging.Formatter(fmt, datefmt=datefmt)
         file_handler.setFormatter(file_formatter)
         logging.getLogger().addHandler(file_handler)
+        LOG.debug(f"Added file handler to the logger with filename: {filename}.")
