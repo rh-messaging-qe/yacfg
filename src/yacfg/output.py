@@ -82,7 +82,9 @@ def new_profile_rendered(
 
     export_data: str = yaml_dump_wrapper(config_data)
 
-    export_data = f"# {NAME} tuning file generated from profile {profile}\n{export_data}"
+    export_data = (
+        f"# {NAME} tuning file generated from profile {profile}\n{export_data}"
+    )
     write_output(dest_name, dest_path, export_data)
 
 
@@ -129,18 +131,6 @@ def export_tuning_variables(profile_name: str, dest_file: str) -> None:
     )
     write_output(dest_name, dest_path, export_data)
     LOG.info("Tuning data exported")
-
-
-def yaml_dump_wrapper(data: Dict[str, Any]) -> str:
-    """
-    Convert data to YAML string.
-
-    :param data: Data to convert to YAML.
-    :type data: dict
-    :return: YAML string representation of the data.
-    :rtype: str
-    """
-    return yaml.dump(data)
 
 
 def write_output(filename: str, output_path: str, content: str) -> None:
