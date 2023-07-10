@@ -3,7 +3,7 @@ import json
 import re
 from typing import Dict, List, Tuple, Union
 
-from . import DESCRIPTION, NAME, __version__
+from .. import DESCRIPTION, NAME, __version__
 
 REX_BOOL_TRUE = re.compile(r"^(true|yes|1|on)$", re.IGNORECASE)
 REX_BOOL_FALSE = re.compile(r"^(false|no|0|off)$", re.IGNORECASE)

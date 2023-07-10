@@ -1,7 +1,10 @@
-try:
+import sys
+
+if sys.version_info < (3, 10):
+    # compatibility for python <3.10
+    import importlib_metadata as metadata
+else:
     from importlib import metadata
-except ImportError:
-    import importlib_metadata as metadata  # type: ignore
 
 try:
     __version__ = metadata.version("yacfg")
