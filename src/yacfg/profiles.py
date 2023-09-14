@@ -1,5 +1,6 @@
 import itertools
 import logging
+import os
 from typing import Dict, List, Optional, Tuple, Union
 
 import yaml
@@ -153,12 +154,13 @@ def get_profile_template(profile_name: str) -> Template:
 
     selected_template_name, selected_template_path = select_profile_file(profile_name)
 
-    loader = ChoiceLoader(
-        [
-            FileSystemLoader(selected_template_path),
-            FileSystemLoader(get_profiles_paths()),
-        ]
-    )
+    if not os.path.isdir(selected_template_path):
+        raise TemplateError(
+            'Unable to load requested profile location "%s"' % profile_name
+        )
+
+    loader = FileSystemLoader([selected_template_path, *get_profiles_paths()])
+
     extensions = ["jinja2_ansible_filters.AnsibleCoreFiltersExtension"]
 
     LOG.debug(f"Selected profile path: {selected_template_path}")

@@ -18,23 +18,22 @@ import mock
 import pytest
 
 import yacfg.files
-from yacfg import meta
 from yacfg.exceptions import TemplateError
-from .fakes import fake_templates_path
+from .fakes import fake_templates_paths
 
 
-@mock.patch("yacfg.files.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.path.isdir", side_effect=(False, False, True))
 @mock.patch("os.path.isfile", side_effect=(True,))
 def test_packaged_true(*_):
     """Packaged template selection"""
     template_name = "product/1.0.0"
-    expected_dir = os.path.join(fake_templates_path(), template_name)
+    expected_dir = os.path.join(fake_templates_paths()[0], template_name)
     selected_template_path = yacfg.files.select_template_dir(template_name)
     assert selected_template_path == expected_dir
 
 
-@mock.patch("yacfg.files.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.path.isdir", side_effect=(False, True, True))
 @mock.patch("os.path.isfile", side_effect=(True,))
 def test_user_true(*_):
@@ -44,18 +43,18 @@ def test_user_true(*_):
     assert selected_template_path == template_name
 
 
-@mock.patch("yacfg.files.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.path.isdir", side_effect=(True, False, True))
 @mock.patch("os.path.isfile", side_effect=(True,))
 def test_user_basedir_true(*_):
     """User specified template selection"""
     template_name = "user_product/1.0.0"
-    expected_name = os.path.join(meta.TEMPLATES, template_name)
+    expected_name = os.path.join("templates", template_name)
     selected_template_path = yacfg.files.select_template_dir(template_name)
     assert selected_template_path == expected_name
 
 
-@mock.patch("yacfg.files.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.path.isdir", side_effect=(True, True, True))
 @mock.patch("os.path.isfile", side_effect=(True,))
 def test_user_both_true(*_):
@@ -66,7 +65,7 @@ def test_user_both_true(*_):
     assert selected_template_path == expected_name
 
 
-@mock.patch("yacfg.files.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.path.isdir", side_effect=(False, False, False))
 @mock.patch("os.path.isfile", side_effect=(True,))
 def test_not_directory(*_):
@@ -77,7 +76,7 @@ def test_not_directory(*_):
         assert selected_template_path == template_name
 
 
-@mock.patch("yacfg.files.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.path.isdir", side_effect=(False, False, True))
 @mock.patch("os.path.isfile", side_effect=(False,))
 def test_packaged_missing_template_marker(*_):
@@ -88,7 +87,7 @@ def test_packaged_missing_template_marker(*_):
         assert selected_template_path == template_name
 
 
-@mock.patch("yacfg.files.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.path.isdir", side_effect=(True, True, True))
 @mock.patch("os.path.isfile", side_effect=(False,))
 def test_user_missing_template_marker(*_):

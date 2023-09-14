@@ -20,48 +20,48 @@ import pytest
 
 import yacfg.output
 from yacfg.output import new_profile
-from ..files.fakes import fake_select_profile_file, fake_profiles_path
+from ..files.fakes import fake_select_profile_file, fake_profiles_paths
 
 
-@mock.patch("yacfg.output.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("yacfg.files.select_profile_file", side_effect=fake_select_profile_file)
 @mock.patch("shutil.copyfile", mock.Mock())
-@mock.patch("yacfg.output.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.files.ensure_output_path", mock.Mock())
 def test_true(*_):
     """Creating new profile true path"""
     profile_name = "existing_profile.yaml"
     destination = "/output/directory/my_new_profile.yaml"
-    expected_source_file = os.path.join(fake_profiles_path(), profile_name)
+    expected_source_file = os.path.join(fake_profiles_paths()[0], profile_name)
     expected_target_file = destination
     expected_target_dir = os.path.dirname(destination)
 
     new_profile(profile_name, destination)
     # noinspection PyUnresolvedReferences
-    yacfg.output.ensure_output_path.assert_called_with(expected_target_dir)
+    yacfg.files.ensure_output_path.assert_called_with(expected_target_dir)
     # noinspection PyUnresolvedReferences
     shutil.copyfile.assert_called_with(expected_source_file, expected_target_file)
 
 
-@mock.patch("yacfg.output.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("yacfg.files.select_profile_file", side_effect=fake_select_profile_file)
 @mock.patch("shutil.copyfile", mock.Mock())
-@mock.patch("yacfg.output.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.files.ensure_output_path", mock.Mock())
 def test_true_no_destination(*_):
     """Creating new profile true path"""
     profile_name = "existing_profile.yaml"
     destination = "my_new_profile.yaml"
-    expected_source_file = os.path.join(fake_profiles_path(), profile_name)
+    expected_source_file = os.path.join(fake_profiles_paths()[0], profile_name)
     expected_target_file = destination
 
     new_profile(profile_name, destination)
     # noinspection PyUnresolvedReferences
-    yacfg.output.ensure_output_path.assert_not_called()
+    yacfg.files.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
     shutil.copyfile.assert_called_with(expected_source_file, expected_target_file)
 
 
-@mock.patch("yacfg.output.select_profile_file", side_effect=fake_select_profile_file)
+@mock.patch("yacfg.files.select_profile_file", side_effect=fake_select_profile_file)
 @mock.patch("shutil.copyfile", mock.Mock())
 @mock.patch(
-    "yacfg.output.ensure_output_path",
+    "yacfg.files.ensure_output_path",
     side_effect=OSError("[Errno 13] Permission denied: 'path'"),
 )
 def test_destination_problem_exception(*_):
@@ -73,6 +73,6 @@ def test_destination_problem_exception(*_):
     with pytest.raises(OSError):
         new_profile(profile_name, destination)
     # noinspection PyUnresolvedReferences
-    yacfg.output.ensure_output_path.assert_called_with(expected_target_dir)
+    yacfg.files.ensure_output_path.assert_called_with(expected_target_dir)
     # noinspection PyUnresolvedReferences
     shutil.copyfile.assert_not_called()

@@ -48,7 +48,8 @@ def new_profile(profile: str, dest_profile: str) -> None:
     src: str = os.path.join(profile_path, profile_name)
 
     dest_path: str = os.path.dirname(dest_profile)
-    files.ensure_output_path(dest_path)
+    if dest_path:
+        files.ensure_output_path(dest_path)
 
     shutil.copyfile(src, dest_profile)
 
@@ -76,7 +77,8 @@ def new_profile_rendered(
 
     dest_path: str = os.path.dirname(dest_profile)
     dest_name: str = os.path.basename(dest_profile)
-    files.ensure_output_path(dest_path)
+    if dest_path:
+        files.ensure_output_path(dest_path)
 
     config_data.pop("_defaults", None)
 
@@ -121,7 +123,8 @@ def export_tuning_variables(profile_name: str, dest_file: str) -> None:
 
     dest_path: str = os.path.dirname(dest_file)
     dest_name: str = os.path.basename(dest_file)
-    files.ensure_output_path(dest_path)
+    if dest_path:
+        files.ensure_output_path(dest_path)
 
     export_data: str = yaml_dump_wrapper(defaults_data)
 

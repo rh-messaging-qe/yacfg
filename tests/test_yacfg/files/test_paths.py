@@ -15,18 +15,18 @@
 import mock
 
 import yacfg.files
-from .fakes import fake_module_path, fake_profiles_path, fake_templates_path
+from .fakes import fake_module_path, fake_profiles_paths, fake_templates_paths
 
 
 @mock.patch("yacfg.files.get_module_path", side_effect=fake_module_path)
 def test_get_profiles_path(_):
-    expected = fake_profiles_path()
-    result = yacfg.files.get_profiles_path()
+    expected = fake_profiles_paths()
+    result = yacfg.files.get_profiles_paths()
     assert result == expected
 
 
 @mock.patch("yacfg.files.get_module_path", side_effect=fake_module_path)
 def test_get_templates_path(_):
-    expected = fake_templates_path()
-    result = yacfg.files.get_templates_path()
+    expected = fake_templates_paths()
+    result = yacfg.files.get_templates_paths()
     assert result == expected

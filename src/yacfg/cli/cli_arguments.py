@@ -210,4 +210,5 @@ group_misc.add_argument(
     "--version", help="Display version information", action="store_true"
 )
 
-args = parser.parse_args()
+if __name__ == '__main__':
+    args = parser.parse_args()

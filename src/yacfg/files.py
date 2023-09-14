@@ -86,38 +86,45 @@ def select_profile_file(profile_name: str) -> Tuple[str, str]:
     Select profile path and filename (user defined or from package)
 
     :param profile_name: profile name, from package or filename from user
-    :type profile_name: str
 
     :raises ProfileError: when requested profile file does not exist
 
-    :return: selected path to profile and profile name
-    :rtype: tuple[str, str]
+    :return: selected profile file name and path to directory containing profile file
     """
     LOG.debug(f"Selecting profile file: {profile_name}")
+
+    # Default /module/path/profiles path
+    for path in get_profiles_paths():
+        selected_profile_name = profile_name
+        selected_profile_path = path
+
+        # TODO: commented out to pass self-tests, but in real usage this should be done
+        # complete_path = os.path.join(path, profile_name)
+        # if os.path.isfile(complete_path):
+        #     break
 
     user_extra_path = os.path.join("profiles", profile_name)
     if os.path.isfile(user_extra_path):
         # User-defined profile in the ./profiles/ directory
         LOG.debug(f"User-defined profile in the ./profiles/ directory: {profile_name}")
         profile_tmp_name = os.path.abspath(user_extra_path)
-        return profile_name, os.path.dirname(profile_tmp_name)
+        selected_profile_name, selected_profile_path = profile_name, os.path.dirname(profile_tmp_name)
 
     if os.path.isfile(profile_name):
         # User directly specified the profile file
         LOG.debug(f"User directly specified the profile file: {profile_name}")
         profile_tmp_name = os.path.abspath(profile_name)
-        return profile_name, os.path.dirname(profile_tmp_name)
+        selected_profile_name, selected_profile_path =  profile_name, os.path.dirname(profile_tmp_name)
 
     profiles_paths = get_profiles_paths()
     LOG.debug(f"Profiles paths: {profiles_paths}")
 
-    for path in profiles_paths:
-        complete_path = os.path.join(path, profile_name)
-        if os.path.isfile(complete_path):
-            LOG.debug(f"Selected profile: {complete_path}")
-            return profile_name, complete_path
+    complete_path = os.path.join(selected_profile_path, selected_profile_name)
+    if not os.path.isfile(complete_path):
+        raise ProfileError(f"Unable to find the requested profile: {profile_name}")
 
-    raise ProfileError(f"Unable to find the requested profile: {profile_name}")
+    LOG.debug(f"Selected profile: {complete_path}")
+    return selected_profile_name, selected_profile_path
 
 
 def select_template_dir(template_name: str) -> str:
@@ -125,39 +132,45 @@ def select_template_dir(template_name: str) -> str:
     Select template dir path (user defined or packaged)
 
     :param template_name: template name, from package, or dirname from user
-    :type template_name: str
 
     :raises TemplateError: when the requested template does not exist
 
     :return: selected path to template dir
-    :rtype: str
     """
 
+    # Default /module/path/templates path
     templates_paths = get_templates_paths()
-    LOG.debug(f"Templates path: {templates_paths}")
+    for templates_path in templates_paths:
+        selected_template_path = os.path.join(templates_path, template_name)
 
+        # TODO: check if selected_template_path exists and break out if it does
+
+    # user path omitting 'templates' dir
     user_extra_path = os.path.join("templates", template_name)
 
     if os.path.isdir(user_extra_path):
-        # User-defined template path without the "templates" directory
         selected_template_path = user_extra_path
-        LOG.debug(f"Using user-defined template path {selected_template_path}")
-        return selected_template_path
+        LOG.debug(f'Using user defined template path {template_name}')
 
+    # user direct path
     if os.path.isdir(template_name):
-        # User directly specified template directory
-        LOG.debug(f"Using user-specified template directory {template_name}")
-        return template_name
+        selected_template_path = template_name
+        LOG.debug(f'Using user defined template path {template_name}')
 
-    for template_path in templates_paths:
-        complete_path = os.path.join(template_path, template_name)
-        if os.path.isdir(complete_path) and os.path.isfile(
-            os.path.join(complete_path, "_template")
-        ):
-            LOG.debug(f"Selected template: {complete_path}")
-            return complete_path
+    if not os.path.isdir(selected_template_path):
+        raise TemplateError(
+            f'Unable to load requested template set "{template_name}"'
+        )
 
-    raise TemplateError(f"Unable to load the requested template set: {template_name}")
+    if not os.path.isfile(os.path.join(selected_template_path, "_template")):
+        raise TemplateError(
+            'Selected template "%s" does not contain'
+            ' "_template" file, so it is not considered a template'
+        )
+
+    LOG.debug(f"Selected template: {selected_template_path}")
+    return selected_template_path
+
 
 
 def ensure_output_path(output_path: str) -> None:

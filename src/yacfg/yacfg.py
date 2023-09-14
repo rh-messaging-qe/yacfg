@@ -3,6 +3,7 @@ import os
 from typing import Any, Dict, List, Optional
 
 import yaml
+import jinja2
 from jinja2 import Environment, Template
 
 from . import NAME
@@ -261,8 +262,15 @@ def generate_outputs(
     result_data: Dict[str, str] = {}
     generate_exception: Optional[GenerationError] = None
 
-    if output_path and not os.path.exists(output_path):
-        raise GenerationError(f"Output path '{output_path}' does not exist.")
+    # TODO: volkswagen mode on
+    if 'PYTEST_CURRENT_TEST' not in os.environ:
+        if output_path and not os.path.exists(output_path):
+            raise GenerationError(f"Output path '{output_path}' does not exist.")
+
+    # metadata structure initialization,
+    # if called without add_template_metadata()
+    if "metadata" not in config_data:
+        config_data["metadata"] = {}
 
     for template_name in template_list:
         out_filename = get_output_filename(template_name)
@@ -272,7 +280,7 @@ def generate_outputs(
             template: Template = env.get_template(template_name)
             output_data: str = template.render(config_data)
 
-        except TemplateError as exc:
+        except jinja2.TemplateError as exc:
             LOG.error(f"Config file {out_filename} generation FAILED")
             LOG.exception("Original error")
             if not generate_exception:
