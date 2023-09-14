@@ -17,11 +17,11 @@ import os
 import mock
 
 from yacfg.query import list_templates
-from ..files.fakes import fake_templates_path
+from ..files.fakes import fake_templates_paths
 
 
 def fake_walk_templates_basic(*_):
-    prefix_path = fake_templates_path()
+    prefix_path = fake_templates_paths()[0]
     return [
         (
             os.path.join(prefix_path, "a"),
@@ -81,7 +81,7 @@ def fake_walk_templates_basic(*_):
     ]
 
 
-@mock.patch("yacfg.query.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.query.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.walk", side_effect=fake_walk_templates_basic)
 def test_true(*_):
     expected = [
@@ -94,7 +94,7 @@ def test_true(*_):
 
 
 def fake_walk_templates_not_a_template(*_):
-    prefix_path = fake_templates_path()
+    prefix_path = fake_templates_paths()[0]
     return [
         (
             os.path.join(prefix_path, "not_a_template"),
@@ -129,7 +129,7 @@ def fake_walk_templates_not_a_template(*_):
     ]
 
 
-@mock.patch("yacfg.query.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.walk", side_effect=fake_walk_templates_not_a_template)
 def test_not_a_template(*_):
     expected = []
@@ -138,7 +138,7 @@ def test_not_a_template(*_):
     assert result == expected
 
 
-@mock.patch("yacfg.query.get_templates_path", side_effect=fake_templates_path)
+@mock.patch("yacfg.files.get_templates_paths", side_effect=fake_templates_paths)
 @mock.patch("os.walk", side_effect=((),))
 def test_empty(*_):
     expected = []

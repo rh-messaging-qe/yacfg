@@ -18,7 +18,7 @@ import mock as mock
 import pytest
 
 import yacfg.output
-from yacfg.meta import NAME
+from yacfg import NAME
 from yacfg.output import new_profile_rendered
 from ..profiles.fakes import (
     fake_load_tuned_profile_with_defaults,
@@ -27,10 +27,10 @@ from ..profiles.fakes import (
 
 
 @mock.patch(
-    "yacfg.output.get_tuned_profile", side_effect=fake_load_tuned_profile_with_defaults
+    "yacfg.profiles.get_tuned_profile", side_effect=fake_load_tuned_profile_with_defaults
 )
 @mock.patch("yacfg.output.write_output", mock.Mock())
-@mock.patch("yacfg.output.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.files.ensure_output_path", mock.Mock())
 def test_true_defaults(*_):
     profile_name = "product/1.0.0/my_profile.yaml"
     destination_name = "destination_profile.yaml"
@@ -43,7 +43,7 @@ def test_true_defaults(*_):
 
     new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    yacfg.output.ensure_output_path.assert_called_with(destination_path)
+    yacfg.files.ensure_output_path.assert_called_with(destination_path)
     # noinspection PyUnresolvedReferences
     yacfg.output.write_output.assert_called_with(
         destination_name, destination_path, expected_data
@@ -51,10 +51,10 @@ def test_true_defaults(*_):
 
 
 @mock.patch(
-    "yacfg.output.get_tuned_profile", side_effect=fake_load_tuned_profile_no_defaults
+    "yacfg.profiles.get_tuned_profile", side_effect=fake_load_tuned_profile_no_defaults
 )
 @mock.patch("yacfg.output.write_output", mock.Mock())
-@mock.patch("yacfg.output.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.files.ensure_output_path", mock.Mock())
 def test_true_no_defaults(*_):
     profile_name = "product/1.0.0/my_profile.yaml"
     destination_name = "destination_profile.yaml"
@@ -67,7 +67,7 @@ def test_true_no_defaults(*_):
 
     new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    yacfg.output.ensure_output_path.assert_called_with(destination_path)
+    yacfg.files.ensure_output_path.assert_called_with(destination_path)
     # noinspection PyUnresolvedReferences
     yacfg.output.write_output.assert_called_with(
         destination_name, destination_path, expected_data
@@ -75,10 +75,10 @@ def test_true_no_defaults(*_):
 
 
 @mock.patch(
-    "yacfg.output.get_tuned_profile", side_effect=fake_load_tuned_profile_with_defaults
+    "yacfg.profiles.get_tuned_profile", side_effect=fake_load_tuned_profile_with_defaults
 )
 @mock.patch("yacfg.output.write_output", mock.Mock())
-@mock.patch("yacfg.output.ensure_output_path", mock.Mock())
+@mock.patch("yacfg.files.ensure_output_path", mock.Mock())
 def test_true_no_destination(*_):
     profile_name = "product/1.0.0/my_profile.yaml"
     destination = ""
@@ -89,7 +89,7 @@ def test_true_no_destination(*_):
 
     new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    yacfg.output.ensure_output_path.assert_not_called()
+    yacfg.files.ensure_output_path.assert_not_called()
     # noinspection PyUnresolvedReferences
     yacfg.output.write_output.assert_called_with(
         destination, destination, expected_data
@@ -97,10 +97,10 @@ def test_true_no_destination(*_):
 
 
 @mock.patch(
-    "yacfg.output.get_tuned_profile", side_effect=fake_load_tuned_profile_with_defaults
+    "yacfg.profiles.get_tuned_profile", side_effect=fake_load_tuned_profile_with_defaults
 )
 @mock.patch(
-    "yacfg.output.ensure_output_path",
+    "yacfg.files.ensure_output_path",
     side_effect=OSError("[Errno 13] Permission denied: 'path'"),
 )
 @mock.patch("yacfg.output.write_output", mock.Mock())
@@ -110,6 +110,6 @@ def test_destination_problem_exception(*_):
     with pytest.raises(OSError):
         new_profile_rendered(profile_name, destination, None)
     # noinspection PyUnresolvedReferences
-    yacfg.output.ensure_output_path.assert_called()
+    yacfg.files.ensure_output_path.assert_called()
     # noinspection PyUnresolvedReferences
     yacfg.output.write_output.assert_not_called()

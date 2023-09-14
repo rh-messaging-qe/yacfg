@@ -12,28 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+
 import os
 
 
-def fake_module_path():
+def fake_module_path() -> str:
     return "/module/path"
 
 
-def fake_profiles_path():
-    return os.path.join(fake_module_path(), 'profiles')
+def fake_profiles_paths() -> list[str]:
+    return [os.path.join(fake_module_path(), 'profiles')]
 
 
-def fake_templates_path():
-    return os.path.join(fake_module_path(), 'templates')
+def fake_templates_paths() -> list[str]:
+    return [os.path.join(fake_module_path(), 'templates')]
 
 
 def fake_os_abspath(path):
     return os.path.join("/absolute/path/", path)
 
 
-def fake_select_profile_file(name):
-    return name, fake_profiles_path()
+def fake_select_profile_file(name: str) -> tuple[str, str]:
+    return name, fake_profiles_paths()[0]
 
 
-def fake_select_template_dir(name):
-    return os.path.join(fake_templates_path(), name)
+def fake_select_template_dir(name: str) -> str:
+    return os.path.join(fake_templates_paths()[0], name)

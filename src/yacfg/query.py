@@ -79,11 +79,18 @@ def list_profiles() -> List[str]:
 
     for profiles in profiles_paths:
         for root, dirs, files in os.walk(profiles):
-            dirs[:] = [d for d in dirs if not d.startswith("_")]
+            prefix_path = os.path.relpath(root, profiles)
+            # skip over underscored paths
+            path_levels = prefix_path.split(os.path.sep)
+            if any([x.startswith("_") for x in path_levels]):
+                LOG.debug(f"Skipping underscored: {path_levels}")
+                continue
             for file in files:
+                # filter only yaml profiles
                 if file.endswith((".yaml", ".jinja2", ".j2")):
                     relative_path = os.path.relpath(os.path.join(root, file), profiles)
                     profile_paths.append(
+                        # without this split/join, it would add './' which is undesirable
                         posixpath.join(*relative_path.split(os.path.sep))
                     )
 

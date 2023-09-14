@@ -25,12 +25,7 @@ def get_template_environment(template_name: str) -> Environment:
     LOG.debug(f"Selected template path: {selected_template_path}")
 
     try:
-        loader = ChoiceLoader(
-            [
-                FileSystemLoader(selected_template_path),
-                FileSystemLoader(get_templates_paths()),
-            ]
-        )
+        loader = FileSystemLoader([selected_template_path, *get_templates_paths()])
         extensions = ["jinja2_ansible_filters.AnsibleCoreFiltersExtension"]
 
         env = Environment(
