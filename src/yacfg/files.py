@@ -108,13 +108,13 @@ def select_profile_file(profile_name: str) -> Tuple[str, str]:
         # User-defined profile in the ./profiles/ directory
         LOG.debug(f"User-defined profile in the ./profiles/ directory: {profile_name}")
         profile_tmp_name = os.path.abspath(user_extra_path)
-        selected_profile_name, selected_profile_path = profile_name, os.path.dirname(profile_tmp_name)
+        selected_profile_name, selected_profile_path = os.path.basename(profile_tmp_name), os.path.dirname(profile_tmp_name)
 
     if os.path.isfile(profile_name):
         # User directly specified the profile file
         LOG.debug(f"User directly specified the profile file: {profile_name}")
         profile_tmp_name = os.path.abspath(profile_name)
-        selected_profile_name, selected_profile_path =  profile_name, os.path.dirname(profile_tmp_name)
+        selected_profile_name, selected_profile_path = os.path.basename(profile_tmp_name), os.path.dirname(profile_tmp_name)
 
     profiles_paths = get_profiles_paths()
     LOG.debug(f"Profiles paths: {profiles_paths}")
