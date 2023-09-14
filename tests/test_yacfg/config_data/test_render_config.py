@@ -30,10 +30,8 @@ dataset_render_config = (
 def test_add_render_config_members(render_options, key, value):
     data = {}
     yacfg.config_data.add_render_config(config_data=data, render_options=render_options)
-    if value is not None:
-        assert key in data["render"]
-    else:
-        assert key not in data["render"]
+    assert key in data["render"]
+    assert data["render"][key] == value
 
 
 @pytest.mark.parametrize("render_options,key,value", dataset_render_config)
