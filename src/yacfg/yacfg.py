@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 from typing import Any, Dict, List, Optional
 
 import yaml
@@ -226,8 +227,7 @@ def generate(
         )
     except GenerationError as exc:
         LOG.error(f"Generation failed: {exc}")
-
-    return {}  # Add a default return statement
+        sys.exit(1)
 
 
 # main alias
