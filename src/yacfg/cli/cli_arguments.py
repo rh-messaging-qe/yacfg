@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import json
 import re
@@ -46,16 +48,17 @@ def split_key_value(item: str) -> Tuple[str, str]:
     return key, value
 
 
-def parse_key_value_list(items: List[Dict[str, str]]) -> Dict[str, str]:
-    """Convert a list of dictionaries into a single dictionary.
+def parse_key_value_list(items: list[str]) -> dict[str, str]:
+    """Split all KEY=VALUE items in a list of such options.
 
-    :param items: List of dictionaries.
-    :type items: list[dict]
+    :param items: list of KEY=VALUE string options to be split.
 
-    :return: Merged dictionary with key-value pairs from all dictionaries.
-    :rtype: dict
+    :raises ValueError: if any option cannot be split.
+
+    :return: a map of KEY: VALUE split options
     """
-    return {k: v for item in items for k, v in item.items() if isinstance(item, dict)}
+    result = dict([split_key_value(item) for item in items])
+    return result
 
 
 parser = argparse.ArgumentParser(
