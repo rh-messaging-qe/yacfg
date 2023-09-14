@@ -164,6 +164,7 @@ def get_profile_template(profile_name: str) -> Template:
     extensions = ["jinja2_ansible_filters.AnsibleCoreFiltersExtension"]
 
     LOG.debug(f"Selected profile path: {selected_template_path}")
+    LOG.debug(f"Selected template name: {selected_template_name}")
 
     try:
         env = Environment(
