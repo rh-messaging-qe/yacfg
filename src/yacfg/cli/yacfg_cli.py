@@ -122,7 +122,7 @@ class CommandLineApp:
             boolize(options.render_licenses),
         )
 
-        if options.profile and options.template:
+        if options.profile:
             try:
                 generate(
                     profile=options.profile,
@@ -148,7 +148,3 @@ class CommandLineApp:
 def main():
     app = CommandLineApp()
     app.run()
-
-
-if __name__ == "__main__":
-    main()
