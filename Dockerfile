@@ -1,4 +1,4 @@
-FROM python:3.11.1-alpine3.16 AS base
+FROM python:3.11.3-alpine3.16 AS base
 
 FROM base AS builder
 ENV PYTHONFAULTHANDLER=1 \
