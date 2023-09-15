@@ -8,13 +8,13 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "pip"
-    labels: "python-dep"
+    labels: ["python-dep"]
     directory: "/"
     schedule:
       interval: "daily"
 
   - package-ecosystem: "docker"
-    labels: "image"
+    labels: ["image"]
     directory: "/"
     schedule:
       interval: "daily"
