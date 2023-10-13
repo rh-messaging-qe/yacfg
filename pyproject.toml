@@ -64,7 +64,7 @@ ruamel-yaml = "^0.17.32"
 [tool.poetry.dev-dependencies]
 pytest = "^7.4.2"
 pytest-cov = "^4.0.0"
-flake8 = "^6.0.0"
+flake8 = "^6.1.0"
 mypy = "^1.6"
 mock = "^5.0.1"
 tox = "^4.6.3"
