@@ -1,13 +1,24 @@
+#! /usr/bin/env -S python3 -sP
+
 from __future__ import print_function
 
 import logging
+import pathlib
 import sys
+
+# `from yacfg_batch import ...` may target both src/yacfg/yacfg_batch/__init__.py
+# and src/yacfg/yacfg_batch/yacfg_batch.py (which is on sys.path when running
+# this file directly). Remove the undesirable sys.path entry to prevent `ImportError`s.
+try:
+    sys.path.remove(str(pathlib.Path(__file__).resolve().parent))
+except ValueError:
+    pass
 
 from yacfg import NAME, logger_settings
 
-from . import __version__
-from .cli_arguments import parser
-from .yacfg_batch import generate
+from yacfg_batch import __version__
+from yacfg_batch.cli_arguments import parser
+from yacfg_batch.yacfg_batch import generate
 
 logger_settings.config_console_logger()
 

@@ -108,13 +108,17 @@ def select_profile_file(profile_name: str) -> Tuple[str, str]:
         # User-defined profile in the ./profiles/ directory
         LOG.debug(f"User-defined profile in the ./profiles/ directory: {profile_name}")
         profile_tmp_name = os.path.abspath(user_extra_path)
-        selected_profile_name, selected_profile_path = os.path.basename(profile_tmp_name), os.path.dirname(profile_tmp_name)
+        selected_profile_name, selected_profile_path = os.path.basename(
+            profile_tmp_name
+        ), os.path.dirname(profile_tmp_name)
 
     if os.path.isfile(profile_name):
         # User directly specified the profile file
         LOG.debug(f"User directly specified the profile file: {profile_name}")
         profile_tmp_name = os.path.abspath(profile_name)
-        selected_profile_name, selected_profile_path = os.path.basename(profile_tmp_name), os.path.dirname(profile_tmp_name)
+        selected_profile_name, selected_profile_path = os.path.basename(
+            profile_tmp_name
+        ), os.path.dirname(profile_tmp_name)
 
     profiles_paths = get_profiles_paths()
     LOG.debug(f"Profiles paths: {profiles_paths}")
@@ -150,17 +154,15 @@ def select_template_dir(template_name: str) -> str:
 
     if os.path.isdir(user_extra_path):
         selected_template_path = user_extra_path
-        LOG.debug(f'Using user defined template path {template_name}')
+        LOG.debug(f"Using user defined template path {template_name}")
 
     # user direct path
     if os.path.isdir(template_name):
         selected_template_path = template_name
-        LOG.debug(f'Using user defined template path {template_name}')
+        LOG.debug(f"Using user defined template path {template_name}")
 
     if not os.path.isdir(selected_template_path):
-        raise TemplateError(
-            f'Unable to load requested template set "{template_name}"'
-        )
+        raise TemplateError(f'Unable to load requested template set "{template_name}"')
 
     if not os.path.isfile(os.path.join(selected_template_path, "_template")):
         raise TemplateError(
@@ -170,7 +172,6 @@ def select_template_dir(template_name: str) -> str:
 
     LOG.debug(f"Selected template: {selected_template_path}")
     return selected_template_path
-
 
 
 def ensure_output_path(output_path: str) -> None:
