@@ -27,6 +27,7 @@ jobs:
 
       - name: "Set up Python ${{ matrix.python-version }}"
         uses: "actions/setup-python@v5.1.0"
+        id: full-python-version
         with:
           python-version: "${{ matrix.python-version }}"
 
@@ -83,7 +84,7 @@ jobs:
       - name: "Upload dist artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: package-dist-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}
+          name: package-dist-${{ runner.os }}-${{ steps.full-python-version.outputs.python-version }}
           path: dist/
 
       - name: "Upload docs artifacts"
