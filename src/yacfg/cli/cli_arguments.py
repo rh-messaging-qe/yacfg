@@ -1,3 +1,5 @@
+#! /usr/bin/env -S python3 -sP
+
 from __future__ import annotations
 
 import argparse
