@@ -263,7 +263,7 @@ def generate_outputs(
     generate_exception: Optional[GenerationError] = None
 
     # TODO: volkswagen mode on
-    if 'PYTEST_CURRENT_TEST' not in os.environ:
+    if "PYTEST_CURRENT_TEST" not in os.environ:
         if output_path and not os.path.exists(output_path):
             raise GenerationError(f"Output path '{output_path}' does not exist.")
 

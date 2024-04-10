@@ -5,7 +5,7 @@ import json
 import re
 from typing import Dict, List, Tuple, Union
 
-from .. import DESCRIPTION, NAME, __version__
+from yacfg import DESCRIPTION, NAME, __version__
 
 REX_BOOL_TRUE = re.compile(r"^(true|yes|1|on)$", re.IGNORECASE)
 REX_BOOL_FALSE = re.compile(r"^(false|no|0|off)$", re.IGNORECASE)
@@ -210,5 +210,5 @@ group_misc.add_argument(
     "--version", help="Display version information", action="store_true"
 )
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parser.parse_args()
