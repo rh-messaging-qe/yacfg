@@ -1,19 +1,16 @@
+#! /usr/bin/env -S python3 -sP
+
 import logging
 import os
 import sys
 
-from .. import NAME, __version__, logger_settings
+from yacfg import NAME, __version__, logger_settings
 from yacfg.cli.cli_arguments import boolize, parse_key_value_list, parser
-from ..config_data import RenderOptions
-from ..exceptions import GenerationError, ProfileError, TemplateError
-from ..output import (
-    export_tuning_variables,
-    new_profile,
-    new_profile_rendered,
-    new_template,
-)
-from ..query import list_profiles, list_templates
-from ..yacfg import generate
+from yacfg.config_data import RenderOptions
+from yacfg.exceptions import GenerationError, ProfileError, TemplateError
+from yacfg.output import export_tuning_variables, new_profile, new_profile_rendered, new_template
+from yacfg.query import list_profiles, list_templates
+from yacfg.yacfg import generate
 
 logger_settings.config_console_logger()
 
@@ -107,10 +104,10 @@ class CommandLineApp:
                     self.error(str(exc), 0)
 
         if (
-            options.new_profile
-            or options.new_profile_static
-            or options.export_tuning
-            or options.new_template
+                options.new_profile
+                or options.new_profile_static
+                or options.export_tuning
+                or options.new_template
         ):
             sys.exit(0)
 
@@ -148,3 +145,7 @@ class CommandLineApp:
 def main():
     app = CommandLineApp()
     app.run()
+
+
+if __name__ == '__main__':
+    main()
