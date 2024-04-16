@@ -27,6 +27,7 @@ jobs:
 
       - name: "Set up Python ${{ matrix.python-version }}"
         uses: "actions/setup-python@v5.1.0"
+        id: full-python-version
         with:
           python-version: "${{ matrix.python-version }}"
 
@@ -47,7 +48,7 @@ jobs:
 #        id: cache
 #        with:
 #          path: .venv
-#          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+#          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 #
 #      - name: "Ensure cache is healthy"
 #        if: steps.cache.outputs.cache-hit == 'true'
@@ -105,6 +106,7 @@ jobs:
 
       - name: "Set up Python ${{ matrix.python-version }}"
         uses: "actions/setup-python@v5.1.0"
+        id: full-python-version
         with:
           python-version: "${{ matrix.python-version }}"
 
@@ -119,7 +121,7 @@ jobs:
 #        id: cache
 #        with:
 #          path: .venv
-#          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+#          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 #
 #      - name: "Ensure cache is healthy"
 #        if: steps.cache.outputs.cache-hit == 'true'
@@ -133,7 +135,7 @@ jobs:
       - name: "Upload dist artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: package-dist-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}
+          name: package-dist-${{ runner.os }}-${{ steps.full-python-version.outputs.python-version }}
           path: dist/
 
       - name: "Run help"
