@@ -18,11 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         os: ["Ubuntu"]
-        python-version: ["3.11", "pypy-3.9"]
+        python-version: ["3.11", "pypy-3.10", "pypy-3.9"]
     runs-on: "${{ matrix.os }}-latest"
 
     steps:
-
       - uses: "actions/checkout@v4"
 
       - name: "Set up Python ${{ matrix.python-version }}"
@@ -41,41 +40,15 @@ jobs:
           python -m pip install --upgrade coverage[toml] tox tox-gh-actions
           poetry install
 
-#      - name: "Configure poetry"
-#        run: poetry config virtualenvs.in-project true
-#
-#      - name: "Set up cache"
-#        uses: actions/cache@v2
-#        id: cache
-#        with:
-#          path: .venv
-#          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
-#
-#      - name: "Ensure cache is healthy"
-#        if: steps.cache.outputs.cache-hit == 'true'
-#        run: timeout 10s poetry run pip --version || rm -rf .venv
-
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: tox
 
-#      - name: "Get coverage"
-#        if: "contains(env.USING_COVERAGE, matrix.python-version)"
-#        run: |
-#          set -xe
-#          tox -e coverage-report
-
-#      - name: "Upload coverage to Codecov"
-#        if: "contains(env.USING_COVERAGE, matrix.python-version)"
-#        uses: "codecov/codecov-action@v1"
-#        with:
-#          fail_ci_if_error: true
-#
-#      - name: "Upload coverage artifacts"
-#        if: "contains(env.USING_DOCS, matrix.python-version)"
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: coverage
-#          path: .coverage-reports
+      - name: "Upload docs artifacts"
+        uses: actions/upload-artifact@v4
+        if: "contains(env.USING_DOCS, matrix.python-version)"
+        with:
+          name: docs
+          path: docs/_build/html
 
       - name: "Build package"
         run: |
@@ -87,9 +60,9 @@ jobs:
           name: package-dist-${{ runner.os }}-${{ steps.full-python-version.outputs.python-version }}
           path: dist/
 
-      - name: "Upload docs artifacts"
-        uses: actions/upload-artifact@v4
-        if: "contains(env.USING_DOCS, matrix.python-version)"
-        with:
-          name: docs
-          path: docs/_build/html
+      - name: "Run help"
+        run: "poetry run yacfg --help"
+
+      - name: "Run the test script"
+        run: ./profile_test.sh
+
