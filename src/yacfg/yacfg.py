@@ -136,6 +136,11 @@ def generate_core(
         """
         return {override_value(key, key): val for key, val in value.items()}
 
+    def zip_lists(value: List[Any], pairing: List[Any]) -> List[(Any, Any)]:
+        if not isinstance(value, List) or not isinstance(pairing, List):
+            return []
+        return zip(value, pairing)
+
     # Pass empty filter for performance if extra_properties_data is not defined (no more conditions)
     env.filters["overridevalue"] = (
         override_value if extra_properties_data else empty_filter
@@ -143,6 +148,8 @@ def generate_core(
     env.filters["overridevalue_listmapkeys"] = (
         override_value_list_map_keys if extra_properties_data else empty_filter
     )
+
+    env.filters["zip_lists"] = zip_lists
 
     template_list = get_main_template_list(env)
     if output_filter:
